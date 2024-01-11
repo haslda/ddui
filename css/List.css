@@ -1,0 +1,4 @@
+.ddui_List {
+    display: flex;
+    flex-direction: column;
+}

@@ -1,0 +1,32 @@
+.ddui_Popup_list {
+    padding: 4px 0 4px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.ddui_Popup_button {
+    padding: 5px 10px 5px 10px;
+    display: flex;
+    flex-direction: row;
+    white-space: nowrap;
+}
+
+.ddui_Popup_button:hover {
+    background-color: var(--ddui_shady);
+    cursor: pointer;
+}
+
+.ddui_Popup_button_red {
+    color: var(--ddui_red_text);
+}
+
+.ddui_Popup_label_box {
+    padding: 1px 3px 0 10px;
+}
+
+.ddui_Popup_line {
+    margin: 4px 10px 4px 10px;
+    background-color: var(--ddui_line_soft);
+    border: none;
+    height: 1px;
+}

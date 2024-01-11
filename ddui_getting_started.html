@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>d.ui - getting started</title>
+    <!-- <link rel="icon" href="/frontend/rsc/favicon.ico" type="image/x-icon"> -->
+    <link rel="stylesheet" href="css/ddui.css">
+    <style>
+        a,
+        a:link,
+        a:visited,
+        a:active {
+            color: var(--ddui_page_text);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #header {
+            width: 100%;
+            height: 80px;
+            background-color: var(--ddui_button_background);
+            box-shadow: var(--ddui_boxShadow);
+            z-index: 1;
+            position: fixed;
+
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-content: stretch;
+        }
+
+        #header_left {
+            width: 100px;
+
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-content: stretch;
+            justify-content: left;
+        }
+
+        #header_center {
+            flex-grow: 1;
+
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-content: stretch;
+            justify-content: center;
+        }
+
+        #header_right {
+            width: 100px;
+
+            display: flex;
+            flex-direction: row;
+            justify-content: right;
+        }
+
+        .header_button {
+            background-color: var(--ddui_button_background);
+            padding: 0 15px 0 15px;
+            font-size: 24px;
+            color: var(--ddui_button_text);
+            font-weight: bold;
+            cursor: pointer;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .header_button:hover {
+            background-color: var(--ddui_button_background_hover);
+        }
+
+        #heading {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .heading_label {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }    
+        
+        #content {
+            width: 100%;
+            max-width: 800px;
+            padding: 100px 20px 20px 20px;
+            background-color: var(--ddui_page_background);
+            min-height: 100px;
+
+            display: flex;
+            flex-direction: column;
+        }     
+        
+        #footer {
+            font-size: 13px;
+            margin-top: 10px;
+            height: 100px;
+        }        
+    </style>
+</head>
+<body>
+    <div id="app_init_loading_gif" style="height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; padding: 20px; background: none; display: block; shape-rendering: auto;" width="128px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                <g>
+                  <path d="M50 8A42 42 0 1 0 92 50.00000000000001" fill="none" stroke="var(--ddui_primary)" stroke-width="8"></path>
+                  <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="0.641025641025641s" values="0 50 50;360 50 50" keyTimes="0;1"></animateTransform>
+                </g>
+            </svg>
+        </div>
+        <div>d.ui loading ...</div>
+    </div>
+    <main id="app_main" style="display: none">
+        <div id="header">
+            <did id="header_left"></did>
+            <div id="header_center">
+                <div id="heading">
+                    <div class="heading_label">getting started with d.ui</div>
+                </div>
+            </div>
+            <div id="header_right">
+                <div id="header_button_theme" class="header_button">
+                    <div style="padding-top:5px;">
+                        <span id="ddui_theme_icon" class="material-icons ddui_theme_icon">dark_mode</span>
+                    </div>
+                </div>
+                <div id="header_button_menu" class="header_button">
+                    <div style="padding-top:5px;">
+                        <span class="material-icons" style="color: var(--ddui_button_text);">more_horiz</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="content">
+            <h1>Dialogues</h1>
+            <div id="tiles_ddui_dialogues" style="margin-bottom: 20px;"></div>
+            <h1>Controls</h1>
+            <div id="tiles_ddui_controls" style="margin-bottom: 20px;"></div>
+            <h1>Miscellaneous</h1>
+            <div id="tiles_ddui_misc" style="margin-bottom: 20px;"></div>
+        </div>
+        <div id="footer">© <a href="https://david.haslwanter.cc/" target="_blank" rel="noreferrer noopener">David Haslwanter</a>, 2024</div>
+    </main>
+    <script type="module" src="ddui_getting_started.js"></script>
+</body>
+</html>

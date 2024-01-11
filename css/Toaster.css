@@ -1,0 +1,36 @@
+.ddui_Toaster_box {
+    border: 1px solid var(--ddui_page_text);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.ddui_Toaster_countdown_bar {
+    height: 3px;
+    background-color: var(--ddui_red_text);
+    border-radius: 5px 5px 0 0;
+}
+
+.ddui_Toaster_content_container {
+    padding: 12px;
+    display: flex;
+    flex-direction: row;
+}
+
+.ddui_Toaster_content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.ddui_Toaster_close_button {
+    margin-left: 7px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.ddui_Toaster_close_button:hover {
+    color: var(--ddui_red_text);
+    cursor: pointer;
+}

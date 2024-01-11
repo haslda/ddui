@@ -1,0 +1,124 @@
+:root {
+
+    /* primary color scales */
+
+    --ddui_cs_p_DDDDD: #09142a;
+    --ddui_cs_p_DDD: #16326a;
+    --ddui_cs_p_DD: #1b3e83;
+    --ddui_cs_p_D: #214ca1;
+    --ddui_cs_p: #275abe;
+    --ddui_cs_p_L: #4773C8;
+    --ddui_cs_p_LL: #95b1e9;
+    --ddui_cs_p_LLL: #c0d0f2;
+    --ddui_cs_p_LLLL: #d5e0f6;
+
+    --ddui_primary: var(--ddui_cs_p);
+
+    /* gray scales */
+
+    --ddui_cs_g0: #000000;
+    --ddui_cs_g10: #1A1A1A;
+    --ddui_cs_g13: #222222;
+    --ddui_cs_g20: #333333;
+    --ddui_cs_g30: #4D4D4D;
+    --ddui_cs_g33: #555555;
+    --ddui_cs_g40: #666666;
+    --ddui_cs_g50: #808080;
+    --ddui_cs_g60: #999999;
+    --ddui_cs_g67: #AAAAAA;
+    --ddui_cs_g73: #BBBBBB;
+    --ddui_cs_g80: #CCCCCC;
+    --ddui_cs_g87: #DDDDDD;
+    --ddui_cs_g93: #EEEEEE;
+    --ddui_cs_g100: #FFFFFF;    
+
+    /* ################################ */
+    /*    light theme    ############### */
+    
+    /* object colors */
+
+    --ddui_L_page_text: var(--ddui_cs_g13);
+    --ddui_L_page_text_emphasized: var(--ddui_cs_g0);
+    --ddui_L_page_background: var(--ddui_cs_g100);
+    --ddui_L_page_background_idle: var(--ddui_cs_g93);
+    --ddui_L_page_background_hover: var(--ddui_cs_g93);
+
+    --ddui_L_dialogue_background: var(--ddui_cs_g93);
+
+    --ddui_L_line: var(--ddui_cs_g67);
+    --ddui_L_line_soft: var(--ddui_cs_g80);
+
+    --ddui_L_button_text: var(--ddui_cs_g100);
+    --ddui_L_button_background: var(--ddui_cs_p);
+    --ddui_L_button_background_hover: var(--ddui_cs_p_L);
+
+    --ddui_L_input_forecolor: var(--ddui_cs_p);
+    --ddui_L_input_forecolor_idle: var(--ddui_cs_g40);
+    --ddui_L_input_selection_forecolor: var(--ddui_cs_p_DDDDD);
+    --ddui_L_input_selection_background_color: var(--ddui_cs_p_LLLL);
+
+    /* shadows */
+
+    --ddui_L_shady: rgba(0,0,0,0.1);
+    --ddui_L_shiny: rgba(255,255,255,0.15);
+    --ddui_L_background_shady: rgba(0,0,0,0.5);
+    --ddui_L_background_shiny: rgba(255,255,255,0.5);
+
+    --ddui_L_boxShadow: 0px 0px 8px 4px rgba(0,0,0,0.25); /* typical for dialogues */
+    --ddui_L_boxShadow_very_small: 0px 0px 5px 0px rgba(0,0,0,0.25); /* typical for buttons */
+
+    /* accent colors */
+
+    --ddui_L_primary_background_emphasized: var(--ddui_cs_p_LLL);
+    --ddui_L_primary_background_emphasized_hover: var(--ddui_cs_p_LL);
+
+    --ddui_L_red_text: #C00000;
+    --ddui_L_red_surface: #C00000;
+    --ddui_L_red_surface_shiny: #E00000;
+    --ddui_L_red_surface_shady: #A00000;
+
+    /* ################################ */
+    /*    dark theme    ############### */
+
+    /* object colors */
+
+    --ddui_D_page_text: var(--ddui_cs_g87);
+    --ddui_D_page_text_emphasized: var(--ddui_cs_g100);
+    --ddui_D_page_background: var(--ddui_cs_g10);
+    --ddui_D_page_background_hover: var(--ddui_cs_g13);
+    --ddui_D_page_background_idle: var(--ddui_cs_g13);
+
+    --ddui_D_dialogue_background: var(--ddui_cs_g13);
+    
+    --ddui_D_line: var(--ddui_cs_g67);
+    --ddui_D_line_soft: var(--ddui_cs_g30);
+
+    --ddui_D_button_text: var(--ddui_cs_g100);
+    --ddui_D_button_background: var(--ddui_cs_p);
+    --ddui_D_button_background_hover: var(--ddui_cs_p_D);
+
+    --ddui_D_input_forecolor: var(--ddui_cs_p_LL);
+    --ddui_D_input_forecolor_idle: var(--ddui_cs_g60);
+    --ddui_D_input_selection_forecolor: var(--ddui_cs_g100);
+    --ddui_D_input_selection_background_color: var(--ddui_cs_p_D);
+
+    /* shadows */
+
+    --ddui_D_shady: rgba(255,255,255,0.05);
+    --ddui_D_shiny: rgba(0,0,0,0.1);
+    --ddui_D_background_shady: rgba(0,0,0,0.5);
+    --ddui_D_background_shiny: rgba(255,255,255,0.15);
+    --ddui_D_boxShadow: 0 0 8px 4px rgba(150,150,150,0.3); /* typical for dialogues */
+    --ddui_D_boxShadow_very_small: 0 0 5px 0 rgba(255,255,255,0.2); /* typical for buttons */
+
+    /* accent colors */
+
+    --ddui_D_primary_background_emphasized: var(--ddui_cs_p_DDD);
+    --ddui_D_primary_background_emphasized_hover: var(--ddui_cs_p_DD);
+
+    --ddui_D_red_text: #FF4444;
+    --ddui_D_red_surface: #900000;
+    --ddui_D_red_surface_shiny: #700000;
+    --ddui_D_red_surface_shady: #B00000;
+
+}

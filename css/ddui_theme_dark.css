@@ -1,0 +1,49 @@
+@import url("ddui_colors.css");
+
+:root {
+
+    --ddui_theme: dark;
+
+    /* object colors */
+
+    --ddui_page_text: var(--ddui_D_page_text);
+    --ddui_page_text_emphasized: var(--ddui_D_page_text_emphasized);
+    --ddui_page_background: var(--ddui_D_page_background);
+    --ddui_page_background_hover: var(--ddui_D_page_background_hover);
+    --ddui_page_background_idle: var(--ddui_D_page_background_idle);
+
+    --ddui_dialogue_background: var(--ddui_D_dialogue_background);
+
+    --ddui_line: var(--ddui_D_line);
+    --ddui_line_soft: var(--ddui_D_line_soft);
+
+    --ddui_button_text: var(--ddui_D_button_text);
+    --ddui_button_background: var(--ddui_D_button_background);       
+    --ddui_button_background_hover: var(--ddui_D_button_background_hover);
+
+    --ddui_input_forecolor: var(--ddui_D_input_forecolor);
+    --ddui_input_forecolor_idle: var(--ddui_D_input_forecolor_idle);
+    --ddui_input_selection_forecolor: var(--ddui_D_input_selection_forecolor);
+    --ddui_input_selection_background_color: var(--ddui_D_input_selection_background_color);        
+
+    /* shadows */
+
+    --ddui_shady: var(--ddui_D_shady);
+    --ddui_shiny: var(--ddui_D_shiny);
+    --ddui_background_shady: var(--ddui_D_background_shady);
+    --ddui_background_shiny: var(--ddui_D_background_shiny);
+
+    --ddui_boxShadow: var(--ddui_D_boxShadow); /* typical for dialogues */
+    --ddui_boxShadow_very_small: var(--ddui_D_boxShadow_very_small); /* typical for buttons */
+
+    /* accent colors */
+
+    --ddui_primary_background_emphasized: var(--ddui_D_primary_background_emphasized);
+    --ddui_primary_background_emphasized_hover: var(--ddui_D_primary_background_emphasized_hover);
+
+    --ddui_red_text: var(--ddui_D_red_text);
+    --ddui_red_surface: var(--ddui_D_red_surface);
+    --ddui_red_surface_shiny: var(--ddui_D_red_surface_shiny);
+    --ddui_red_surface_shady: var(--ddui_D_red_surface_shady);       
+
+}

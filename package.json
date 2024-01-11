@@ -1,0 +1,25 @@
+{
+  "name": "ddui",
+  "version": "0.0.1",
+  "description": "d.ui - Lightweight but beautiful ui framework in pure javascript",
+  "main": "ddui.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haslda/ddui.git"
+  },
+  "keywords": [
+    "lightweight",
+    "simple",
+    "beautiful",
+    "ui"
+  ],
+  "author": "David Haslwanter",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/haslda/ddui/issues"
+  },
+  "homepage": "https://github.com/haslda/ddui#readme"
+}

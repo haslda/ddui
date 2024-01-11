@@ -1,0 +1,35 @@
+.ddui_Tiles {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.ddui_Tile {
+    color: var(--ddui_page_text);
+    background-color: var(--ddui_page_background);
+    border: solid 1px var(--ddui_line_soft);
+
+    display: flex;
+    flex-direction: column;
+}
+
+.ddui_Tile:hover {
+    background-color: var(--ddui_page_background_hover);
+    border: solid 1px var(--ddui_line);
+    cursor: pointer;
+}
+
+.ddui_Tile_image {
+    flex-grow: 1;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.ddui_Tile_label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: center;
+}

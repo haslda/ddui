@@ -1,0 +1,31 @@
+.ddui_Box {
+    position: absolute;
+    background-color: var(--ddui_page_background);
+    box-shadow: var(--ddui_boxShadow);  
+    border-radius: 5px;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.ddui_Box_header {
+    background-color: var(--ddui_page_background);
+    padding-bottom: 1px;
+    border-bottom: 1px solid var(--ddui_line_soft);
+    border-radius: 5px 5px 0 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.ddui_Box_header_icon {
+    padding: 2px 4px 2px 4px;
+}
+
+.ddui_Box_header_text {
+    padding: 6px 0 6px 0;
+    font-weight: 500;
+}
+
+.ddui_Box_container {
+    padding: 12px;
+}
