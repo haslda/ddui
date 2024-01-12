@@ -15,6 +15,7 @@
 
 .ddui_Tile:hover {
     background-color: var(--ddui_page_background_hover);
+    box-shadow: var(--ddui_boxShadow_very_small);
     border: solid 1px var(--ddui_line);
     cursor: pointer;
 }

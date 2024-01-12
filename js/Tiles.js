@@ -49,7 +49,14 @@ export class Tiles {
         let new_tile;
         this.tiles = [];
         for ( let tile of tiles ) {
-            new_tile = new Tile(null, tile.label, tile.image, tile_width, tile_height, tile_padding);
+            new_tile = new Tile(
+                null,
+                tile.onClick,
+                tile.label,
+                tile.image,
+                tile_width,
+                tile_height,
+                tile_padding);
             this.tiles.push(new_tile);
             this.node.append(new_tile.node);
         }
@@ -67,6 +74,7 @@ export class Tile {
 
     constructor(
         container_id,
+        onClick,
         label,
         image,
         width = "100px",
@@ -103,6 +111,10 @@ export class Tile {
         tile_content += `<div class="ddui_Tile_label">${label}</div>`;
 
         this.node.innerHTML = tile_content;
+
+        if ( onClick ) {
+            this.node.addEventListener("click", onClick);
+        }
 
     }
 

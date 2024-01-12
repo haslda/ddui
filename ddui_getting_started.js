@@ -39,33 +39,35 @@ async function Main() {
     header_button_menu.addEventListener("click", event => OpenHeaderMenuMore(event));
 
     const image_size = "36px";
+    const image_color = "var(--ddui_page_text)";
     new ddui.Tiles("tiles_ddui_dialogues", [
         {
             label: "Msg Box",
             image: {
-                type: "svg",
-                data: ddui.icon("app-window", "var(--ddui_page_text_emphasized)", image_size),
-            }
+                type: "html",
+                data: ddui.icon("iconoir:app-window", image_color, image_size),
+            },
+            onClick: () => ddui.MessageBox("Yeah!")
         },
         {
             label: "Toaster",
             image: {
-                type: "svg",
-                data: ddui.icon("chat-bubble", "var(--ddui_page_text_emphasized)", image_size),
+                type: "html",
+                data: ddui.icon("iconoir:chat-bubble", image_color, image_size),
             }
         },
         {
             label: "Popup",
             image: {
-                type: "svg",
-                data: ddui.icon("google-docs", "var(--ddui_page_text_emphasized)", image_size),
+                type: "html",
+                data: ddui.icon("iconoir:google-docs", image_color, image_size),
             }
         },
         {
             label: "Dialogue",
             image: {
-                type: "svg",
-                data: ddui.icon("favourite-window", "var(--ddui_page_text_emphasized)", image_size),
+                type: "html",
+                data: ddui.icon("iconoir:favourite-window", image_color, image_size),
             }
         }
     ]);
@@ -74,15 +76,15 @@ async function Main() {
         {
             label: "List",
             image: {
-                type: "svg",
-                data: ddui.icon("table-rows", "var(--ddui_page_text_emphasized)", image_size),
+                type: "html",
+                data: ddui.icon("iconoir:table-rows", image_color, image_size),
             }
         },
         {
             label: "Tiles",
             image: {
-                type: "svg",
-                data: ddui.icon("view-grid", "var(--ddui_page_text_emphasized)", image_size),
+                type: "html",
+                data: ddui.icon("iconoir:view-grid", image_color, image_size),
             }
         }
     ]);
@@ -91,22 +93,22 @@ async function Main() {
         {
             label: "Theme",
             image: {
-                type: "svg",
-                data: ddui.icon("sun-light", "var(--ddui_page_text_emphasized)", image_size),
+                type: "html",
+                data: ddui.icon("iconoir:sun-light", image_color, image_size),
             }
         },
         {
             label: "Icons",
             image: {
-                type: "svg",
-                data: ddui.icon("media-image", "var(--ddui_page_text_emphasized)", image_size),
+                type: "html",
+                data: ddui.icon("iconoir:media-image", image_color, image_size),
             }
         },
         {
             label: "Colors",
             image: {
-                type: "svg",
-                data: ddui.icon("palette", "var(--ddui_page_text_emphasized)", image_size),
+                type: "html",
+                data: ddui.icon("iconoir:palette", image_color, image_size),
             }
         }
     ]);    
