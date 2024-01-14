@@ -7,9 +7,6 @@
 // importing theme functions
 import { GetActiveTheme, SetThemeIcon, ToggleTheme } from "./js/theme.js"; export { GetActiveTheme, SetThemeIcon, ToggleTheme };
 
-// importing icons
-import { icon as icon } from "./js/icons.js"; export { icon };
-
 // importing the basic classes
 import { Overlay as Overlay } from "./js/Overlay.js"; export { Overlay };
 import { Box as Box } from "./js/Box.js"; export { Box };
@@ -17,15 +14,15 @@ import { Box as Box } from "./js/Box.js"; export { Box };
 // looping through the box classes
 // this special approach aims to a easier usage, as the term "new" must not be used (e.g. "ddui.MessageBox" instead of "new ddui.MessageBox")
 import { MessageBox as MessageBoxClass } from "./js/MessageBox.js";
-export function MessageBox(content, type, buttons, allow_exit) { return new MessageBoxClass(content, type, buttons, allow_exit) };
+export async function MessageBox(content, type, buttons, allow_exit) { return new MessageBoxClass(content, type, buttons, allow_exit) };
 import { Popup as PopupClass } from "./js/Popup.js";
-export function Popup(items, align_mode, anchor_node, type) { return new PopupClass(items, align_mode, anchor_node, type) };
+export async function Popup(items, align_mode, anchor_node, type) { return new PopupClass(items, align_mode, anchor_node, type) };
 import { Dialogue as DialogueClass } from "./js/Dialogue.js";
-export function Dialogue(title_text, title_icon, html_ref, css_ref, values, put_focus_on_element_with_id, buttons, allow_exit) { return new DialogueClass(title_text, title_icon, html_ref, css_ref, values, put_focus_on_element_with_id, buttons, allow_exit) };
+export async function Dialogue(title_text, title_icon, html, html_ref, css, css_ref, values, put_focus_on_element_with_id, buttons, allow_exit) { return new DialogueClass(title_text, title_icon, html, html_ref, css, css_ref, values, put_focus_on_element_with_id, buttons, allow_exit) };
 import { LoadingBox as LoadingBoxClass } from "./js/LoadingBox.js";
-export function LoadingBox(info_text) { return new LoadingBoxClass(info_text) };
+export async function LoadingBox(info_text) { return new LoadingBoxClass(info_text) };
 import { Toaster as ToasterClass } from "./js/Toaster.js";
-export function Toaster(text) { return new ToasterClass(text) };
+export async function Toaster(text) { return new ToasterClass(text) };
 
 // looping through the typical object-classes
 import { Tile as Tile, Tiles as Tiles } from "./js/Tiles.js"; export { Tile, Tiles };
@@ -85,7 +82,7 @@ async function InitDdui() {
 // ### ----- SHARED ------ ###
 
 export function DisplayError(errormessage) {
-    new MessageBox(errormessage.replace(/(?:\r\n|\r|\n)/g, '<br>'), "error");
+    MessageBox(errormessage.replace(/(?:\r\n|\r|\n)/g, '<br>'), "error");
 }
 
 

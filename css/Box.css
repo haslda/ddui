@@ -8,6 +8,7 @@
 }
 
 .ddui_Box_header {
+    padding: 0 10px 0 10px;
     background-color: var(--ddui_page_background);
     padding-bottom: 1px;
     border-bottom: 1px solid var(--ddui_line_soft);
