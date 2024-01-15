@@ -172,7 +172,7 @@ async function ShowBlendOverlay(color, show_loading_box) {
     overlay.style.transform = "skewX(-12deg)";
     overlay.style.transition = "width 1s";
     overlay.style.left = "-" + String(Math.floor(document.documentElement.clientWidth / 2)) + "px";
-    parentNode.style.overflowX = "hidden";
+    document.body.style.overflow = "hidden";
     if ( color != null ) { overlay.style.backgroundColor = color }
     else { overlay.style.backgroundColor = "var(--ddui_primary)" }
 
@@ -216,6 +216,6 @@ async function HideBlendOverlay(overlay) {
     await new Promise(r => setTimeout(r, 800));
 
     overlay.remove();
-    document.getElementsByTagName("body")[0].style.overflowX = null;
+    document.body.style.overflow = null;
 
 }

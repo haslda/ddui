@@ -29,4 +29,6 @@
 
 .ddui_Box_container {
     padding: 12px;
+    max-height: 90vh;
+    overflow-y: auto;
 }

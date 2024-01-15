@@ -52,7 +52,8 @@ async function Main() {
             image: {
                 type: "html",
                 data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M21 5L2 12.5L9 13.5M21 5L18.5 20L9 13.5M21 5L9 13.5M9 13.5V19L12.2488 15.7229" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>`
-            }
+            },
+            onClick: () => ShowDialogue("Toaster")
         },
         {
             label: "Popup",
@@ -262,56 +263,139 @@ async function OpenHeaderMenuMore(event) {
 
 
 
-async function ShowDialogue(which) {
+function FetchDialogueRessources(which) {
 
-    const image_size = "36px";
-    const image_color = "var(--ddui_page_text)";
+    // ====================
+    // definition of custom styles for the dialogue
+    const css = `
+    .ddui {
+        color: var(--ddui_green_text);
+    }
+    .codebox {
+        border: 1px solid var(--ddui_line_soft);
+        border-radius: 3px;
+        background-color: var(--ddui_shady);
+        padding: 5px;
+    }
+    .code {
+        font-family: Courier New;
+        font-weight: 700;
+    }
+    .code_arg {
+        color: var(--ddui_yellow_text);
+    }`
+
+    // ====================
+    // definition of dialogue content html for the different needs
+    switch (which) {
+
+
+
+
+
+
+        case "MessageBox":
+
+            return [
+
+                // title
+                "Message boxes",
+
+                // html
+                `<div style="max-width: 800px;">
+                    <h1 style="margin-top: 10px;">Example</h1>
+                    <p>
+                        <div class="codebox code">
+                            <span class="code ddui">ddui</span>.MessageBox(<span class="code code_arg">"Hello world!"</span>);
+                        </div>
+                    </p>
+                    <h1>Concept</h1>
+                    <p>
+                        <div class="codebox code">
+                            <span class="code ddui">ddui</span>.MessageBox(<span class="code code_arg">content</span>, <span class="code code_arg">type</span>, <span class="code code_arg">buttons</span>, <span class="code code_arg">allow_exit</span>);
+                        </div>
+                    </p>
+                    <h1>Demo</h1>
+                    <p>By default, message boxes can be discarded by clicking outside the message box or by pressing escape. But if "allow_exit" is set to "false", no exit is allowed.</p>
+                    <div id="Dialogue_MessageBox_Demo_Tiles_1" style="min-height: 90px;"></div>
+                    <p>Message boxes can be of a specific type with a dedecated look.</p>
+                    <div id="Dialogue_MessageBox_Demo_Tiles_2" style="min-height: 90px;"></div>
+                        <p>Per default there is just an "OK" button for closing the message box, but you can define buttons as you wish and let them do what you want. You can also define, if a button shall (additional to calling your function) close the message box as well (default) or not. Finally the buttons can be of the default style, or the style "inferio" or "red".</p>
+                    <div id="Dialogue_MessageBox_Demo_Tiles_3" style="min-height: 90px;"></div>
+                </div>`,
+
+                // css
+                css
+
+            ];
+
+
+
+
+
+
+        case "Toaster":
+
+        return [
+
+            // title
+            "Toasters",
+
+            // html
+            `<div style="max-width: 800px;">
+                <h1 style="margin-top: 10px;">Example</h1>
+                <p>
+                    <div class="codebox code">
+                        <span class="code ddui">ddui</span>.Toaster(<span class="code code_arg">"Hello world!"</span>);
+                    </div>
+                </p>
+                <h1>Concept</h1>
+                <p>
+                    <div class="codebox code">
+                        <span class="code ddui">ddui</span>.MessageBox(<span class="code code_arg">text</span>);
+                    </div>
+                </p>
+                <h1>Demo</h1>
+                <p>A toaster is just a short information on the fly. The longer the text, the longer it stays.<br>If you wish, you can also discard it before end of countdown.</p>
+                <div id="Dialogue_Toaster_Demo_Tiles" style="min-height: 90px;"></div>
+            </div>`,
+
+            // css
+            css
+
+        ];
+
+    }
+
+}
+
+
+
+
+
+
+async function ShowDialogue(which) {
 
     let title;
     let html;
     let css;
+    [ title, html, css ] = FetchDialogueRessources(which);
 
     switch (which) {
 
+
+
+
+
+
         case "MessageBox":
+
+            // Open the dialogue
+            ddui.Dialogue(title, null, html, null, css);
             
-            title = "Message boxes";
-
-            html = `<div style="max-width: 800px;">
-            <h2>Example</h2>
-            <p class="code">
-                <span class="code ddui">ddui</span>.MessageBox(<span class="code code_arg">"Hello world!"</span>);
-            </p>
-            <h2>Concept</h2>
-            <p class="code">
-                <span class="code ddui">ddui</span>.MessageBox(<span class="code code_arg">content</span>, <span class="code code_arg">type</span>, <span class="code code_arg">buttons</span>, <span class="code code_arg">allow_exit</span>);
-            </p>
-            <h2>Demo</h2>
-            <p>By default, message boxes can be discarded by clicking outside the message box or by pressing escape. But if "allow_exit" is set to "false", no exit is allowed.</p>
-            <div id="Dialogue_MessageBox_Demo_Tiles_1"></div>
-            <p>Message boxes can be of a specific type with a dedecated look.</p>
-            <div id="Dialogue_MessageBox_Demo_Tiles_2"></div>
-                <p>Per default there is just an "OK" button for closing the message box, but you can define buttons as you wish and let them do what you want. You can also define, if a button shall (additional to calling your function) close the message box as well (default) or not. Finally the buttons can be of the default style, or the style "inferio" or "red".</p>
-            <div id="Dialogue_MessageBox_Demo_Tiles_3"></div>
-            </div>`;
-
-            css = `
-            .ddui {
-                color: var(--ddui_green_text);
-            }
-            .code {
-                font-family: Courier New;
-                font-weight: 700;
-            }
-            .code_arg {
-                color: var(--ddui_yellow_text);
-            }
-            `;
-
-            ddui.Dialogue("Message boxes", null, html, null, css);
-            
+            // Wait for the container for the 1st tiles element ...
             await ddui.WaitForDom("Dialogue_MessageBox_Demo_Tiles_1", "does_exist");
-
+            // ... and then create the tiles element
             new ddui.Tiles("Dialogue_MessageBox_Demo_Tiles_1", [
                 {
                     label: "Simple",
@@ -327,12 +411,13 @@ async function ShowDialogue(which) {
                         type: "html",
                         data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M13 2.04938C12.6711 2.01672 12.3375 2 12 2C6.47715 2 2 6.47715 2 12C2 13.8214 2.48697 15.5291 3.33782 17L2.5 21.5L7 20.6622C8.47087 21.513 10.1786 22 12 22C17.5228 22 22 17.5228 22 12C22 11.6625 21.9833 11.3289 21.9506 11" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M17.1211 7.36398L19.2424 5.24266M19.2424 5.24266L21.3637 3.12134M19.2424 5.24266L17.1211 3.12134M19.2424 5.24266L21.3637 7.36398" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>`
                     },
-                    onClick: () => ddui.MessageBox("If I had no closing button, you wouldn't be able to leave me. Try clicking outside and pressing escape.", null, [{ label: "Close", closeOnClick: true }], false)
+                    onClick: () => ddui.MessageBox("If I had no closing button, you wouldn't be able to leave me. Try clicking outside or hitting escape.", null, [{ label: "Close", closeOnClick: true }], false)
                 }
             ], "100px", "90px");
 
+            // Wait for the container for the 2nd tiles element ...
             await ddui.WaitForDom("Dialogue_MessageBox_Demo_Tiles_2", "does_exist");
-
+            // ... and then create the tiles element
             new ddui.Tiles("Dialogue_MessageBox_Demo_Tiles_2", [
                 {
                     label: "Error",
@@ -368,8 +453,9 @@ async function ShowDialogue(which) {
                 }
             ], "100px", "90px");
 
+            // Wait for the container for the 3rd tiles element ...
             await ddui.WaitForDom("Dialogue_MessageBox_Demo_Tiles_3", "does_exist");
-
+            // ... and then create the tiles element
             new ddui.Tiles("Dialogue_MessageBox_Demo_Tiles_3", [
                 {
                     label: "Buttons",
@@ -386,8 +472,51 @@ async function ShowDialogue(which) {
                         data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M16 2H8C4.68629 2 2 4.68629 2 8V16C2 19.3137 4.68629 22 8 22H16C19.3137 22 22 19.3137 22 16V8C22 4.68629 19.3137 2 16 2Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-miterlimit="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 2"></path><path d="M16 5H8C6.34315 5 5 6.34315 5 8V16C5 17.6569 6.34315 19 8 19H16C17.6569 19 19 17.6569 19 16V8C19 6.34315 17.6569 5 16 5Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-miterlimit="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>`
                     },
                     onClick: () => ddui.MessageBox("See my beautiful buttons!", null, [{ label: "Cancel", style: "inferior" }, { label: "Say Hi!", onClick: () => ddui.Toaster("Hi!"), closeOnClick: false }, { label: "Delete all", style: "red", onClick: () => ddui.Toaster("All data is gone!"), closeOnClick: false }])
+                },
+                {
+                    label: "No button",
+                    image: {
+                        type: "html",
+                        data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M7 4H4V7" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M4 11V13" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M11 4H13" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M11 20H13" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20 11V13" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M17 4H20V7" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7 20H4V17" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M17 20H20V17" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>`
+                    },
+                    onClick: () => ddui.MessageBox(`Where are all my buttons?<br>And how can you exit now?<br><span>Little hint: <span style="font-weight: bold;">ESCAPE!!!</span></span>`, null, [])
                 }
             ], "100px", "90px");
+
+            break;
+
+
+
+
+
+        case "Toaster":
+
+            // Open the dialogue
+            ddui.Dialogue(title, null, html, null, css);
+            
+            // Wait for the container for the tiles element ...
+            await ddui.WaitForDom("Dialogue_Toaster_Demo_Tiles", "does_exist");
+            // ... and then create the tiles element
+            new ddui.Tiles("Dialogue_Toaster_Demo_Tiles", [
+                {
+                    label: "Short",
+                    image: {
+                        type: "html",
+                        data: `<svg width="32px" height="32px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M22 12H14M14 12L17.5 8.5M14 12L17.5 15.5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M2 12H10M10 12L6.5 8.5M10 12L6.5 15.5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 21L10 3" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M14 21L14 3" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>`
+                    },
+                    onClick: () => ddui.Toaster("Hi there!")
+                },
+                {
+                    label: "Long",
+                    image: {
+                        type: "html",
+                        data: `<svg width="32px" height="32px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M10 12H2M2 12L5.5 8.5M2 12L5.5 15.5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M14 12H22M22 12L18.5 8.5M22 12L18.5 15.5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 21L10 3" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M14 21L14 3" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>`
+                    },
+                    onClick: () => ddui.Toaster("The very complex actions has been fulfilled successfully. Thanks for your incredible patience!")
+                }
+            ], "100px", "90px");
+
+            break;
 
     }
 

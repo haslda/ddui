@@ -106,10 +106,16 @@ export class Box {
 
             // if it's the first and only modal box ...
             if ( window.EscapeHandlerBoxes == null || window.EscapeHandlerBoxes.length <= 0 ) {
-                // ... the subscribers list for all present modal boxes (EscapeHandlerBoxes) get initiated ...
+
+                // ... the subscribers list for all present modal boxes (EscapeHandlerBoxes) get initiated, ...
                 window.EscapeHandlerBoxes = [];
-                // ... and the escape handling for all present modal boxes is brougth to life.
+
+                // ... the escape handling for all present modal boxes is brougth to life ...
                 window.addEventListener("keydown", HandleKeyDownForEscaping);
+
+                // ... and the scrolling for the body gets disabled.
+                document.body.style.overflow = "hidden";
+
             }
             
             // add the box to the subscribers list for all present modal boxes (EscapeHandlerBoxes)
@@ -138,17 +144,28 @@ export class Box {
             // iterate throu all living modal boxes (from the youngest backwards) ...
             let index = window.EscapeHandlerBoxes.length;
             for ( let box of window.EscapeHandlerBoxes.slice().reverse() ) {
+
                 index -= 1;
                 // ... and if the chosen you is found ...
                 if ( this == box ) {
+
                     // ... remove it from the EscapeHandlerBoxes ...
                     window.EscapeHandlerBoxes.splice( index, 1 );
-                    // ... and if there is no other living modal box left, then kill the Handler
+
+                    // ... and if there is no other living modal box left, then ...
                     if ( window.EscapeHandlerBoxes.length <= 0 ) {
+
+                        //  ... kill the Handler ...
                         window.removeEventListener("keydown", HandleKeyDownForEscaping);
+
+                        // ... and make the body scrollable again
+                        document.body.style.overflow = "auto";
+
                     }
                     break;
+
                 }
+
             }
         }
 
@@ -209,6 +226,7 @@ export class Box {
         // Validate args and set defaults
         if ( title_text_color == null ) { title_text_color = "var(--ddui_page_text_emphasized)"; } // default
         if ( buttons == null ) { buttons = [{ label: "OK", closeOnClick: true },] } // default (OK-Button)
+        if ( buttons.length <= 0 ) { build_buttonbar = false } // if there's no button, no buttonbar is needed
         if ( container_style == null ) { container_style = "padding: 12px;" } // default
         
         // ====================
@@ -223,21 +241,24 @@ export class Box {
 
         // ====================
         // build the buttonbar
-        let button_id;
-        let buttonbar = `<div class="ddui_buttonbar">`
-        let button_class;
-        for ( let button of buttons ) {
-            // button
-            if ( button["id"] ) {} else {
-                button_id = "ddui_button_" + ddui.GenerateUuid();
-                button["id"] = button_id;                
+        let buttonbar = "";
+        if ( build_buttonbar ) {
+            let button_id;
+            buttonbar += `<div class="ddui_buttonbar">`
+            let button_class;
+            for ( let button of buttons ) {
+                // button
+                if ( button["id"] ) {} else {
+                    button_id = "ddui_button_" + ddui.GenerateUuid();
+                    button["id"] = button_id;                
+                }
+                if ( build_buttonbar ) {
+                    button_class = `ddui_button${ ( button["style"] ) ? " ddui_button_" + button["style"] : "" }`;
+                    buttonbar += `<div id="${button_id}" class="${button_class}" name="ddui_button"><div class="ddui_button_label">${button["label"]}</div></div>`;
+                }
             }
-            if ( build_buttonbar ) {
-                button_class = `ddui_button${ ( button["style"] ) ? " ddui_button_" + button["style"] : "" }`;
-                buttonbar += `<div id="${button_id}" class="${button_class}" name="ddui_button"><div class="ddui_button_label">${button["label"]}</div></div>`;
-            }
+            buttonbar += `</div>`;
         }
-        if ( build_buttonbar ) { buttonbar += `</div>`; } else { buttonbar = "" }
 
         // ====================
         // assemble header, content and buttonbar together

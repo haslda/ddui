@@ -35,12 +35,11 @@
 
             display: flex;
             flex-direction: row;
-            flex-wrap: wrap;
             align-content: stretch;
         }
 
         #header_left {
-            width: 100px;
+            flex: 1 3 100px;
 
             display: flex;
             flex-direction: row;
@@ -50,7 +49,7 @@
         }
 
         #header_center {
-            flex-grow: 1;
+            flex: 1 2 auto;
 
             display: flex;
             flex-direction: row;
@@ -60,7 +59,7 @@
         }
 
         #header_right {
-            width: 100px;
+            flex: 1 1 100px;
 
             display: flex;
             flex-direction: row;
@@ -91,6 +90,10 @@
         }
 
         .heading_label {
+            display: flex;
+            flex-direction: row;
+            align-items: baseline;
+
             color: white;
             font-size: 24px;
             font-weight: bold;
@@ -108,11 +111,14 @@
             flex-direction: column;
         }     
         
-        #footer {
-            font-size: 13px;
+        .footer {
             margin-top: 10px;
             height: 100px;
-        }        
+        }
+        
+        .footer_text {
+            font-size: 13px;
+        }
     </style>
 </head>
 <body>
@@ -132,7 +138,11 @@
             <did id="header_left"></did>
             <div id="header_center">
                 <div id="heading">
-                    <div onClick="window.location.reload()" class="heading_label">d.ui<span style="font-size: 14px; font-weight: 700; padding: 0 15px 0 15px">***</span>getting started</div>
+                    <div onClick="window.location.reload()" class="heading_label">
+                        <h1>d.ui</h1>
+                        <span style="font-size: 14px; font-weight: 700; padding: 0 15px 0 15px">***</span>
+                        <h1 style="white-space: nowrap;">getting started</h1>
+                    </div>
                 </div>
             </div>
             <div id="header_right">
@@ -157,7 +167,7 @@
             <h1>Miscellaneous</h1>
             <div id="tiles_ddui_misc" style="margin-bottom: 20px;"></div>
         </div>
-        <div id="footer">© <a href="https://david.haslwanter.cc/" target="_blank" rel="noreferrer noopener">David Haslwanter</a>, 2024</div>
+        <div class="footer footer_text">© <a class="footer_text" href="https://david.haslwanter.cc/" target="_blank" rel="noreferrer noopener">David Haslwanter</a>, 2024</div>
     </main>
     <script type="module" src="ddui_getting_started.js"></script>
 </body>

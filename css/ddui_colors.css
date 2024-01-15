@@ -59,7 +59,7 @@
 
     /* shadows */
 
-    --ddui_L_shady: rgba(0,0,0,0.1);
+    --ddui_L_shady: rgba(0,0,0,0.06);
     --ddui_L_shiny: rgba(255,255,255,0.15);
     --ddui_L_background_shady: rgba(0,0,0,0.5);
     --ddui_L_background_shiny: rgba(255,255,255,0.5);
@@ -123,7 +123,7 @@
 
     /* shadows */
 
-    --ddui_D_shady: rgba(255,255,255,0.05);
+    --ddui_D_shady: rgba(255,255,255,0.1);
     --ddui_D_shiny: rgba(0,0,0,0.1);
     --ddui_D_background_shady: rgba(0,0,0,0.5);
     --ddui_D_background_shiny: rgba(255,255,255,0.15);
