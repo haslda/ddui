@@ -19,7 +19,7 @@ export class MessageBox{
 
     // args:
     // - content      String; Text oder html-String
-    // - type         String; "bare" (default; simple message box), "info", "warning", "error", "success"
+    // - type         String; null or empty (default; simple message box) vs. "info", "warning", "error", "success"
     // - buttons      List; same es definded for "Box.Fill()""
     // - allow_exit   Boolean; same es definded for "Box.constructor()""
     constructor(content, type, buttons, allow_exit) {
@@ -27,7 +27,7 @@ export class MessageBox{
         // ====================
         // Validate call parameters and set defaults
         if ( content == null ) { ddui.Log( "Missing argument 'content' when constructing a MessageBox.", __file__, "ERR" )};
-        if ( type == null ) { type = "bare" }; // Setting default for type: "bare"
+        if ( type == null ) { type = "" }; // Setting default
         if ( buttons == null ) { buttons = [{ label: "OK" }] }; // If no buttons are given => default: OK button only
         if ( allow_exit == null ) { allow_exit = true } // If not defined, the messageBox shall be exitable
 
@@ -43,7 +43,7 @@ export class MessageBox{
         let title_text;
         let title_text_color;
         let title_background_color;
-        if ( type != "bare" ) {
+        if ( type != "" ) {
             switch ( type ) {
                 case "info":
                     title_icon = "info";

@@ -71,6 +71,51 @@ async function InitDdui() {
     // If there is a node with the id "ddui_theme_icon", it's innerText will be set to the icon depending on the active theme
     SetThemeIcon();
 
+    // Wait for 1s (to let the page load) and then show the ddui welcome message (if not yet deactivated)
+    await new Promise(res => setTimeout(res, 1000));
+    if ( !document.querySelector("meta[name='ddui']") ) {
+        ShowWelcomeDialogue();
+    }
+
+}
+
+
+
+
+
+
+//
+export function ShowWelcomeDialogue() {
+
+    const html = `
+        <div style="max-width: 500px;">
+            <h1 style="margin-top: 10px;">Getting started with ddui!</h1>
+            <p>Click <strong>ddui wiki</strong> to check out what ddui can do and how you can use it.</p>
+            <p>To stop this message from appearing, insert this meta tag to your website:</p>
+            <p style="
+                border: 1px solid var(--ddui_line_soft);
+                border-radius: 3px;
+                background-color: var(--ddui_shady);
+                padding: 10px;
+                font-family: Courier New;
+                color: var(--ddui_page_text_emphasized);
+                font-weight: 700;">
+                    &ltmeta name="ddui"&gt
+            </p>
+        </div>
+    `;
+
+    Dialogue(null, null, html, null, null, null, null, null, [
+        {
+            label: "Close",
+            style: "inferior"
+        },
+        {
+            label: "ddui wiki",
+            onClick: () => { window.open( import.meta.url.slice(0,-7) + "getting_started/ddui_getting_started.html", "_blank" ) }
+        }
+    ]);
+
 }
 
 

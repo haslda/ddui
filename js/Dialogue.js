@@ -94,7 +94,7 @@ export class Dialogue{
         if ( css ) {
 
         // if no css is given but css_ref, css_ref is used
-        } else if ( css_href ) {
+        } else if ( css_ref ) {
 
             css = sessionStorage.getItem("ddui_dialogue_" + css_ref);
             if ( ! css ) {
@@ -132,8 +132,10 @@ export class Dialogue{
 
 
     Discard() {
-        // discard custom dialogue css
-        document.getElementById(this.id + "_style").remove();
+        try {
+            // discard custom dialogue css
+            document.getElementById(this.id + "_style").remove();
+        } catch {}
     }
 
 }
