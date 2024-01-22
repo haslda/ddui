@@ -48,8 +48,6 @@
   }
 
 * {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 16px;
     box-sizing: border-box;
 }
 
@@ -61,10 +59,13 @@
 
 html, body {
     display: block;
-    background-color: var(--ddui_page_background_idle);
-    color: var(--ddui_page_text);
     margin: 0;
     height: 100%;
+    width: 100%;    
+    background-color: var(--ddui_page_background_idle);
+    color: var(--ddui_page_text);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 16px;    
 }
 
 h1 {
@@ -84,6 +85,11 @@ h3 {
     color: var(--ddui_page_text);
     font-size: 16px;
     font-weight: 700;
+}
+
+p {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .ddui_theme_icon {

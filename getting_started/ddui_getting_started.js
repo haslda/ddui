@@ -60,7 +60,8 @@ async function Main() {
             image: {
                 type: "html",
                 data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M19 3L5 3C3.89543 3 3 3.89543 3 5L3 19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7 7L17 7" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7 12L17 12" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7 17L13 17" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>`
-            }
+            },
+            onClick: () => ShowDialogue("Popup")
         },
         {
             label: "Dialogue",
@@ -122,6 +123,13 @@ async function Main() {
             image: {
                 type: "html",
                 data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M20.5096 9.54C20.4243 9.77932 20.2918 9.99909 20.12 10.1863C19.9483 10.3735 19.7407 10.5244 19.5096 10.63C18.2796 11.1806 17.2346 12.0745 16.5002 13.2045C15.7659 14.3345 15.3733 15.6524 15.3696 17C15.3711 17.4701 15.418 17.9389 15.5096 18.4C15.5707 18.6818 15.5747 18.973 15.5215 19.2564C15.4682 19.5397 15.3588 19.8096 15.1996 20.05C15.0649 20.2604 14.8877 20.4403 14.6793 20.5781C14.4709 20.7158 14.2359 20.8085 13.9896 20.85C13.4554 20.9504 12.9131 21.0006 12.3696 21C11.1638 21.0006 9.97011 20.7588 8.85952 20.2891C7.74893 19.8194 6.74405 19.1314 5.90455 18.2657C5.06506 17.4001 4.40807 16.3747 3.97261 15.2502C3.53714 14.1257 3.33208 12.9252 3.36959 11.72C3.4472 9.47279 4.3586 7.33495 5.92622 5.72296C7.49385 4.11097 9.60542 3.14028 11.8496 3H12.3596C14.0353 3.00042 15.6777 3.46869 17.1017 4.35207C18.5257 5.23544 19.6748 6.49885 20.4196 8C20.6488 8.47498 20.6812 9.02129 20.5096 9.52V9.54Z" stroke="var(--ddui_page_text)" stroke-width="1.5"></path><path d="M8 16.01L8.01 15.9989" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M6 12.01L6.01 11.9989" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8 8.01L8.01 7.99889" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 6.01L12.01 5.99889" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16 8.01L16.01 7.99889" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>`
+            }
+        },
+        {
+            label: "Tooltip",
+            image: {
+                type: "html",
+                data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M4 8.00001L4.01 8.01112" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M4 4.00001L4.01 4.01112" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8 4.00001L8.01 4.01112" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 4.00001L12.01 4.01112" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16 4.00001L16.01 4.01112" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20 4.00001L20.01 4.01112" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20 8.00001L20.01 8.01112" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M4 12V20H20V12H4Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>`
             }
         },
         {
@@ -279,14 +287,43 @@ async function OpenHeaderMenuMore(event) {
 
 
 function code_snippet(code) {
-    return `<h1 style="margin-top: 0;">Code snippet</h1>
-    <div class="codebox code">${code}</div>`
+    return `<h1 style="margin-top: 0;">Code snippet</h1>` +
+        `<div class="codebox code">${code}</div>`
 }
 
-function code(style, text) {
-    text = text.replace(/</g, "&lt");
-    text = text.replace(/>/g, "&gt");
-    return `<span class="code code_${style}">${text}</span>`
+function code(style, text, parse = false) {
+
+    if ( style === "ddui" ) {
+        return `<span class="code_${style}">ddui</span>`
+    } else {
+        if ( parse ) {
+            text = text.replace(/</g, "&lt");
+            text = text.replace(/>/g, "&gt");
+        }
+        return `<span class="code_${style}">${text}</span>`
+    }
+
+}
+
+// function arg(arg_name = "unkknow arg name", is_required = false, arg_datatype = "var", description = "(no description)", indent_level = 0, add_paragraph = false) {
+    
+//     let indent = "";
+//     if ( indent_level > 0 ) {
+//         indent =  ` style="padding-left: ${String(Math.floor(indent_level * 20))}px;"`;
+//     }
+    
+//     return `<div${indent}><span class="code arg_name">${arg_name}</span>${ (is_required) ? `<span class="arg_required">*</span>` : "" }</div>
+//         <div class="arg_description"><span class="arg_datatype">[${arg_datatype}]</span>${description}</div>
+//         ${ (add_paragraph) ? `<div style="height: 10px;"></div><div></div>` : "" }`
+
+// }
+
+function arg(is_required = false, add_paragraph = false, arg_name = "unkknow arg name", arg_datatype = "var", description = "(no description)") {
+    
+    return `<div style="white-space: pre;"><span class="code arg_name">${arg_name}</span>${ (is_required) ? `<span class="arg_required">*</span>` : "" }</div>` +
+        `<div class="arg_description"><span class="arg_datatype">[${arg_datatype}]</span>${description}</div>` +
+        `${ (add_paragraph) ? `<div style="height: 10px;"></div><div></div>` : "" }`
+
 }
 
 
@@ -294,16 +331,15 @@ function code(style, text) {
 
 
 
-function FetchDialogueRessources(which) {
-
-    // ====================
-    // definition of custom styles for the dialogue
-    const css = `
+function GetDialogueCss_Default() {
+    return `
     .codebox {
         border: 1px solid var(--ddui_line_soft);
         border-radius: 3px;
+        max-width: 800px;
         background-color: var(--ddui_shady);
         padding: 10px;
+        white-space: pre-wrap;
     }
     .code {
         font-family: Courier New;
@@ -312,21 +348,23 @@ function FetchDialogueRessources(which) {
     .code_ddui {
         color: var(--ddui_green_text);
     }
+    .code_func {
+        color: var(--ddui_page_text);
+    }
     .code_var {
         color: var(--ddui_blue_text);
     }
     .code_string {
         color: var(--ddui_pink_text);
-        letter-spacing: -1px;
     }
     .code_number {
         color: var(--ddui_red_text);
     }
     .code_boolean {
-        color: var(--ddui_yellow_text);
+        color: var(--ddui_red_text);
     }
     .code_object {
-        color: var(--ddui_red_text);
+        color: var(--ddui_yellow_text);
     }
     .code_indented {
         padding-left: 15px;
@@ -335,7 +373,7 @@ function FetchDialogueRessources(which) {
         display: grid;
         grid-template-columns: min-content auto;
         grid-template_rows: auto auto;
-        row-gap: 15px;
+        row-gap: 5px;
         column-gap: 20px;
     }
     .arg_name {
@@ -351,102 +389,42 @@ function FetchDialogueRessources(which) {
         padding-right: 5px;
     }
     `
-
-    // ====================
-    // definition of dialogue content html for the different needs
-    switch (which) {
+}
 
 
 
 
 
 
-        case "MessageBox":
+function GetDialogueHtml_MessageBox() {
 
-            return [
-
-                // title
-                "Message boxes",
-
-                // html
-                `<div style="max-width: 800px;">
-                    <h1 style="margin-top: 10px;">Code example</h1>
-                    <p>
-                        <div class="codebox code">
-                            <span class="code code_ddui">ddui</span>.MessageBox(<span class="code code_arg">"Hello world!"</span>);
-                        </div>
-                    </p>
-                    <h1>Specification</h1>
-                    <p>
-                        <div class="codebox code">
-                            <span class="code code_ddui">ddui</span>.MessageBox(<span class="code code_var">content</span>, <span class="code code_var">type</span>, <span class="code code_var">buttons</span>, <span class="code code_var">allow_exit</span>);
-                        </div>
-                    </p>
-                    <div class="args_grid">
-                        <div><span class="code arg_name">content</span><span class="arg_required">*</span></div>
-                        <div class="arg_description"><span class="arg_datatype">[String]</span>Text or HTML-String</div>
-                        <div class="code arg_name">type</div>
-                        <div class="arg_description"><span class="arg_datatype">[String]</span>Type can be "" or null (default; simple message box)<br>The values "error", "warning", "info" and "success" show a special designed message box.</div>
-                        <div class="code arg_name">buttons</div>
-                        <div class="arg_description"><span class="arg_datatype">[List]</span>Same as defined here: MISSING LINK</div>
-                        <div class="code arg_name">allow_exit</div>
-                        <div class="arg_description"><span class="arg_datatype">[Boolean]</span>Default ist true, which means, the message box can be discarded (e.g. via pressing escape).</div>
-                    </div>
-                    <h1>Demo</h1>
-                    <p>By default, message boxes can be discarded by clicking outside the message box or by pressing escape. But if "allow_exit" is set to "false", no exit is allowed.</p>
-                    <div id="Dialogue_MessageBox_Demo_Tiles_1" style="min-height: 90px;"></div>
-                    <p>Message boxes can be of a specific type with a dedecated look.</p>
-                    <div id="Dialogue_MessageBox_Demo_Tiles_2" style="min-height: 90px;"></div>
-                        <p>Per default there is just an "OK" button for closing the message box, but you can define buttons as you wish and let them do what you want. You can also define, if a button shall (additional to calling your function) close the message box as well (default) or not. Finally the buttons can be of the default style, or the style "inferio" or "red".</p>
-                    <div id="Dialogue_MessageBox_Demo_Tiles_3" style="min-height: 90px;"></div>
-                </div>`,
-
-                // css
-                css
-
-            ];
-
-
-
-
-
-
-        case "Toaster":
-
-        return [
-
-            // title
-            "Toasters",
-
-            // html
-            `<div style="max-width: 800px;">
-                <h1 style="margin-top: 10px;">Code example</h1>
-                <p>
-                    <div class="codebox code">
-                        <span class="code ddui">ddui</span>.Toaster(<span class="code code_arg">"Hello world!"</span>);
-                    </div>
-                </p>
-                <h1>Specification</h1>
-                <p>
-                    <div class="codebox code">
-                        <span class="code ddui">ddui</span>.MessageBox(<span class="code code_arg">text</span>);
-                    </div>
-                </p>
-            <div class="args_grid">
-                <div><span class="code arg_name">text</span><span class="arg_required">*</span></div>
-                <div class="arg_description"><span class="arg_datatype">[String]</span>Text</div>
-            </div>                
-                <h1>Demo</h1>
-                <p>A toaster is just a short information on the fly. The longer the text, the longer it stays.<br>If you wish, you can also discard it before end of countdown.</p>
-                <div id="Dialogue_Toaster_Demo_Tiles" style="min-height: 90px;"></div>
-            </div>`,
-
-            // css
-            css
-
-        ];
-
-    }
+    return `<div style="max-width: 800px;">
+        <h1 style="margin-top: 10px;">Code example</h1>
+        <p>
+            <div class="codebox code">` +
+            `${code("ddui")}.MessageBox(${code("string", `"Hello World!"`)}</span>);` +
+            `</div>
+        </p>
+        <h1>Specification</h1>
+        <p>
+            <div class="codebox code">` +
+            `${code("ddui")}.MessageBox(${code("var", `content`)}, ${code("var", `type`)}, ${code("var", `buttons`)}, ${code("var", `allow_exit`)});` +
+            `</div>
+        </p>
+        <div class="args_grid">
+            ${arg(true,  true,  "content",    "String",  `message box content as text or html string`)}
+            ${arg(false, true,  "type",       "String",  `can be "" or null (default; simple message box)<br>The values "error", "warning", "info" and "success" show a special designed message box.`)}
+            ${arg(false, true,  "buttons",    "List",    `see the buttons specs for details`)}
+            ${arg(false, false, "allow_exit", "Boolean", `Default ist true, which means, the message box can be discarded (e.g. via pressing escape).`)}
+        </div>
+        <h1>Demo</h1>
+        <p>By default, message boxes can be discarded by clicking outside the message box or by pressing escape. But if "allow_exit" is set to "false", no exit is allowed.</p>
+        <br><div id="Dialogue_MessageBox_Demo_Tiles_1" style="min-height: 90px;"></div><br>
+        <p>Message boxes can be of a specific type with a dedecated look.</p>
+        <br><div id="Dialogue_MessageBox_Demo_Tiles_2" style="min-height: 90px;"></div><br>
+            <p>Per default there is just an "OK" button for closing the message box, but you can define buttons as you wish and let them do what you want. You can also define, if a button shall (additional to calling your function) close the message box as well (default) or not. Finally the buttons can be of the default style, or the style "inferio" or "red".</p>
+        <br><div id="Dialogue_MessageBox_Demo_Tiles_3" style="min-height: 90px;"></div><br>
+    </div>`
 
 }
 
@@ -455,268 +433,453 @@ function FetchDialogueRessources(which) {
 
 
 
-async function ShowDialogue(which) {
+async function LoadDialogueControls_MessageBox(code_icon) {
 
-    let title;
-    let html;
-    let css;
-    [ title, html, css ] = FetchDialogueRessources(which);
 
+
+    // ====================
+    // "Simple" and "No exit"
+
+    // Wait for the container for the 1st tiles element ...
+    await ddui.WaitForDom("Dialogue_MessageBox_Demo_Tiles_1", "does_exist");
+    // ... and then create the tiles element
+    new ddui.Tiles("Dialogue_MessageBox_Demo_Tiles_1", [
+        {
+            label: "Simple",
+            image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.8214 2.48697 15.5291 3.33782 17L2.5 21.5L7 20.6622C8.47087 21.513 10.1786 22 12 22Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
+            onClick: () => ddui.MessageBox("You can leave me easily, by clicking outside or by pressing escape."),
+            corner_button: {
+                image: { type: "html", data: code_icon },
+                onClick: () => ddui.Dialogue(null, null, code_snippet(
+                    `${code("ddui")}.MessageBox(` +
+                    `${code("string", `"You can leave me easily, by clicking outside or by pressing escape."`)}` +
+                    `);`)),
+                    tooltip: "Show code"
+            }
+        },
+        {
+            label: "No exit",
+            image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M13 2.04938C12.6711 2.01672 12.3375 2 12 2C6.47715 2 2 6.47715 2 12C2 13.8214 2.48697 15.5291 3.33782 17L2.5 21.5L7 20.6622C8.47087 21.513 10.1786 22 12 22C17.5228 22 22 17.5228 22 12C22 11.6625 21.9833 11.3289 21.9506 11" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M17.1211 7.36398L19.2424 5.24266M19.2424 5.24266L21.3637 3.12134M19.2424 5.24266L17.1211 3.12134M19.2424 5.24266L21.3637 7.36398" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
+            onClick: () => ddui.MessageBox("If I had no closing button, you wouldn't be able to leave me. Try clicking outside or hitting escape.", null, [{ label: "Close", closeOnClick: true }], false),
+            corner_button: {
+                image: { type: "html", data: code_icon },
+                onClick: () => ddui.Dialogue(null, null, code_snippet(
+                    `${code("ddui")}.MessageBox(<br>` +
+                        `${code("string",  `    "If I had no closing button, you wouldn't be able to leave me. Try clicking outside or hitting escape."`)},<br>` +
+                        `${code("var",     `    null`)},<br>` +
+                        `${code("object",  `    [ { label: ${code("string", `"Close"`)}, closeOnClick: ${code("boolean", `true`)} } ]`)},<br>` +
+                        `${code("boolean", `    false`)}<br>` +
+                        `);`)),
+                tooltip: "Show code"
+            }
+        }
+    ], "100px", "90px");
+    
+
+
+    // ====================
+    // Message box types (error, warning, info, success)
+
+    // Wait for the container for the 2nd tiles element ...
+    await ddui.WaitForDom("Dialogue_MessageBox_Demo_Tiles_2", "does_exist");
+    // ... and then create the tiles element
+    new ddui.Tiles("Dialogue_MessageBox_Demo_Tiles_2", [
+        {
+            label: "Error",
+            image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M9.5 14.5L11.9926 12M14.5 9.5L11.9926 12M11.9926 12L9.5 9.5M11.9926 12L14.5 14.5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.8214 2.48697 15.5291 3.33782 17L2.5 21.5L7 20.6622C8.47087 21.513 10.1786 22 12 22Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
+            onClick: () => ddui.MessageBox("Oops! A really bad error has occured!", "error"),
+            corner_button: {
+                image: { type: "html", data: code_icon },
+                onClick: () => ddui.Dialogue(null, null, code_snippet(
+                    `${code("ddui")}.MessageBox(<br>` +
+                    `${code("string", `    "Oops! A really bad error has occured!"`)},<br>` +
+                    `${code("string", `    "error"`)},<br>` +
+                    `);`)),
+                tooltip: "Show code"
+            }
+        },
+        {
+            label: "Warning",
+            image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M12 8L12 12" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 16.01L12.01 15.9989" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.8214 2.48697 15.5291 3.33782 17L2.5 21.5L7 20.6622C8.47087 21.513 10.1786 22 12 22Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
+            onClick: () => ddui.MessageBox("Watch out! Monsters roaming!", "warning"),
+            corner_button: {
+                image: { type: "html", data: code_icon },
+                onClick: () => ddui.Dialogue(null, null, code_snippet(
+                    `${code("ddui")}.MessageBox(<br>` +
+                    `${code("string", `    "Watch out! Monsters roaming!"`)},<br>` +
+                    `${code("string", `    "warning"`)},<br>` +
+                    `);`)),
+                tooltip: "Show code"
+            }
+        },
+        {
+            label: "Info",
+            image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M12 11.5V16.5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 7.51L12.01 7.49889" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
+            onClick: () => ddui.MessageBox("Be informed that you've just been informed.", "info"),
+            corner_button: {
+                image: { type: "html", data: code_icon },
+                onClick: () => ddui.Dialogue(null, null, code_snippet(
+                    `${code("ddui")}.MessageBox(<br>` +
+                    `${code("string", `    "Be informed that you've just been informed."`)},<br>` +
+                    `${code("string", `    "info"`)},<br>` +
+                    `);`)),
+                tooltip: "Show code"
+            }
+        },
+        {
+            label: "Success",
+            image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M8 12L11 15L16 10" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.8214 2.48697 15.5291 3.33782 17L2.5 21.5L7 20.6622C8.47087 21.513 10.1786 22 12 22Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
+            onClick: () => ddui.MessageBox("You made it!", "success"),
+            corner_button: {
+                image: { type: "html", data: code_icon },
+                onClick: () => ddui.Dialogue(null, null, code_snippet(
+                    `${code("ddui")}.MessageBox(<br>` +
+                    `${code("string", `    "You made it!"`)},<br>` +
+                    `${code("string", `    "success"`)},<br>` +
+                    `);`)),
+                tooltip: "Show code"
+            }
+        }
+    ], "100px", "90px");
+
+
+
+    // ====================
+    // More (buttons and styles)
+
+    // Wait for the container for the 3rd tiles element ...
+    await ddui.WaitForDom("Dialogue_MessageBox_Demo_Tiles_3", "does_exist");
+    // ... and then create the tiles element
+    new ddui.Tiles("Dialogue_MessageBox_Demo_Tiles_3", [
+        {
+            label: "Buttons",
+            image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M9 12H12M15 12H12M12 12V9M12 12V15" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M21 3.6V20.4C21 20.7314 20.7314 21 20.4 21H3.6C3.26863 21 3 20.7314 3 20.4V3.6C3 3.26863 3.26863 3 3.6 3H20.4C20.7314 3 21 3.26863 21 3.6Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
+            onClick: () => ddui.MessageBox(
+                "See my beautiful buttons!",
+                null,
+                [
+                    {
+                        label: "Say Hi!",
+                        onClick: () => ddui.Toaster("Hi!"),
+                        closeOnClick: false
+                    },
+                    {
+                        label: "Close"
+                    }
+                ]
+            ),
+            corner_button: {
+                image: { type: "html", data: code_icon },
+                onClick: () => ddui.Dialogue(null, null, code_snippet(
+                    `${code("ddui")}.MessageBox(<br>` +
+                    `${code("string",  `    "See my beautiful buttons!"`)},<br>` +
+                    `${code("var",     `    null`)},<br>` +
+                    `${code("object",  `    [`)}<br>` +
+                    `${code("object",  `        {`)}<br>` +
+                    `${code("object",  `            label: ${code("string", `"Say Hi!"`)},`)}<br>` +
+                    `${code("object",  `            onClick: ${code("func", `() => ddui.Toaster(${code("string", `"Hi!"`)})`)},`)}<br>` +
+                    `${code("object",  `            closeOnClick: ${code("boolean", `false`)}`)}<br>` +
+                    `${code("object",  `        },`)}<br>` +
+                    `${code("object",  `        {`)}<br>` +
+                    `${code("object",  `            label: ${code("string", `"Close"`)}`)}<br>` +
+                    `${code("object",  `        }`)}<br>` +
+                    `${code("object",  `    ]`)}<br>` +
+                    `);`)),
+                tooltip: "Show code"
+            }
+        },
+        {
+            label: "Styles",
+            image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M16 2H8C4.68629 2 2 4.68629 2 8V16C2 19.3137 4.68629 22 8 22H16C19.3137 22 22 19.3137 22 16V8C22 4.68629 19.3137 2 16 2Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-miterlimit="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 2"></path><path d="M16 5H8C6.34315 5 5 6.34315 5 8V16C5 17.6569 6.34315 19 8 19H16C17.6569 19 19 17.6569 19 16V8C19 6.34315 17.6569 5 16 5Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-miterlimit="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
+            onClick: () => ddui.MessageBox(
+                "See my beautiful buttons!",
+                null,
+                [
+                    {
+                        label: "Cancel",
+                        style: "inferior"
+                    },
+                    {
+                        label: "Say hi!",
+                        onClick: () => ddui.Toaster("Hi!"),
+                        closeOnClick: false
+                    },
+                    {
+                        label: "Delete all",
+                        style: "red",
+                        onClick: () => ddui.Toaster("All data is gone!"),
+                        closeOnClick: false
+                    }
+                ]
+            ),
+            corner_button: {
+                image: { type: "html", data: code_icon },
+                onClick: () => ddui.Dialogue(null, null, code_snippet(
+                    `${code("ddui")}.MessageBox(<br>` +
+                    `${code("string",  `    "See my beautiful buttons!"`)},<br>` +
+                    `${code("var",     `    null`)},<br>` +
+                    `${code("object",  `    [<br>` +
+                                       `        {<br>` +
+                                       `            label: ${code("string",  `"Cancel"`)},<br>` +
+                                       `            style: ${code("string",  `"inferior"`)}<br>` +
+                                       `        },<br>` +
+                                       `        {<br>` +
+                                       `            label: ${code("string",  `"Say hi!"`)},<br>` +
+                                       `            onClick: ${code("func",  `() => ddui.Toaster(${code("string",  `"Hi!"`)})`)},<br>` +
+                                       `            closeOnClick: ${code("boolean",  `false`)}<br>` +
+                                       `        },<br>` +
+                                       `        {<br>` +
+                                       `            label: ${code("string",  `"Delete all"`)},<br>` +
+                                       `            style: ${code("string",  `"red"`)},<br>` +
+                                       `            onClick: ${code("func",  `() => ddui.Toaster(${code("string",  `"All data is gone!"`)})`)},<br>` +
+                                       `            closeOnClick: ${code("boolean",  `false`)}<br>` +
+                                       `        }<br>` +                   
+                                       `    ]<br>`)}` +
+                    `);`)),
+                tooltip: "Show code"
+            }
+        },
+        {
+            label: "No button",
+            image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M7 4H4V7" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M4 11V13" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M11 4H13" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M11 20H13" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20 11V13" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M17 4H20V7" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7 20H4V17" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M17 20H20V17" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
+            onClick: () => ddui.MessageBox(
+                'Where are all my buttons?<br>And how can you exit now?<br><span>Little hint: <span style="font-weight: bold;">ESCAPE!!!</span></span>',
+                null,
+                []
+            ),
+            corner_button: {
+                image: { type: "html", data: code_icon },
+                onClick: () => ddui.Dialogue(null, null, code_snippet(
+                    `${code("ddui")}.MessageBox(<br>` +
+                    `${code("string",  `    'Where are all my buttons?<br>And how can you exit now?<br><span>Little hint: <span style="font-weight: bold;">ESCAPE!!!</span></span>'`, true)},<br>` +
+                    `${code("var",     `    null`)},<br>` +
+                    `${code("object",  `    []`)}<br>` +
+                    `);`)),
+                tooltip: "Show code"
+            }
+        }
+    ], "100px", "90px");
+
+}
+
+
+
+
+
+
+function GetDialogueHtml_Toaster() {
+
+    return `<div style="max-width: 800px;">
+        <h1 style="margin-top: 10px;">Code example</h1>
+        <p>
+            <div class="codebox code">` +
+                `${code("ddui")}.Toaster(<span class="code code_arg">${code("string", `"Hello World!"`)}</span>);` +
+            `</div>
+        </p>
+        <h1>Specification</h1>
+        <p>
+            <div class="codebox code">` +
+                `${code("ddui")}.Toaster(${code("var", `text`)});` +
+            `</div>
+        </p>
+    <div class="args_grid">
+        ${arg(true, false, "text", "String", "message text")}
+    </div>                
+        <h1>Demo</h1>
+        <p>A toaster is just a short information on the fly. The longer the text, the longer it stays.<br>If you wish, you can also discard it before end of countdown.</p>
+        <br><div id="Dialogue_Toaster_Demo_Tiles" style="min-height: 90px;"></div><br>
+    </div>`
+
+}
+
+
+
+
+
+
+async function LoadDialogueControls_Toaster(code_icon) {
+
+    // Wait for the container for the tiles element ...
+    await ddui.WaitForDom("Dialogue_Toaster_Demo_Tiles", "does_exist");
+    // ... and then create the tiles element
+    new ddui.Tiles("Dialogue_Toaster_Demo_Tiles", [
+        {
+            label: "Short",
+            image: { type: "html", data: `<svg width="32px" height="32px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M22 12H14M14 12L17.5 8.5M14 12L17.5 15.5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M2 12H10M10 12L6.5 8.5M10 12L6.5 15.5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 21L10 3" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M14 21L14 3" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
+            onClick: () => ddui.Toaster("Hi there!"),
+            corner_button: {
+                image: { type: "html", data: code_icon },
+                onClick: () => ddui.Dialogue(null, null, code_snippet(
+                    `${code("ddui")}.Toaster(` +
+                    `${code("string", `"Hi there!"`)}` +
+                    `);`)),
+                tooltip: "Show code"
+            }
+        },
+        {
+            label: "Long",
+            image: { type: "html", data: `<svg width="32px" height="32px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M10 12H2M2 12L5.5 8.5M2 12L5.5 15.5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M14 12H22M22 12L18.5 8.5M22 12L18.5 15.5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 21L10 3" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M14 21L14 3" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
+            onClick: () => ddui.Toaster("The very complex action has been fulfilled successfully. Thanks for your incredible patience!"),
+            corner_button: {
+                image: { type: "html", data: code_icon },
+                onClick: () => ddui.Dialogue(null, null, code_snippet(
+                    `${code("ddui")}.Toaster(` +
+                    `${code("string", `"The very complex action has been fulfilled successfully. Thanks for your incredible patience!"`)}` +
+                    `);`)),
+                tooltip: "Show code"
+            }
+        }
+    ], "100px", "90px");
+
+}
+
+
+
+
+
+
+function GetDialogueHtml_Popup() {
+
+    return `<div style="max-width: 800px;">
+        <h1 style="margin-top: 10px;">Code example</h1>
+        <p>
+            <div class="codebox code">`+
+
+                `${code("ddui")}.Popup(<br>` +
+                `${code("object", `    [<br>` +
+                                `        {<br>` +
+                                `            type: ${code("string", `"button"`)},<br>` +
+                                `            label: ${code("string", `"Begin a new day"`)},<br>` +
+                                `            icon: ${code("string", `"light_mode"`)},<br>` +
+                                `            onClick: () => { ddui.Toaster(${code("string", `"Good Morning!"`)}) }<br>` +
+                                `        },<br>` +
+                                `        {<br>` +
+                                `            type: ${code("string", `"button"`)},<br>` +
+                                `            label: ${code("string", `"End current day"`)},<br>` +
+                                `            icon: ${code("string", `"dark_mode"`)},<br>` +
+                                `            onClick: () => { ddui.Toaster(${code("string", `"Good night, sleep well!"`)}) }<br>` +
+                                `        }<br>` +
+                                `    ]`)},<br>` +
+                `${code("string", `    "positioned"`)},<br>` +
+                `${code("var",    `    event`)}.${code("var", "currentTarget")}<br>` +
+                                `)` +
+            `</div>
+        </p>
+        <h1>Specification</h1>
+        <p>
+            <div class="codebox code">` +
+                `${code("ddui")}.Popup(${code("var", `items`)}, ${code("var", `align_mode`)}, ${code("var", `anchord_node`)}, ${code("var", `type`)});` +
+            `</div>
+        </p>
+    <div class="args_grid">
+        ${arg( true,  true,  "items",       "List",     "popup menu items with the following properties per icon:")}
+        ${arg( true,  false, "  type",      "String",   `can be "Button" (default) or "Line" (horizontal line)`)}
+        ${arg( true,  false, "  label",     "String",   `text of menu item`)}
+        ${arg( false, false, "  icon",      "String",   `name of material icon`)}
+        ${arg( false, false, "  onClick",   "Function", `function to be called on click`)}
+        ${arg( false, true,  "  style",     "String",   `can be null (default) or "red" (e.g. for a deleting action)`)}
+        ${arg( false, true,  "align_mode",  "String",   `can be "centered" (default), "positioned" (recommended), "centered_top" or "centered_bottom"`)}
+        ${arg( false, true,  "anchor_node", "String",   `for the align_mode "positioned" an anchor_node, from which the popup menu shall raise, is required`)}
+        ${arg( false, true,  "type",        "String",   `can only be "list_with_icons" (default)`)}
+    </div>                
+        <h1>Demo</h1>
+        <p>A popup menu can be called, when a user shall be able to execute actions, without the need to place action buttons on your page.</p>
+        <br><div id="Dialogue_Popup_Demo_Tiles_1" style="min-height: 90px;"></div><br>
+    </div>`
+
+}
+
+
+
+
+
+
+async function LoadDialogueControls_Popup(code_icon) {
+
+    // Wait for the container for the 1st tiles element ...
+    await ddui.WaitForDom("Dialogue_Popup_Demo_Tiles_1", "does_exist");
+    // ... and then create the tiles element
+    new ddui.Tiles("Dialogue_Popup_Demo_Tiles_1", [
+        {
+            label: "Simple",
+            image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.8214 2.48697 15.5291 3.33782 17L2.5 21.5L7 20.6622C8.47087 21.513 10.1786 22 12 22Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
+            onClick: event => ddui.Popup(
+                [
+                    {
+                        type: "button",
+                        label: "Begin a new day",
+                        icon: "light_mode",
+                        onClick: () => { ddui.Toaster("Good Morning!") }
+                    },
+                    {
+                        type: "button",
+                        label: "End current day",
+                        icon: "dark_mode",
+                        onClick: () => { ddui.Toaster("Good night, sleep well!") }
+                    }
+                ],
+                "positioned",
+                event.currentTarget),
+            corner_button: {
+                image: { type: "html", data: code_icon },
+                onClick: () => ddui.Dialogue(null, null, code_snippet(
+                    `${code("ddui")}.Popup(<br>` +
+                    `${code("object", `    [<br>` +
+                                    `        {<br>` +
+                                    `            type: ${code("string", `"button"`)},<br>` +
+                                    `            label: ${code("string", `"Begin a new day"`)},<br>` +
+                                    `            icon: ${code("string", `"light_mode"`)},<br>` +
+                                    `            onClick: () => { ddui.Toaster(${code("string", `"Good Morning!"`)})<br>` +
+                                    `        },<br>` +
+                                    `        {<br>` +
+                                    `            type: ${code("string", `"button"`)},<br>` +
+                                    `            label: ${code("string", `"End current day"`)},<br>` +
+                                    `            icon: ${code("string", `"dark_mode"`)},<br>` +
+                                    `            onClick: () => { ddui.Toaster(${code("string", `"Good night, sleep well!"`)})<br>` +
+                                    `        }<br>` +
+                                    `    ]`)},<br>` +
+                    `${code("string", `    "positioned"`)},<br>` +
+                    `${code("var",    `    event`)}.${code("var", "currentTarget")}<br>` +
+                                    `)`                            
+                )),
+            tooltip: "Show code"
+            }
+        }
+    ], "100px", "90px");
+
+}
+
+
+
+
+
+
+function ShowDialogue(which) {
+
+    // Icon for the tile corner button to show the code snippet of the demo example
     const code_icon = `<svg width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_pink_text)"><path d="M13.5 6L10 18.5" stroke="var(--ddui_pink_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M6.5 8.5L3 12L6.5 15.5" stroke="var(--ddui_pink_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M17.5 8.5L21 12L17.5 15.5" stroke="var(--ddui_pink_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>`;
 
     switch (which) {
 
-
-
-
-
-
         case "MessageBox":
-
-            // Open the dialogue
-            ddui.Dialogue(title, null, html, null, css);
-            
-            // Wait for the container for the 1st tiles element ...
-            await ddui.WaitForDom("Dialogue_MessageBox_Demo_Tiles_1", "does_exist");
-            // ... and then create the tiles element
-            new ddui.Tiles("Dialogue_MessageBox_Demo_Tiles_1", [
-                {
-                    label: "Simple",
-                    image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.8214 2.48697 15.5291 3.33782 17L2.5 21.5L7 20.6622C8.47087 21.513 10.1786 22 12 22Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
-                    onClick: () => ddui.MessageBox("You can leave me easily, by clicking outside or by pressing escape."),
-                    corner_button: {
-                        image: { type: "html", data: code_icon },
-                        onClick: () => ddui.MessageBox(code_snippet(`
-                            ${code("ddui", `ddui`)}.MessageBox(<br>
-                                <div class="code code_indented">
-                                    ${code("string", `"You can leave me easily, by clicking outside or by pressing escape."`)}
-                                </div>
-                            );`))
-                    }
-                },
-                {
-                    label: "No exit",
-                    image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M13 2.04938C12.6711 2.01672 12.3375 2 12 2C6.47715 2 2 6.47715 2 12C2 13.8214 2.48697 15.5291 3.33782 17L2.5 21.5L7 20.6622C8.47087 21.513 10.1786 22 12 22C17.5228 22 22 17.5228 22 12C22 11.6625 21.9833 11.3289 21.9506 11" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M17.1211 7.36398L19.2424 5.24266M19.2424 5.24266L21.3637 3.12134M19.2424 5.24266L17.1211 3.12134M19.2424 5.24266L21.3637 7.36398" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
-                    onClick: () => ddui.MessageBox("If I had no closing button, you wouldn't be able to leave me. Try clicking outside or hitting escape.", null, [{ label: "Close", closeOnClick: true }], false),
-                    corner_button: {
-                        image: { type: "html", data: code_icon },
-                        onClick: () => ddui.MessageBox(code_snippet(`
-                            ${code("ddui", `ddui`)}.MessageBox(<br>
-                                <div class="code code_indented">
-                                    ${code("string",  `"If I had no closing button, you wouldn't be able to leave me. Try clicking outside or hitting escape."`)},<br>
-                                    ${code("var",     `null`)},<br>
-                                    ${code("object",  `[{ label: "Close", closeOnClick: true }]`)},<br>
-                                    ${code("boolean", `false`)}<br>
-                                </div>
-                            );`))
-                    }
-                }
-            ], "100px", "90px");
-
-            // Wait for the container for the 2nd tiles element ...
-            await ddui.WaitForDom("Dialogue_MessageBox_Demo_Tiles_2", "does_exist");
-            // ... and then create the tiles element
-            new ddui.Tiles("Dialogue_MessageBox_Demo_Tiles_2", [
-                {
-                    label: "Error",
-                    image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M9.5 14.5L11.9926 12M14.5 9.5L11.9926 12M11.9926 12L9.5 9.5M11.9926 12L14.5 14.5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.8214 2.48697 15.5291 3.33782 17L2.5 21.5L7 20.6622C8.47087 21.513 10.1786 22 12 22Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
-                    onClick: () => ddui.MessageBox("Oops! A really bad error has occured!", "error"),
-                    corner_button: {
-                        image: { type: "html", data: code_icon },
-                        onClick: () => ddui.MessageBox(code_snippet(`
-                            ${code("ddui", `ddui`)}.MessageBox(<br>
-                                <div class="code code_indented">
-                                    ${code("string", `"Oops! A really bad error has occured!"`)},<br>
-                                    ${code("string", `"error"`)},<br>
-                                </div>
-                            );`))
-                    }
-                },
-                {
-                    label: "Warning",
-                    image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M12 8L12 12" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 16.01L12.01 15.9989" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.8214 2.48697 15.5291 3.33782 17L2.5 21.5L7 20.6622C8.47087 21.513 10.1786 22 12 22Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
-                    onClick: () => ddui.MessageBox("Watch out! Monsters roaming!", "warning"),
-                    corner_button: {
-                        image: { type: "html", data: code_icon },
-                        onClick: () => ddui.MessageBox(code_snippet(`
-                            ${code("ddui", `ddui`)}.MessageBox(<br>
-                                <div class="code code_indented">
-                                    ${code("string", `"Watch out! Monsters roaming!"`)},<br>
-                                    ${code("string", `"warning"`)},<br>
-                                </div>
-                            );`))
-                    }
-                },
-                {
-                    label: "Info",
-                    image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M12 11.5V16.5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 7.51L12.01 7.49889" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
-                    onClick: () => ddui.MessageBox("Be informed that you've just been informed.", "info"),
-                    corner_button: {
-                        image: { type: "html", data: code_icon },
-                        onClick: () => ddui.MessageBox(code_snippet(`
-                            ${code("ddui", `ddui`)}.MessageBox(<br>
-                                <div class="code code_indented">
-                                    ${code("string", `"Be informed that you've just been informed."`)},<br>
-                                    ${code("string", `"info"`)},<br>
-                                </div>
-                            );`))
-                    }
-                },
-                {
-                    label: "Success",
-                    image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M8 12L11 15L16 10" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.8214 2.48697 15.5291 3.33782 17L2.5 21.5L7 20.6622C8.47087 21.513 10.1786 22 12 22Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
-                    onClick: () => ddui.MessageBox("Now that went really well, didn't it?", "success"),
-                    corner_button: {
-                        image: { type: "html", data: code_icon },
-                        onClick: () => ddui.MessageBox(code_snippet(`
-                            ${code("ddui", `ddui`)}.MessageBox(<br>
-                                <div class="code code_indented">
-                                    ${code("string", `"Now that went really well, didn't it?"`)},<br>
-                                    ${code("string", `"success"`)},<br>
-                                </div>
-                            );`))
-                    }
-                }
-            ], "100px", "90px");
-
-            // Wait for the container for the 3rd tiles element ...
-            await ddui.WaitForDom("Dialogue_MessageBox_Demo_Tiles_3", "does_exist");
-            // ... and then create the tiles element
-            new ddui.Tiles("Dialogue_MessageBox_Demo_Tiles_3", [
-                {
-                    label: "Buttons",
-                    image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M9 12H12M15 12H12M12 12V9M12 12V15" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M21 3.6V20.4C21 20.7314 20.7314 21 20.4 21H3.6C3.26863 21 3 20.7314 3 20.4V3.6C3 3.26863 3.26863 3 3.6 3H20.4C20.7314 3 21 3.26863 21 3.6Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
-                    onClick: () => ddui.MessageBox("See my beautiful buttons!", null, [{ label: "Say Hi!", onClick: () => ddui.Toaster("Hi!"), closeOnClick: false }, { label: "Close" }]),
-                    corner_button: {
-                        image: { type: "html", data: code_icon },
-                        onClick: () => ddui.MessageBox(code_snippet(`
-                            ${code("ddui", `ddui`)}.MessageBox(<br>
-                                <div class="code code_indented">
-                                    ${code("string",  `"See my beautiful buttons!"`)},<br>
-                                    ${code("var",     `null`)},<br>
-                                    ${code("object",  `[`)}<br>
-                                    <div class="code code_indented">
-                                        ${code("object",  `{`)}<br>
-                                        <div class="code code_indented">
-                                            ${code("object",  `label: "Say Hi!",`)}<br>
-                                            ${code("object",  `onClick: () => ddui.Toaster("Hi!"),`)}<br>
-                                            ${code("object",  `closeOnClick: false`)}<br>
-                                        </div>
-                                        ${code("object",  `},`)}<br>
-                                        ${code("object",  `{`)}<br>
-                                        <div class="code code_indented">
-                                            ${code("object",  `label: "Close"`)}<br>
-                                        </div>
-                                        ${code("object",  `}`)}<br>
-                                    </div>
-                                    ${code("object",  `]`)}<br>
-                                </div>
-                            );`))
-                    }
-                },
-                {
-                    label: "Styles",
-                    image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M16 2H8C4.68629 2 2 4.68629 2 8V16C2 19.3137 4.68629 22 8 22H16C19.3137 22 22 19.3137 22 16V8C22 4.68629 19.3137 2 16 2Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-miterlimit="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 2"></path><path d="M16 5H8C6.34315 5 5 6.34315 5 8V16C5 17.6569 6.34315 19 8 19H16C17.6569 19 19 17.6569 19 16V8C19 6.34315 17.6569 5 16 5Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-miterlimit="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
-                    onClick: () => ddui.MessageBox("See my beautiful buttons!", null, [{ label: "Cancel", style: "inferior" }, { label: "Say Hi!", onClick: () => ddui.Toaster("Hi!"), closeOnClick: false }, { label: "Delete all", style: "red", onClick: () => ddui.Toaster("All data is gone!"), closeOnClick: false }]),
-                    corner_button: {
-                        image: { type: "html", data: code_icon },
-                        onClick: () => ddui.MessageBox(code_snippet(`
-                            ${code("ddui", `ddui`)}.MessageBox(<br>
-                                <div class="code code_indented">
-                                    ${code("string",  `"See my beautiful buttons!"`)},<br>
-                                    ${code("var",     `null`)},<br>
-                                    ${code("object",  `[`)}<br>
-                                    <div class="code code_indented">
-                                        ${code("object",  `{`)}<br>
-                                        <div class="code code_indented">
-                                            ${code("object",  `label: "Cancel",`)}<br>
-                                            ${code("object",  `style: "inferior"`)}<br>
-                                        </div>
-                                        ${code("object",  `},`)}<br>
-                                        ${code("object",  `{`)}<br>
-                                        <div class="code code_indented">
-                                            ${code("object",  `label: "Say Hi!",`)}<br>
-                                            ${code("object",  `onClick: () => ddui.Toaster("Hi!"),`)}<br>
-                                            ${code("object",  `closeOnClick: false`)}<br>
-                                        </div>
-                                        ${code("object",  `},`)}<br>
-                                        ${code("object",  `{`)}<br>
-                                        <div class="code code_indented">
-                                            ${code("object",  `label: "Say Hi!",`)}<br>
-                                            ${code("object",  `style: "red",`)}<br>
-                                            ${code("object",  `onClick: () => ddui.Toaster("All data is gone!"),`)}<br>
-                                            ${code("object",  `closeOnClick: false`)}<br>
-                                        </div>
-                                        ${code("object",  `}`)}<br>                                        
-                                    </div>
-                                    ${code("object",  `]`)}<br>
-                                </div>
-                            );`))
-                    }
-                },
-                {
-                    label: "No button",
-                    image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M7 4H4V7" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M4 11V13" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M11 4H13" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M11 20H13" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20 11V13" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M17 4H20V7" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7 20H4V17" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M17 20H20V17" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
-                    onClick: () => ddui.MessageBox('Where are all my buttons?<br>And how can you exit now?<br><span>Little hint: <span style="font-weight: bold;">ESCAPE!!!</span></span>', null, []),
-                    corner_button: {
-                        image: { type: "html", data: code_icon },
-                        onClick: () => ddui.MessageBox(code_snippet(`
-                            ${code("ddui", `ddui`)}.MessageBox(<br>
-                                <div class="code code_indented">
-                                    ${code("string",  `'Where are all my buttons?<br>And how can you exit now?<br><span>Little hint: <span style="font-weight: bold;">ESCAPE!!!</span></span>'`)},<br>
-                                    ${code("var",     `null`)},<br>
-                                    ${code("object",  `[]`)}<br>
-                                </div>
-                            );`))
-                    }
-                }
-            ], "100px", "90px");
-
+            ddui.Dialogue("Message boxes", null,
+                GetDialogueHtml_MessageBox(), null,
+                GetDialogueCss_Default());
+            LoadDialogueControls_MessageBox(code_icon);
             break;
 
-
-
-
-
         case "Toaster":
+            ddui.Dialogue("Toaster messages", null,
+                GetDialogueHtml_Toaster(), null,
+                GetDialogueCss_Default());
+            LoadDialogueControls_Toaster(code_icon);
+            break;
 
-            // Open the dialogue
-            ddui.Dialogue(title, null, html, null, css);
-            
-            // Wait for the container for the tiles element ...
-            await ddui.WaitForDom("Dialogue_Toaster_Demo_Tiles", "does_exist");
-            // ... and then create the tiles element
-            new ddui.Tiles("Dialogue_Toaster_Demo_Tiles", [
-                {
-                    label: "Short",
-                    image: { type: "html", data: `<svg width="32px" height="32px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M22 12H14M14 12L17.5 8.5M14 12L17.5 15.5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M2 12H10M10 12L6.5 8.5M10 12L6.5 15.5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 21L10 3" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M14 21L14 3" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
-                    onClick: () => ddui.Toaster("Hi there!"),
-                    corner_button: {
-                        image: { type: "html", data: code_icon },
-                        onClick: () => ddui.MessageBox(code_snippet(`
-                            ${code("ddui", `ddui`)}.Toaster(<br>
-                                <div class="code code_indented">
-                                    ${code("string", `"Hi there!"`)}
-                                </div>
-                            );`))
-                    }
-                },
-                {
-                    label: "Long",
-                    image: { type: "html", data: `<svg width="32px" height="32px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M10 12H2M2 12L5.5 8.5M2 12L5.5 15.5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M14 12H22M22 12L18.5 8.5M22 12L18.5 15.5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 21L10 3" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M14 21L14 3" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
-                    onClick: () => ddui.Toaster("The very complex action has been fulfilled successfully. Thanks for your incredible patience!"),
-                    corner_button: {
-                        image: { type: "html", data: code_icon },
-                        onClick: () => ddui.MessageBox(code_snippet(`
-                            ${code("ddui", `ddui`)}.Toaster(<br>
-                                <div class="code code_indented">
-                                    ${code("string", `"The very complex action has been fulfilled successfully. Thanks for your incredible patience!"`)}
-                                </div>
-                            );`))
-                    }
-                }
-            ], "100px", "90px");
-
+        case "Popup":
+            ddui.Dialogue("Popup menus", null,
+                GetDialogueHtml_Popup(), null,
+                GetDialogueCss_Default());
+            LoadDialogueControls_Popup(code_icon);
             break;
 
     }

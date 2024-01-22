@@ -43,7 +43,7 @@ export class Overlay {
         this.node.style.zIndex = ddui.GetHighestZIndex();
 
         // block page scrolling
-        RegisterToScrollBlocker(this.id);
+        this.scroll_blocker_id = ddui.RegisterToScrollBlocker();
 
         // Insert overlay
         document.body.prepend(this.node);
@@ -52,37 +52,9 @@ export class Overlay {
 
     Discard() {
         // stop blocking page scrolling
-        DeregisterFromScrollBlocker(this.id);
+        ddui.DeregisterFromScrollBlocker(this.scroll_blocker_id);
         // remove overlay from dom
         this.node.remove();
     }
 
-}
-
-
-
-
-
-// How the ScrollBlocker works:
-// - When an overlay is instanciated, it registers to the scroll blocker
-// - the scroll blocker is a list of all subscribers
-// - with adding the first subscriber to the list, page scrolling gets disabled
-// - with removing the last subscriber from the list, page scrolling get enabled again
-
-function RegisterToScrollBlocker(overlay_id) {
-    if ( !window.ScrollBlocker || window.ScrollBlocker.length <= 0 ) {
-        window.ScrollBlocker = [];
-        const x = window.scrollX;
-        const y = window.scrollX;
-        window.onscroll = () => window.scrollTo(x, y);
-    }
-    window.ScrollBlocker.push(overlay_id);
-}
-
-function DeregisterFromScrollBlocker(overlay_id) {
-    const index = window.ScrollBlocker.indexOf(overlay_id);
-    window.ScrollBlocker.splice(index, 1);
-    if ( window.ScrollBlocker.length <= 0 ) {
-        window.onscroll = null
-    }
 }

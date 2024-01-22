@@ -76,7 +76,9 @@ export async function ToggleTheme(theme, node_id_of_theme_icon) {
     else { blend_color = "#222222" }
 
     // show blend effect (fade in)
-    const blend_overlay = await ShowBlendOverlay(blend_color);
+    let blend_overlay;
+    let scroll_blocker_id;
+    [ blend_overlay, scroll_blocker_id ] = await ShowBlendOverlay(blend_color);
 
     // change theme
     ApplyThemeColors(theme);
@@ -85,7 +87,7 @@ export async function ToggleTheme(theme, node_id_of_theme_icon) {
     await SetThemeIcon(node_id_of_theme_icon);
 
     // close blend effect (fade out)
-    HideBlendOverlay(blend_overlay);
+    HideBlendOverlay(blend_overlay, scroll_blocker_id);
 
 }
 
@@ -167,12 +169,13 @@ async function ShowBlendOverlay(color, show_loading_box) {
     overlay.setAttribute("name", "ddui_overlay");
     overlay.style.position = "absolute";
     overlay.style.top = scrollY + "px";
+    overlay.style.left = scrollX + "px";
     overlay.style.width = "0%";
     overlay.style.height = "100%";
+    overlay.style.overflow = "hidden";
     overlay.style.transform = "skewX(-12deg)";
     overlay.style.transition = "width 1s";
     overlay.style.left = "-" + String(Math.floor(document.documentElement.clientWidth / 2)) + "px";
-    document.body.style.overflow = "hidden";
     if ( color != null ) { overlay.style.backgroundColor = color }
     else { overlay.style.backgroundColor = "var(--ddui_primary)" }
 
@@ -184,7 +187,7 @@ async function ShowBlendOverlay(color, show_loading_box) {
     //parentNode.style.position = "relative"; // only needed if the overlay should not be global (whole web page)
 
     // Disable scrolling on web page (freeze scroll position)
-    // window.onscroll = () => window.scroll(scrollX, scrollY);
+    const scroll_blocker_id = ddui.RegisterToScrollBlocker();
 
     // Insert overlay
     parentNode.prepend(overlay);
@@ -199,7 +202,7 @@ async function ShowBlendOverlay(color, show_loading_box) {
     // wait for the blend effect
     await new Promise(r => setTimeout(r, 800));
 
-    return overlay;
+    return [ overlay, scroll_blocker_id ];
 
 }
 
@@ -208,7 +211,7 @@ async function ShowBlendOverlay(color, show_loading_box) {
 
 
 
-async function HideBlendOverlay(overlay) {
+async function HideBlendOverlay(overlay, scroll_blocker_id) {
 
     overlay.style.transition = "left 1s";
     overlay.style.left = document.documentElement.clientWidth + "px";
@@ -216,6 +219,6 @@ async function HideBlendOverlay(overlay) {
     await new Promise(r => setTimeout(r, 800));
 
     overlay.remove();
-    document.body.style.overflow = null;
+    ddui.DeregisterFromScrollBlocker(scroll_blocker_id);
 
 }

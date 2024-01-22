@@ -23,6 +23,8 @@ import { LoadingBox as LoadingBoxClass } from "./js/LoadingBox.js";
 export async function LoadingBox(info_text) { return new LoadingBoxClass(info_text) };
 import { Toaster as ToasterClass } from "./js/Toaster.js";
 export async function Toaster(text) { return new ToasterClass(text) };
+import { Tooltip as TooltipClass } from "./js/Tooltip.js";
+export async function Tooltip(anchor_node, tooltip_text) { return new TooltipClass(anchor_node, tooltip_text) };
 
 // looping through the typical object-classes
 import { Tile as Tile, Tiles as Tiles } from "./js/Tiles.js"; export { Tile, Tiles };
@@ -88,10 +90,12 @@ async function InitDdui() {
 export function ShowWelcomeDialogue() {
 
     const html = `
-        <div style="max-width: 500px;">
-            <h1 style="margin-top: 10px;">Getting started with ddui!</h1>
-            <p>Click <strong>ddui wiki</strong> to check out what ddui can do and how you can use it.</p>
-            <p>To stop this message from appearing, insert this meta tag to your website:</p>
+        <div style="max-width: 500px; display: flex; flex-direction: column;">
+            <h1 style="margin-top: 10px; white-space: nowrap; width: min-content; align-self: center; rotate: -2deg; margin-bottom: 20px;">
+                Welcome to <span style="color: var(--ddui_green_text); text">d.ui</span><span style="color: var(--ddui_blue_text)"></span> !
+            </h1>
+            <p>Check out the d.ui wiki to start using it right away.</p>
+            <p>To stop this message from appearing, insert this meta tag to the head section of your html page:</p>
             <p style="
                 border: 1px solid var(--ddui_line_soft);
                 border-radius: 3px;
@@ -100,7 +104,8 @@ export function ShowWelcomeDialogue() {
                 font-family: Courier New;
                 color: var(--ddui_page_text_emphasized);
                 font-weight: 700;">
-                    &ltmeta name="ddui"&gt
+                    &lt<span style="color: var(--ddui_pink_text)">meta</span>
+                    <span style="color: var(--ddui_blue_text)">name</span>="<span style="color: var(--ddui_green_text)">ddui</span>"&gt
             </p>
         </div>
     `;
@@ -111,7 +116,7 @@ export function ShowWelcomeDialogue() {
             style: "inferior"
         },
         {
-            label: "ddui wiki",
+            label: "d.ui wiki",
             onClick: () => { window.open( import.meta.url.slice(0,-7) + "getting_started/ddui_getting_started.html", "_blank" ) }
         }
     ]);
@@ -252,6 +257,79 @@ export function GetHighestZIndex() {
     ( highest_z_index == null ) ? z_index = 1000 : z_index = Number(highest_z_index) + 1;
     sessionStorage.setItem("ddui_highest_z_index", z_index);
     return z_index;
+}
+
+
+
+
+
+
+export function RegisterToScrollBlocker() {
+
+    // if it's the first and only subscriber ...
+    if ( window.ScrollBlockerClients == null || window.ScrollBlockerClients.length <= 0 ) {
+
+        // ... the subscribers list for the scroll blocker (ScrollBlockerClients) gets initiated, ...
+        window.ScrollBlockerClients = [];
+
+        // ... the scroll blocker is brougth to life ...
+        window.ScrollBlocker = BlockScrolling.bind(null, window.scrollX, window.scrollY);
+        window.addEventListener("scroll", window.ScrollBlocker);
+
+        // ... and the scrolling for the body gets disabled.
+        document.body.style.overflow = "hidden";
+
+    }
+
+    const client_number = GenerateUuid();
+    
+    // add the subscriber to the subscribers list for the scroll blocker (ScrollBlockerClients)
+    window.ScrollBlockerClients.push(client_number);
+
+    return client_number;
+
+}
+
+
+
+
+
+
+export function DeregisterFromScrollBlocker(client_number) {
+
+    // iterate through all scroll blocker clients (from the youngest backwards) ...
+    let index = window.ScrollBlockerClients.length;
+    for ( let client of window.ScrollBlockerClients.slice().reverse() ) {
+
+        index -= 1;
+        // ... and if the chosen one is found ...
+        if ( client_number == client ) {
+
+            // ... remove it from the ScrollBlockerClients ...
+            window.ScrollBlockerClients.splice( index, 1 );
+
+            // ... and if there is no other client left, then ...
+            if ( window.ScrollBlockerClients.length <= 0 ) {
+
+                // ... make the body scrollable again ...
+                document.body.style.overflow = null;
+                window.dispatchEvent(new Event('scroll'));
+
+                //  ... and kill the Handler ...
+                window.removeEventListener("scroll", window.ScrollBlocker);
+                window.ScrollBlocker = null;                
+
+            }
+            break;
+
+        }
+
+    }    
+
+}
+
+function BlockScrolling(scrollX, scrollY) {
+    window.scrollTo(scrollX, scrollY);
 }
 
 

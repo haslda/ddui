@@ -113,9 +113,6 @@ export class Box {
                 // ... the escape handling for all present modal boxes is brougth to life ...
                 window.addEventListener("keydown", HandleKeyDownForEscaping);
 
-                // ... and the scrolling for the body gets disabled.
-                document.body.style.overflow = "hidden";
-
             }
             
             // add the box to the subscribers list for all present modal boxes (EscapeHandlerBoxes)
@@ -157,9 +154,6 @@ export class Box {
 
                         //  ... kill the Handler ...
                         window.removeEventListener("keydown", HandleKeyDownForEscaping);
-
-                        // ... and make the body scrollable again
-                        document.body.style.overflow = "auto";
 
                     }
                     break;

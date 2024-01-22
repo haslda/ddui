@@ -118,7 +118,8 @@ export class Tile {
             tile_container.innerHTML = `<div id="${this.id}"></div>`
             this.node = document.getElementById(this.id);
         } else {
-            this.node = document.createElement(this.id);
+            this.node = document.createElement("div");
+            this.node.id = this.id;
         }
         
         this.node.classList.add("ddui_Tile");
@@ -156,6 +157,8 @@ export class Tile {
 
             this.node.addEventListener("mouseenter", this.HoverOff.bind(this));
             this.node.addEventListener("mouseleave", this.HoverOn.bind(this));
+
+            if ( corner_button.tooltip ) { ddui.Tooltip(this.corner_button_node, corner_button.tooltip); }
 
         }
 
