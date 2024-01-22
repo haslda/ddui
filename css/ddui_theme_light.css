@@ -69,6 +69,12 @@
     --ddui_pink_text: var(--ddui_L_pink_text);
     --ddui_pink_surface: var(--ddui_L_pink_surface);
     --ddui_pink_surface_shiny: var(--ddui_L_pink_surface_shiny);
-    --ddui_pink_surface_shady: var(--ddui_L_pink_surface_shady);    
+    --ddui_pink_surface_shady: var(--ddui_L_pink_surface_shady);
+
+    /* gray */
+    --ddui_gray_text: var(--ddui_L_gray_text);
+    --ddui_gray_surface: var(--ddui_L_gray_surface);
+    --ddui_gray_surface_shiny: var(--ddui_L_gray_surface_shiny);
+    --ddui_gray_surface_shady: var(--ddui_L_gray_surface_shady);    
 
 }

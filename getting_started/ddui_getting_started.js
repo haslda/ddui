@@ -339,6 +339,7 @@ function GetDialogueCss_Default() {
         max-width: 800px;
         background-color: var(--ddui_shady);
         padding: 10px;
+        margin-bottom: 15px;
         white-space: pre-wrap;
     }
     .code {
@@ -366,8 +367,8 @@ function GetDialogueCss_Default() {
     .code_object {
         color: var(--ddui_yellow_text);
     }
-    .code_indented {
-        padding-left: 15px;
+    .code_inferior {
+        color: var(--ddui_gray_text);
     }
     .args_grid {
         display: grid;
@@ -399,19 +400,15 @@ function GetDialogueCss_Default() {
 function GetDialogueHtml_MessageBox() {
 
     return `<div style="max-width: 800px;">
-        <h1 style="margin-top: 10px;">Code example</h1>
-        <p>
-            <div class="codebox code">` +
+        <h1 style="margin-top: 10px;">Code example</h1>` +
+            `<div class="codebox code">` +
             `${code("ddui")}.MessageBox(${code("string", `"Hello World!"`)}</span>);` +
-            `</div>
-        </p>
-        <h1>Specification</h1>
-        <p>
-            <div class="codebox code">` +
+            `</div>` +
+        `<h1>Specification</h1>` +
+            `<div class="codebox code">` +
             `${code("ddui")}.MessageBox(${code("var", `content`)}, ${code("var", `type`)}, ${code("var", `buttons`)}, ${code("var", `allow_exit`)});` +
-            `</div>
-        </p>
-        <div class="args_grid">
+            `</div>` +
+        `<div class="args_grid">
             ${arg(true,  true,  "content",    "String",  `message box content as text or html string`)}
             ${arg(false, true,  "type",       "String",  `can be "" or null (default; simple message box)<br>The values "error", "warning", "info" and "success" show a special designed message box.`)}
             ${arg(false, true,  "buttons",    "List",    `see the buttons specs for details`)}
@@ -670,19 +667,15 @@ async function LoadDialogueControls_MessageBox(code_icon) {
 function GetDialogueHtml_Toaster() {
 
     return `<div style="max-width: 800px;">
-        <h1 style="margin-top: 10px;">Code example</h1>
-        <p>
-            <div class="codebox code">` +
+        <h1 style="margin-top: 10px;">Code example</h1>` +
+            `<div class="codebox code">` +
                 `${code("ddui")}.Toaster(<span class="code code_arg">${code("string", `"Hello World!"`)}</span>);` +
-            `</div>
-        </p>
-        <h1>Specification</h1>
-        <p>
-            <div class="codebox code">` +
+            `</div>` +
+        `<h1>Specification</h1>` +
+            `<div class="codebox code">` +
                 `${code("ddui")}.Toaster(${code("var", `text`)});` +
-            `</div>
-        </p>
-    <div class="args_grid">
+            `</div>` +
+    `<div class="args_grid">
         ${arg(true, false, "text", "String", "message text")}
     </div>                
         <h1>Demo</h1>
@@ -741,37 +734,39 @@ async function LoadDialogueControls_Toaster(code_icon) {
 function GetDialogueHtml_Popup() {
 
     return `<div style="max-width: 800px;">
-        <h1 style="margin-top: 10px;">Code example</h1>
-        <p>
-            <div class="codebox code">`+
+        <h1 style="margin-top: 10px;">Code example</h1>` +
+            `<div class="codebox code">` +
 
-                `${code("ddui")}.Popup(<br>` +
-                `${code("object", `    [<br>` +
-                                `        {<br>` +
-                                `            type: ${code("string", `"button"`)},<br>` +
-                                `            label: ${code("string", `"Begin a new day"`)},<br>` +
-                                `            icon: ${code("string", `"light_mode"`)},<br>` +
-                                `            onClick: () => { ddui.Toaster(${code("string", `"Good Morning!"`)}) }<br>` +
-                                `        },<br>` +
-                                `        {<br>` +
-                                `            type: ${code("string", `"button"`)},<br>` +
-                                `            label: ${code("string", `"End current day"`)},<br>` +
-                                `            icon: ${code("string", `"dark_mode"`)},<br>` +
-                                `            onClick: () => { ddui.Toaster(${code("string", `"Good night, sleep well!"`)}) }<br>` +
-                                `        }<br>` +
-                                `    ]`)},<br>` +
-                `${code("string", `    "positioned"`)},<br>` +
-                `${code("var",    `    event`)}.${code("var", "currentTarget")}<br>` +
-                                `)` +
-            `</div>
-        </p>
-        <h1>Specification</h1>
-        <p>
-            <div class="codebox code">` +
+                `${code("inferior", `const my_button = document.getElementById("my_button");`)}<br>` +
+                `${code("inferior", `my_button.addEventListener( "click", event =>`)}<br>` +
+                `<br>` +
+                `    ${code("ddui")}.Popup(<br>` +
+                `${code("object",   `        [<br>` +
+                                    `            {<br>` +
+                                    `                type: ${code("string", `"button"`)},<br>` +
+                                    `                label: ${code("string", `"Begin a new day"`)},<br>` +
+                                    `                icon: ${code("string", `"light_mode"`)},<br>` +
+                                    `                onClick: () => ddui.Toaster(${code("string", `"Good Morning!"`)})<br>` +
+                                    `            },<br>` +
+                                    `            {<br>` +
+                                    `                type: ${code("string", `"button"`)},<br>` +
+                                    `                label: ${code("string", `"End current day"`)},<br>` +
+                                    `                icon: ${code("string", `"dark_mode"`)},<br>` +
+                                    `                onClick: () => ddui.Toaster(${code("string", `"Good night, sleep well!"`)})<br>` +
+                                    `            }<br>` +
+                                    `        ]`)},<br>` +
+                `${code("string",   `        "positioned"`)},<br>` +
+                `${code("var",      `        event`)}.${code("var", "currentTarget")}<br>` +
+                                    `    )<br>` +
+                `<br>` +                                        
+                `${code("inferior", `);`)}` +
+           
+            `</div>` +
+        `<h1>Specification</h1>` +
+            `<div class="codebox code">` +
                 `${code("ddui")}.Popup(${code("var", `items`)}, ${code("var", `align_mode`)}, ${code("var", `anchord_node`)}, ${code("var", `type`)});` +
-            `</div>
-        </p>
-    <div class="args_grid">
+            `</div>` +
+    `<div class="args_grid">
         ${arg( true,  true,  "items",       "List",     "popup menu items with the following properties per icon:")}
         ${arg( true,  false, "  type",      "String",   `can be "Button" (default) or "Line" (horizontal line)`)}
         ${arg( true,  false, "  label",     "String",   `text of menu item`)}
@@ -802,45 +797,161 @@ async function LoadDialogueControls_Popup(code_icon) {
     new ddui.Tiles("Dialogue_Popup_Demo_Tiles_1", [
         {
             label: "Simple",
-            image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.8214 2.48697 15.5291 3.33782 17L2.5 21.5L7 20.6622C8.47087 21.513 10.1786 22 12 22Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
+            image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M19 3L5 3C3.89543 3 3 3.89543 3 5L3 19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7 7L17 7" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7 12L17 12" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7 17L13 17" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
             onClick: event => ddui.Popup(
                 [
                     {
                         type: "button",
                         label: "Begin a new day",
                         icon: "light_mode",
-                        onClick: () => { ddui.Toaster("Good Morning!") }
+                        onClick: () => ddui.Toaster("Good Morning!")
                     },
                     {
                         type: "button",
                         label: "End current day",
                         icon: "dark_mode",
-                        onClick: () => { ddui.Toaster("Good night, sleep well!") }
+                        onClick: () => ddui.Toaster("Good night, sleep well!")
                     }
                 ],
                 "positioned",
-                event.currentTarget),
+                event.currentTarget
+            ),
             corner_button: {
                 image: { type: "html", data: code_icon },
                 onClick: () => ddui.Dialogue(null, null, code_snippet(
-                    `${code("ddui")}.Popup(<br>` +
-                    `${code("object", `    [<br>` +
-                                    `        {<br>` +
-                                    `            type: ${code("string", `"button"`)},<br>` +
-                                    `            label: ${code("string", `"Begin a new day"`)},<br>` +
-                                    `            icon: ${code("string", `"light_mode"`)},<br>` +
-                                    `            onClick: () => { ddui.Toaster(${code("string", `"Good Morning!"`)})<br>` +
-                                    `        },<br>` +
-                                    `        {<br>` +
-                                    `            type: ${code("string", `"button"`)},<br>` +
-                                    `            label: ${code("string", `"End current day"`)},<br>` +
-                                    `            icon: ${code("string", `"dark_mode"`)},<br>` +
-                                    `            onClick: () => { ddui.Toaster(${code("string", `"Good night, sleep well!"`)})<br>` +
-                                    `        }<br>` +
-                                    `    ]`)},<br>` +
-                    `${code("string", `    "positioned"`)},<br>` +
-                    `${code("var",    `    event`)}.${code("var", "currentTarget")}<br>` +
-                                    `)`                            
+                    `${code("inferior", `const my_button = document.getElementById("my_button");`)}<br>` +
+                    `${code("inferior", `my_button.addEventListener( "click", event =>`)}<br>` +
+                    `<br>` +
+                    `    ${code("ddui")}.Popup(<br>` +
+                    `${code("object",   `        [<br>` +
+                                        `            {<br>` +
+                                        `                type: ${code("string", `"button"`)},<br>` +
+                                        `                label: ${code("string", `"Begin a new day"`)},<br>` +
+                                        `                icon: ${code("string", `"light_mode"`)},<br>` +
+                                        `                onClick: () => ddui.Toaster(${code("string", `"Good Morning!"`)})<br>` +
+                                        `            },<br>` +
+                                        `            {<br>` +
+                                        `                type: ${code("string", `"button"`)},<br>` +
+                                        `                label: ${code("string", `"End current day"`)},<br>` +
+                                        `                icon: ${code("string", `"dark_mode"`)},<br>` +
+                                        `                onClick: () => ddui.Toaster(${code("string", `"Good night, sleep well!"`)})<br>` +
+                                        `            }<br>` +
+                                        `        ]`)},<br>` +
+                    `${code("string",   `        "positioned"`)},<br>` +
+                    `${code("var",      `        event`)}.${code("var", "currentTarget")}<br>` +
+                                        `    )<br>` +
+                    `<br>` +                                        
+                    `${code("inferior", `);`)}`
+                )),
+            tooltip: "Show code"
+            }
+        },
+        {
+            label: "Lines",
+            image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M9 12H12H15" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M21 3.6V20.4C21 20.7314 20.7314 21 20.4 21H3.6C3.26863 21 3 20.7314 3 20.4V3.6C3 3.26863 3.26863 3 3.6 3H20.4C20.7314 3 21 3.26863 21 3.6Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
+            onClick: event => ddui.Popup(
+                [
+                    {
+                        type: "button",
+                        label: "Begin a new day",
+                        icon: "light_mode",
+                        onClick: () => ddui.Toaster("Good Morning!")
+                    },
+                    {
+                        type: "line"
+                    },
+                    {
+                        type: "button",
+                        label: "End current day",
+                        icon: "dark_mode",
+                        onClick: () => ddui.Toaster("Good night, sleep well!")
+                    }
+                ],
+                "positioned",
+                event.currentTarget
+            ),
+            corner_button: {
+                image: { type: "html", data: code_icon },
+                onClick: () => ddui.Dialogue(null, null, code_snippet(
+                    `${code("inferior", `const my_button = document.getElementById("my_button");`)}<br>` +
+                    `${code("inferior", `my_button.addEventListener( "click", event =>`)}<br>` +
+                    `<br>` +
+                    `    ${code("ddui")}.Popup(<br>` +
+                    `${code("object",   `        [<br>` +
+                                        `            {<br>` +
+                                        `                type: ${code("string", `"button"`)},<br>` +
+                                        `                label: ${code("string", `"Begin a new day"`)},<br>` +
+                                        `                icon: ${code("string", `"light_mode"`)},<br>` +
+                                        `                onClick: () => ddui.Toaster(${code("string", `"Good Morning!"`)})<br>` +
+                                        `            },<br>` +
+                                        `            {<br>` +
+                                        `                type: ${code("string", `"line"`)}<br>` +
+                                        `            },<br>` +
+                                        `            {<br>` +
+                                        `                type: ${code("string", `"button"`)},<br>` +
+                                        `                label: ${code("string", `"End current day"`)},<br>` +
+                                        `                icon: ${code("string", `"dark_mode"`)},<br>` +
+                                        `                onClick: () => ddui.Toaster(${code("string", `"Good night, sleep well!"`)})<br>` +
+                                        `            }<br>` +
+                                        `        ]`)},<br>` +
+                    `${code("string",   `        "positioned"`)},<br>` +
+                    `${code("var",      `        event`)}.${code("var", "currentTarget")}<br>` +
+                                        `    )<br>` +
+                    `<br>` +                                        
+                    `${code("inferior", `);`)}`
+                )),
+            tooltip: "Show code"
+            }
+        },
+        {
+            label: "Style",
+            image: { type: "html", data: `<svg width="32px" height="32px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M20 14C20 9.58172 12 2 12 2C12 2 4 9.58172 4 14C4 18.4183 7.58172 22 12 22C16.4183 22 20 18.4183 20 14Z" stroke="var(--ddui_page_text)" stroke-width="1.5"></path></svg>` },
+            onClick: event => ddui.Popup(
+                [
+                    {
+                        type: "button",
+                        label: "Do something",
+                        icon: "star",
+                        onClick: () => ddui.Toaster("Done something!")
+                    },
+                    {
+                        type: "button",
+                        label: "Do something dangerous",
+                        icon: "electric_bolt",
+                        style: "red",
+                        onClick: () => ddui.MessageBox("Wow you braveheart!", "error")
+                    }
+                ],
+                "positioned",
+                event.currentTarget
+            ),
+            corner_button: {
+                image: { type: "html", data: code_icon },
+                onClick: () => ddui.Dialogue(null, null, code_snippet(
+                    `${code("inferior", `const my_button = document.getElementById("my_button");`)}<br>` +
+                    `${code("inferior", `my_button.addEventListener( "click", event =>`)}<br>` +
+                    `<br>` +
+                    `    ${code("ddui")}.Popup(<br>` +
+                    `${code("object",   `        [<br>` +
+                                        `            {<br>` +
+                                        `                type: ${code("string", `"button"`)},<br>` +
+                                        `                label: ${code("string", `"Do something"`)},<br>` +
+                                        `                icon: ${code("string", `"star"`)},<br>` +
+                                        `                onClick: () => ddui.Toaster(${code("string", `"Done something!"`)})<br>` +
+                                        `            },<br>` +
+                                        `            {<br>` +
+                                        `                type: ${code("string", `"button"`)},<br>` +
+                                        `                label: ${code("string", `"Do something dangerous"`)},<br>` +
+                                        `                icon: ${code("string", `"electric_bolt"`)},<br>` +
+                                        `                style: ${code("string", `"red"`)},<br>` +                                    
+                                        `                onClick: () => ddui.MessageBox(${code("string", `"Wow you braveheart!"`)}, ${code("string", `"error"`)})<br>` +
+                                        `            }<br>` +
+                                        `        ]`)},<br>` +
+                    `${code("string",   `        "positioned"`)},<br>` +
+                    `${code("var",      `        event`)}.${code("var", "currentTarget")}<br>` +
+                                        `    )<br>` +
+                    `<br>` +                                        
+                    `${code("inferior", `);`)}`
                 )),
             tooltip: "Show code"
             }

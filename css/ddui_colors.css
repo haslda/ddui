@@ -102,6 +102,12 @@
     --ddui_L_pink_surface_shiny: #ff66b3;
     --ddui_L_pink_surface_shady: #ff0080;    
 
+    /* gray */
+    --ddui_L_gray_text: #777777;
+    --ddui_L_gray_surface: #cccccc;
+    --ddui_L_gray_surface_shiny: #e6e6e6;
+    --ddui_L_gray_surface_shady: #b3b3b3;
+
     /* ################################ */
     /*    dark theme    ############### */
 
@@ -170,5 +176,12 @@
     --ddui_D_pink_surface: #cc0066;
     --ddui_D_pink_surface_shiny: #99004d;
     --ddui_D_pink_surface_shady: #ff0080;
+
+    /* gray */
+    --ddui_D_gray_text: #999999;
+    --ddui_D_gray_surface: #4d4d4d;
+    --ddui_D_gray_surface_shiny: #333333;
+    --ddui_D_gray_surface_shady: #666666;
+
 
 }

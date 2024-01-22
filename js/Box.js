@@ -227,7 +227,7 @@ export class Box {
         // build the header with icon, text and custom backround color
         let header = "";
         if ( title_text || title_icon ) {
-            header = `<div class="ddui_Box_header" style="color: ${title_text_color}; background-color: ${title_background_color};">` +
+            header = `<div class="ddui_Box_header" style="color: ${title_text_color};${ (title_background_color) ? ` background-color: ${title_background_color};` : "" }">` +
                          `${ (title_icon) ? `<span class="material-icons ddui_Box_header_icon" style="margin-top: 3px;">${title_icon}</span>` : "" }` +
                          `${ (title_text) ? `<span class="ddui_Box_header_text">${title_text}</span>` : "" }` +
                       `</div>`;
