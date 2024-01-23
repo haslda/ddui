@@ -68,14 +68,16 @@ async function Main() {
             image: {
                 type: "html",
                 data: `<svg width="32px" height="32px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M13 21H4C2.89543 21 2 20.1046 2 19V5C2 3.89543 2.89543 3 4 3H20C21.1046 3 22 3.89543 22 5V13" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round"></path><path d="M22 17.2798C22 17.8812 21.7625 18.4588 21.3383 18.8861C20.3619 19.8701 19.415 20.8961 18.4021 21.8443C18.17 22.0585 17.8017 22.0507 17.5795 21.8268L14.6615 18.8861C13.7795 17.9972 13.7795 16.5623 14.6615 15.6734C15.5522 14.7758 17.0032 14.7758 17.8938 15.6734L17.9999 15.7803L18.1059 15.6734C18.533 15.2429 19.1146 15 19.7221 15C20.3297 15 20.9113 15.2428 21.3383 15.6734C21.7625 16.1007 22 16.6784 22 17.2798Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linejoin="round"></path><path d="M2 7L22 7" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M5 5.01L5.01 4.99889" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8 5.01L8.01 4.99889" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M11 5.01L11.01 4.99889" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>`
-            }
+            },
+            onClick: () => ShowDialogue("Dialogue")
         },
         {
             label: "Loading Box",
             image: {
                 type: "html",
                 data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M21.8883 13.5C21.1645 18.3113 17.013 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C16.1006 2 19.6248 4.46819 21.1679 8" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M17 8H21.4C21.7314 8 22 7.73137 22 7.4V3" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>`
-            }
+            },
+            onClick: () => ShowDialogue("LoadingBox")
         }
     ]);
 
@@ -85,14 +87,16 @@ async function Main() {
             image: {
                 type: "html",
                 data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M3 12H7.5H12H16.5H21M3 12V16.5M3 12V7.5M21 12V16.5M21 12V7.5M3 16.5V20.4C3 20.7314 3.26863 21 3.6 21H7.5H12H16.5H20.4C20.7314 21 21 20.7314 21 20.4V16.5M3 16.5H7.5H12H16.5H21M21 7.5V3.6C21 3.26863 20.7314 3 20.4 3H16.5H12H7.5H3.6C3.26863 3 3 3.26863 3 3.6V7.5M21 7.5H16.5H12H7.5H3" stroke="var(--ddui_page_text)" stroke-width="1.5"></path></svg>`
-            }
+            },
+            onClick: () => ShowDialogue("List")
         },
         {
             label: "Tiles",
             image: {
                 type: "html",
                 data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M14 20.4V14.6C14 14.2686 14.2686 14 14.6 14H20.4C20.7314 14 21 14.2686 21 14.6V20.4C21 20.7314 20.7314 21 20.4 21H14.6C14.2686 21 14 20.7314 14 20.4Z" stroke="var(--ddui_page_text)" stroke-width="1.5"></path><path d="M3 20.4V14.6C3 14.2686 3.26863 14 3.6 14H9.4C9.73137 14 10 14.2686 10 14.6V20.4C10 20.7314 9.73137 21 9.4 21H3.6C3.26863 21 3 20.7314 3 20.4Z" stroke="var(--ddui_page_text)" stroke-width="1.5"></path><path d="M14 9.4V3.6C14 3.26863 14.2686 3 14.6 3H20.4C20.7314 3 21 3.26863 21 3.6V9.4C21 9.73137 20.7314 10 20.4 10H14.6C14.2686 10 14 9.73137 14 9.4Z" stroke="var(--ddui_page_text)" stroke-width="1.5"></path><path d="M3 9.4V3.6C3 3.26863 3.26863 3 3.6 3H9.4C9.73137 3 10 3.26863 10 3.6V9.4C10 9.73137 9.73137 10 9.4 10H3.6C3.26863 10 3 9.73137 3 9.4Z" stroke="var(--ddui_page_text)" stroke-width="1.5"></path></svg>`
-            }
+            },
+            onClick: () => ShowDialogue("Tiles")
         }
     ]);
 
@@ -102,35 +106,40 @@ async function Main() {
             image: {
                 type: "html",
                 data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M6.75 12H16.75M16.75 12L14 14.75M16.75 12L14 9.25" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M2 15V9C2 6.79086 3.79086 5 6 5H18C20.2091 5 22 6.79086 22 9V15C22 17.2091 20.2091 19 18 19H6C3.79086 19 2 17.2091 2 15Z" stroke="var(--ddui_page_text)" stroke-width="1.5"></path></svg>`
-            }
+            },
+            onClick: () => ShowDialogue("Buttons")
         },
         {
-            label: "Theme",
+            label: "Themes",
             image: {
                 type: "html",
                 data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M12 18C15.3137 18 18 15.3137 18 12C18 8.68629 15.3137 6 12 6C8.68629 6 6 8.68629 6 12C6 15.3137 8.68629 18 12 18Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M22 12L23 12" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 2V1" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 23V22" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20 20L19 19" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20 4L19 5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M4 20L5 19" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M4 4L5 5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M1 12L2 12" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>`
-            }
+            },
+            onClick: () => ShowDialogue("Themes")
         },
         {
             label: "Icons",
             image: {
                 type: "html",
                 data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M21 3.6V20.4C21 20.7314 20.7314 21 20.4 21H3.6C3.26863 21 3 20.7314 3 20.4V3.6C3 3.26863 3.26863 3 3.6 3H20.4C20.7314 3 21 3.26863 21 3.6Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 16L10 13L21 18" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16 10C14.8954 10 14 9.10457 14 8C14 6.89543 14.8954 6 16 6C17.1046 6 18 6.89543 18 8C18 9.10457 17.1046 10 16 10Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>`
-            }
+            },
+            onClick: () => ShowDialogue("Icons")
         },
         {
             label: "Colors",
             image: {
                 type: "html",
                 data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M20.5096 9.54C20.4243 9.77932 20.2918 9.99909 20.12 10.1863C19.9483 10.3735 19.7407 10.5244 19.5096 10.63C18.2796 11.1806 17.2346 12.0745 16.5002 13.2045C15.7659 14.3345 15.3733 15.6524 15.3696 17C15.3711 17.4701 15.418 17.9389 15.5096 18.4C15.5707 18.6818 15.5747 18.973 15.5215 19.2564C15.4682 19.5397 15.3588 19.8096 15.1996 20.05C15.0649 20.2604 14.8877 20.4403 14.6793 20.5781C14.4709 20.7158 14.2359 20.8085 13.9896 20.85C13.4554 20.9504 12.9131 21.0006 12.3696 21C11.1638 21.0006 9.97011 20.7588 8.85952 20.2891C7.74893 19.8194 6.74405 19.1314 5.90455 18.2657C5.06506 17.4001 4.40807 16.3747 3.97261 15.2502C3.53714 14.1257 3.33208 12.9252 3.36959 11.72C3.4472 9.47279 4.3586 7.33495 5.92622 5.72296C7.49385 4.11097 9.60542 3.14028 11.8496 3H12.3596C14.0353 3.00042 15.6777 3.46869 17.1017 4.35207C18.5257 5.23544 19.6748 6.49885 20.4196 8C20.6488 8.47498 20.6812 9.02129 20.5096 9.52V9.54Z" stroke="var(--ddui_page_text)" stroke-width="1.5"></path><path d="M8 16.01L8.01 15.9989" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M6 12.01L6.01 11.9989" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8 8.01L8.01 7.99889" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 6.01L12.01 5.99889" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16 8.01L16.01 7.99889" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>`
-            }
+            },
+            onClick: () => ShowDialogue("Colors")
         },
         {
             label: "Tooltip",
             image: {
                 type: "html",
                 data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M4 8.00001L4.01 8.01112" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M4 4.00001L4.01 4.01112" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8 4.00001L8.01 4.01112" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 4.00001L12.01 4.01112" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16 4.00001L16.01 4.01112" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20 4.00001L20.01 4.01112" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20 8.00001L20.01 8.01112" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M4 12V20H20V12H4Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>`
-            }
+            },
+            onClick: () => ShowDialogue("Tooltip")
         },
         {
             label: "Welcome!",
@@ -361,7 +370,7 @@ function GetDialogueCss_Default() {
     .code_number {
         color: var(--ddui_red_text);
     }
-    .code_boolean {
+    .code_bool {
         color: var(--ddui_red_text);
     }
     .code_object {
@@ -464,8 +473,8 @@ async function LoadDialogueControls_MessageBox(code_icon) {
                     `${code("ddui")}.MessageBox(<br>` +
                         `${code("string",  `    "If I had no closing button, you wouldn't be able to leave me. Try clicking outside or hitting escape."`)},<br>` +
                         `${code("var",     `    null`)},<br>` +
-                        `${code("object",  `    [ { label: ${code("string", `"Close"`)}, closeOnClick: ${code("boolean", `true`)} } ]`)},<br>` +
-                        `${code("boolean", `    false`)}<br>` +
+                        `${code("object",  `    [ { label: ${code("string", `"Close"`)}, closeOnClick: ${code("bool", `true`)} } ]`)},<br>` +
+                        `${code("bool", `    false`)}<br>` +
                         `);`)),
                 tooltip: "Show code"
             }
@@ -575,7 +584,7 @@ async function LoadDialogueControls_MessageBox(code_icon) {
                     `${code("object",  `        {`)}<br>` +
                     `${code("object",  `            label: ${code("string", `"Say Hi!"`)},`)}<br>` +
                     `${code("object",  `            onClick: ${code("func", `() => ddui.Toaster(${code("string", `"Hi!"`)})`)},`)}<br>` +
-                    `${code("object",  `            closeOnClick: ${code("boolean", `false`)}`)}<br>` +
+                    `${code("object",  `            closeOnClick: ${code("bool", `false`)}`)}<br>` +
                     `${code("object",  `        },`)}<br>` +
                     `${code("object",  `        {`)}<br>` +
                     `${code("object",  `            label: ${code("string", `"Close"`)}`)}<br>` +
@@ -623,13 +632,13 @@ async function LoadDialogueControls_MessageBox(code_icon) {
                                        `        {<br>` +
                                        `            label: ${code("string",  `"Say hi!"`)},<br>` +
                                        `            onClick: ${code("func",  `() => ddui.Toaster(${code("string",  `"Hi!"`)})`)},<br>` +
-                                       `            closeOnClick: ${code("boolean",  `false`)}<br>` +
+                                       `            closeOnClick: ${code("bool",  `false`)}<br>` +
                                        `        },<br>` +
                                        `        {<br>` +
                                        `            label: ${code("string",  `"Delete all"`)},<br>` +
                                        `            style: ${code("string",  `"red"`)},<br>` +
                                        `            onClick: ${code("func",  `() => ddui.Toaster(${code("string",  `"All data is gone!"`)})`)},<br>` +
-                                       `            closeOnClick: ${code("boolean",  `false`)}<br>` +
+                                       `            closeOnClick: ${code("bool",  `false`)}<br>` +
                                        `        }<br>` +                   
                                        `    ]<br>`)}` +
                     `);`)),
@@ -965,6 +974,94 @@ async function LoadDialogueControls_Popup(code_icon) {
 
 
 
+function GetDialogueHtml_Buttons() {
+
+    window.ShowDialogue = ShowDialogue;
+
+    return `<div style="max-width: 800px;">
+        <p>The "buttons" object is used for <a onclick="ShowDialogue('MessageBox')">message boxes</a> and <a onclick="ShowDialogue('Dialogue')">dialogues</a>.</p>
+        <h1>Code example</h1>` +
+        `<div class="codebox code">` +
+            `${code("object",   `[<br>` +
+                                `    {<br>` +
+                                `        label: ${code("string", `"Close"`)},<br>` +
+                                `        style: ${code("string", `"inferior"`)}<br>` +
+                                `    },<br>` +                
+                                `    {<br>` +
+                                `        label: ${code("string", `"Save"`)},<br>` +
+                                `        onClick: ${code("func", `async () => SaveChanges()`)}<br>` +
+                                `    }<br>` +
+                                `]`)}` +
+        `</div>` +
+        `<h1>Specification</h1>` +
+        `<div class="codebox code">` +
+            `${code("object",   `[<br>` +
+                                `    {<br>` +
+                                `        label: ${code("var", `label`)},<br>` +
+                                `        style: ${code("var", `style`)},<br>` +
+                                `        onClick: ${code("var", `onClick`)},<br>` +
+                                `        closeOnClick: ${code("var", `closeOnClick`)}<br>` +                                
+                                `    }<br>` +
+                                `    ${code("inferior", `// ...`)}<br>` +
+                                `]`)}` +
+        `</div>` +
+        `<div class="args_grid">
+            ${arg(true,  true,  "label", "String", "button text")}
+            ${arg(false, true,  "style", "String", `empty or null for default (primary); alternatives: "inferior" and "red"`)}
+            ${arg(false, true,  "onClick", "Function", "function to be executed on button click")}
+            ${arg(false, false, "closeOnClick", "Boolean", "shall the dialogue close after button click?")}
+        </div>                
+            <h1>Demo</h1>
+        </div>`
+
+}
+
+
+
+
+
+
+async function LoadDialogueControls_Buttons(code_icon) {
+
+    // Wait for the container for the tiles element ...
+    await ddui.WaitForDom("Dialogue_Toaster_Demo_Tiles", "does_exist");
+    // ... and then create the tiles element
+    new ddui.Tiles("Dialogue_Toaster_Demo_Tiles", [
+        {
+            label: "Short",
+            image: { type: "html", data: `<svg width="32px" height="32px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M22 12H14M14 12L17.5 8.5M14 12L17.5 15.5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M2 12H10M10 12L6.5 8.5M10 12L6.5 15.5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 21L10 3" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M14 21L14 3" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
+            onClick: () => ddui.Toaster("Hi there!"),
+            corner_button: {
+                image: { type: "html", data: code_icon },
+                onClick: () => ddui.Dialogue(null, null, code_snippet(
+                    `${code("ddui")}.Toaster(` +
+                    `${code("string", `"Hi there!"`)}` +
+                    `);`)),
+                tooltip: "Show code"
+            }
+        },
+        {
+            label: "Long",
+            image: { type: "html", data: `<svg width="32px" height="32px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M10 12H2M2 12L5.5 8.5M2 12L5.5 15.5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M14 12H22M22 12L18.5 8.5M22 12L18.5 15.5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 21L10 3" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M14 21L14 3" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
+            onClick: () => ddui.Toaster("The very complex action has been fulfilled successfully. Thanks for your incredible patience!"),
+            corner_button: {
+                image: { type: "html", data: code_icon },
+                onClick: () => ddui.Dialogue(null, null, code_snippet(
+                    `${code("ddui")}.Toaster(` +
+                    `${code("string", `"The very complex action has been fulfilled successfully. Thanks for your incredible patience!"`)}` +
+                    `);`)),
+                tooltip: "Show code"
+            }
+        }
+    ], "100px", "90px");
+
+}
+
+
+
+
+
+
 function ShowDialogue(which) {
 
     // Icon for the tile corner button to show the code snippet of the demo example
@@ -992,6 +1089,16 @@ function ShowDialogue(which) {
                 GetDialogueCss_Default());
             LoadDialogueControls_Popup(code_icon);
             break;
+
+        case "Buttons":
+            ddui.Dialogue("Buttons", null,
+                GetDialogueHtml_Buttons(), null,
+                GetDialogueCss_Default());
+            LoadDialogueControls_Buttons(code_icon);
+            break;  
+            
+        default:
+            ddui.MessageBox(`A specification for "${which}" does not exist.`, "warning");
 
     }
 

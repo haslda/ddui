@@ -1,21 +1,32 @@
 :root {
 
+    /************************************************************************/
+    /************************************************************************/
+    /**/   /* Here you can set the primary color of your web page */
+    /**/   /* Do not change anything outside of this section !!!  */
+    /**/
+    /**/    /* primary color */
+    /**/    --ddui_primary_hue: 220;
+    /**/    --ddui_primary_saturation: 66%;
+    /**/    --ddui_primary_lightness: 45%;
+    /**/
+    /************************************************************************/
+    /************************************************************************/
+
+    --ddui_primary: hsl(var(--ddui_primary_hue), var(--ddui_primary_saturation), var(--ddui_primary_lightness));
+
     /* primary color scales */
-
-    --ddui_cs_p_DDDDD: #09142a;
-    --ddui_cs_p_DDD: #16326a;
-    --ddui_cs_p_DD: #1b3e83;
-    --ddui_cs_p_D: #214ca1;
-    --ddui_cs_p: #275abe;
-    --ddui_cs_p_L: #4773C8;
-    --ddui_cs_p_LL: #95b1e9;
-    --ddui_cs_p_LLL: #c0d0f2;
-    --ddui_cs_p_LLLL: #d5e0f6;
-
-    --ddui_primary: var(--ddui_cs_p);
+    --ddui_cs_p_DDDDD: hsl(var(--ddui_primary_hue), var(--ddui_primary_saturation), calc(var(--ddui_primary_lightness) * 0.22));
+    --ddui_cs_p_DDD: hsl(var(--ddui_primary_hue), var(--ddui_primary_saturation), calc(var(--ddui_primary_lightness) * 0.55));
+    --ddui_cs_p_DD: hsl(var(--ddui_primary_hue), var(--ddui_primary_saturation), calc(var(--ddui_primary_lightness) * 0.7));
+    --ddui_cs_p_D: hsl(var(--ddui_primary_hue), var(--ddui_primary_saturation), calc(var(--ddui_primary_lightness) * 0.85));
+    --ddui_cs_p: var(--ddui_primary);
+    --ddui_cs_p_L: hsl(var(--ddui_primary_hue), var(--ddui_primary_saturation), calc(var(--ddui_primary_lightness) * 1.18));
+    --ddui_cs_p_LL: hsl(var(--ddui_primary_hue), var(--ddui_primary_saturation), calc(var(--ddui_primary_lightness) * 1.67));
+    --ddui_cs_p_LLL: hsl(var(--ddui_primary_hue), var(--ddui_primary_saturation), calc(var(--ddui_primary_lightness) * 1.9));
+    --ddui_cs_p_LLLL: hsl(var(--ddui_primary_hue), var(--ddui_primary_saturation), calc(var(--ddui_primary_lightness) * 2.0));
 
     /* gray scales */
-
     --ddui_cs_g0: #000000;
     --ddui_cs_g10: #1A1A1A;
     --ddui_cs_g13: #222222;
@@ -69,6 +80,11 @@
 
     /* accent colors */
 
+    /* primary */
+    --ddui_L_primary_text: var(--ddui_cs_p);
+    --ddui_L_primary_surface: var(--ddui_cs_p);
+    --ddui_L_primary_surface_shiny: var(--ddui_cs_p_L);
+    --ddui_L_primary_surface_shady: var(--ddui_cs_p_D);
     --ddui_L_primary_background_emphasized: var(--ddui_cs_p_LLL);
     --ddui_L_primary_background_emphasized_hover: var(--ddui_cs_p_LL);
 
@@ -144,6 +160,12 @@
 
     /* accent colors */
 
+    --ddui_D_primary_text: var(--ddui_cs_p_LL);
+    --ddui_D_primary_surface: var(--ddui_cs_p);
+    --ddui_D_primary_surface_shiny: var(--ddui_cs_p_D);
+    --ddui_D_primary_surface_shady: var(--ddui_cs_p_L);
+    --ddui_D_primary_background_emphasized: var(--ddui_cs_p_LLL);
+    --ddui_D_primary_background_emphasized_hover: var(--ddui_cs_p_LL);
     --ddui_D_primary_background_emphasized: var(--ddui_cs_p_DDD);
     --ddui_D_primary_background_emphasized_hover: var(--ddui_cs_p_DD);
 

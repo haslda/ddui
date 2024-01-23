@@ -38,6 +38,11 @@
 
     /* accent colors */
 
+    /* primary */
+    --ddui_primary_text: var(--ddui_L_primary_text);
+    --ddui_primary_surface: var(--ddui_L_primary_surface);
+    --ddui_primary_surface_shiny: var(--ddui_L_primary_surface_shiny);
+    --ddui_primary_surface_shady: var(--ddui_L_primary_surface_shady);
     --ddui_primary_background_emphasized: var(--ddui_L_primary_background_emphasized);
     --ddui_primary_background_emphasized_hover: var(--ddui_L_primary_background_emphasized_hover);
 

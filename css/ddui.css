@@ -92,6 +92,19 @@ p {
     margin-bottom: 10px;
 }
 
+a,
+a:link,
+a:visited,
+a:active {
+    color: var(--ddui_primary_text);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 .ddui_theme_icon {
     color: yellow;
 }
