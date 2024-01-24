@@ -28,6 +28,7 @@ export class Box {
     constructor({
         modal = true,             // Boolean; if true, the box is modal (background is inaccessable)
         overlay_style,            // String; "shiny" (default), "shady" or "invisible"
+        style = null,
         align_mode = "centered",  // String; possible values are "centered" and "positioned"
                                   // if "positioned", then the position is defined relative to an anchore node
         anchor_node = null,       // DOM-Element; anchor for positioning the box (only for align_mode "positioned")
@@ -48,6 +49,7 @@ export class Box {
         this.node.id = this.id;
         this.node.setAttribute("name", "ddui_Box");
         this.node.classList.add("ddui_Box");
+        if ( style ) { this.node.style = style }
 
         // ====================
         // Fill the box with the inital content (spinner and loading text)
@@ -256,10 +258,12 @@ export class Box {
 
         // ====================
         // assemble header, content and buttonbar together
-        const box_content = `${header}` +
-                            `<div class="ddui_Box_container"${ (container_style) ? `style="${container_style}"` : "" }}>` +
-                                content +
-                                buttonbar +
+        const box_content = `<div id="${this.id + "_inner"}" class="ddui_Box_inner">` +
+                                `${header}` +
+                                `<div class="ddui_Box_container"${ (container_style) ? `style="${container_style}"` : "" }}>` +
+                                    content +
+                                    buttonbar +
+                                `</div>` +
                             `</div>`;
 
         // ====================
@@ -361,40 +365,51 @@ export class Box {
         // Add event listeners to buttons
         if ( buttons.length >= 1 ) {
 
-            let button_node;
             for ( let button of buttons ) {
 
                 // set default value for closeOnClick => true
-                if ( button["closeOnClick"] != false ) { button["closeOnClick"] = true }
+                if ( button.closeOnClick != false ) { button.closeOnClick = true }
 
                 // if the button shall have a click action ...
-                if ( button["onClick"] || button["closeOnClick"] ) {
+                if ( button.onClick || button.closeOnClick ) {
+
+                    console.log(button.id);
+                    console.log((button.onClick));
+                    console.log((button.closeOnClick));
 
                     // ... add the desired event listener to it
-                    button_node = document.getElementById(button["id"]);
-                    button_node.addEventListener("click", async () => {
+                    button.node = document.getElementById(button.id);
+                    button.node.addEventListener("click", async () => {
                         
-                        if ( button["onClick"] ) {
+                        console.log("Close on click?");
+                        console.log(button.closeOnClick);
+                        
+                        if ( button.onClick ) {
 
-                            const button_content_before = button_node.innerHTML;
-                            const button_width_before = button_node.style.width;
-                            const button_height_before = button_node.style.height;
+                            this.Lock();
 
-                            const button_width = button_node.getBoundingClientRect().width;
-                            const button_height = button_node.getBoundingClientRect().height;
-                            button_node.style.width = String(button_width) + "px";
-                            button_node.style.height = String(button_height) + "px";
-                            button_node.innerHTML = ddui.GetSpinner("white", Math.min(button_width, button_height), 5);
+                            const button_content_before = button.node.innerHTML;
+                            const button_width_before = button.node.style.width;
+                            const button_height_before = button.node.style.height;
+
+                            const button_width = button.node.getBoundingClientRect().width;
+                            const button_height = button.node.getBoundingClientRect().height;
+                            button.node.style.width = String(button_width) + "px";
+                            button.node.style.height = String(button_height) + "px";
+                            button.node.innerHTML = ddui.GetSpinner("white", Math.min(button_width, button_height), 5);
 
                             // actual function
-                            await button["onClick"]();
+                            await button.onClick();
 
-                            button_node.style.width = button_width_before;
-                            button_node.style.height = button_height_before;
-                            button_node.innerHTML = button_content_before;
+                            button.node.style.width = button_width_before;
+                            button.node.style.height = button_height_before;
+                            button.node.innerHTML = button_content_before;
+
+                            this.Unlock();
+
                         }
 
-                        if ( button["closeOnClick"] ) { this.Discard(); }
+                        if ( button.closeOnClick ) { this.Discard(); }
 
                     });
                 }
@@ -402,6 +417,19 @@ export class Box {
 
         }
 
+    }
+
+    Lock() {
+        // Locking is done by putting an overlay over the inner of the box
+        this.lock_overlay = new ddui.Overlay(null, this.id + "_inner");
+    }
+
+    Unlock() {
+        try {
+            // If the box is locked (if there is a locking overlay over the inner of the box), unlock id by discarding the locking overlay
+            this.lock_overlay.Discard();
+            this.lock_overlay = null;
+        } catch {}
     }
 
     UpdateLoadingBoxInfoText(info_text) {

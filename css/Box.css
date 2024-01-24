@@ -7,6 +7,10 @@
     max-height: 100%;
 }
 
+.ddui_Box_inner {
+    position: relative;
+}
+
 .ddui_Box_header {
     padding: 0 10px 0 10px;
     background-color: var(--ddui_page_background);

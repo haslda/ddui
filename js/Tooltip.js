@@ -24,11 +24,17 @@ export class Tooltip{
 
             this.Box = new ddui.Box({
                 modal: false,
+                style: `background-color: var(--ddui_page_text);` +
+                       `box-shadow: var(--ddui_boxShadow_very_small); ` +
+                       `border: 1px solid var(--ddui_line); ` +
+                       `opacity: 0.9; ` +
+                       `color: var(--ddui_page_background_hover); `,
                 align_mode: "positioned",
                 anchor_node: anchor_node
             });
     
             this.Box.Fill({
+                container_style: `padding: 5px 8px 5px 8px;`,
                 content: tooltip_text,
                 buttons: [],
                 build_buttonbar: false

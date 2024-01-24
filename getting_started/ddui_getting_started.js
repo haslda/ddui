@@ -38,6 +38,8 @@ async function Main() {
     const header_button_menu = document.getElementById("header_button_menu");
     header_button_menu.addEventListener("click", event => OpenHeaderMenuMore(event));
 
+    window.ShowDialogue = ShowDialogue;
+
     new ddui.Tiles("tiles_ddui_dialogues", [
         {
             label: "Msg Box",
@@ -408,8 +410,8 @@ function GetDialogueCss_Default() {
 
 function GetDialogueHtml_MessageBox() {
 
-    return `<div style="max-width: 800px;">
-        <h1 style="margin-top: 10px;">Code example</h1>` +
+    return `<div style="max-width: 800px;">` +
+        `<h1 style="margin-top: 10px;">Code example</h1>` +
             `<div class="codebox code">` +
             `${code("ddui")}.MessageBox(${code("string", `"Hello World!"`)}</span>);` +
             `</div>` +
@@ -420,7 +422,7 @@ function GetDialogueHtml_MessageBox() {
         `<div class="args_grid">
             ${arg(true,  true,  "content",    "String",  `message box content as text or html string`)}
             ${arg(false, true,  "type",       "String",  `can be "" or null (default; simple message box)<br>The values "error", "warning", "info" and "success" show a special designed message box.`)}
-            ${arg(false, true,  "buttons",    "List",    `see the buttons specs for details`)}
+            ${arg(false, true,  "buttons",    "List",    `see the <a onclick="ShowDialogue('Buttons')">buttons specs</a> for details`)}
             ${arg(false, false, "allow_exit", "Boolean", `Default ist true, which means, the message box can be discarded (e.g. via pressing escape).`)}
         </div>
         <h1>Demo</h1>
@@ -675,8 +677,8 @@ async function LoadDialogueControls_MessageBox(code_icon) {
 
 function GetDialogueHtml_Toaster() {
 
-    return `<div style="max-width: 800px;">
-        <h1 style="margin-top: 10px;">Code example</h1>` +
+    return `<div style="max-width: 800px;">` +
+        `<h1 style="margin-top: 10px;">Code example</h1>` +
             `<div class="codebox code">` +
                 `${code("ddui")}.Toaster(<span class="code code_arg">${code("string", `"Hello World!"`)}</span>);` +
             `</div>` +
@@ -684,13 +686,13 @@ function GetDialogueHtml_Toaster() {
             `<div class="codebox code">` +
                 `${code("ddui")}.Toaster(${code("var", `text`)});` +
             `</div>` +
-    `<div class="args_grid">
-        ${arg(true, false, "text", "String", "message text")}
-    </div>                
-        <h1>Demo</h1>
-        <p>A toaster is just a short information on the fly. The longer the text, the longer it stays.<br>If you wish, you can also discard it before end of countdown.</p>
-        <br><div id="Dialogue_Toaster_Demo_Tiles" style="min-height: 90px;"></div><br>
-    </div>`
+    `<div class="args_grid">` +
+        `${arg(true, false, "text", "String", "message text")}` +
+    `</div>` +
+        `<h1>Demo</h1>` +
+        `<p>A toaster is just a short information on the fly. The longer the text, the longer it stays.<br>If you wish, you can also discard it before end of countdown.</p>` +
+        `<br><div id="Dialogue_Toaster_Demo_Tiles" style="min-height: 90px;"></div><br>` +
+    `</div>`
 
 }
 
@@ -976,11 +978,9 @@ async function LoadDialogueControls_Popup(code_icon) {
 
 function GetDialogueHtml_Buttons() {
 
-    window.ShowDialogue = ShowDialogue;
-
-    return `<div style="max-width: 800px;">
-        <p>The "buttons" object is used for <a onclick="ShowDialogue('MessageBox')">message boxes</a> and <a onclick="ShowDialogue('Dialogue')">dialogues</a>.</p>
-        <h1>Code example</h1>` +
+    return `<div style="max-width: 800px;">` +
+        `<p>The "buttons" object is used for <a onclick="ShowDialogue('MessageBox')">message boxes</a> and <a onclick="ShowDialogue('Dialogue')">dialogues</a>.</p>` +
+        `<h1>Code example</h1>` +
         `<div class="codebox code">` +
             `${code("object",   `[<br>` +
                                 `    {<br>` +
@@ -1005,14 +1005,15 @@ function GetDialogueHtml_Buttons() {
                                 `    ${code("inferior", `// ...`)}<br>` +
                                 `]`)}` +
         `</div>` +
-        `<div class="args_grid">
-            ${arg(true,  true,  "label", "String", "button text")}
-            ${arg(false, true,  "style", "String", `empty or null for default (primary); alternatives: "inferior" and "red"`)}
-            ${arg(false, true,  "onClick", "Function", "function to be executed on button click")}
-            ${arg(false, false, "closeOnClick", "Boolean", "shall the dialogue close after button click?")}
-        </div>                
-            <h1>Demo</h1>
-        </div>`
+        `<div class="args_grid">` + 
+            `${arg(true,  true,  "label", "String", "button text")}` +
+            `${arg(false, true,  "style", "String", `empty or null for default (primary); alternatives: "inferior" and "red"`)}` +
+            `${arg(false, true,  "onClick", "Function", "function to be executed on button click")}` +
+            `${arg(false, false, "closeOnClick", "Boolean", "shall the dialogue close after button click?")}` +
+        `</div>` +
+            `<h1>Demo</h1>` +
+            `<br><div id="Dialogue_Buttons_Demo_Tiles" style="min-height: 90px;"></div><br>` +
+        `</div>`
 
 }
 
@@ -1024,32 +1025,110 @@ function GetDialogueHtml_Buttons() {
 async function LoadDialogueControls_Buttons(code_icon) {
 
     // Wait for the container for the tiles element ...
-    await ddui.WaitForDom("Dialogue_Toaster_Demo_Tiles", "does_exist");
+    await ddui.WaitForDom("Dialogue_Buttons_Demo_Tiles", "does_exist");
     // ... and then create the tiles element
-    new ddui.Tiles("Dialogue_Toaster_Demo_Tiles", [
+    new ddui.Tiles("Dialogue_Buttons_Demo_Tiles", [
         {
-            label: "Short",
-            image: { type: "html", data: `<svg width="32px" height="32px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M22 12H14M14 12L17.5 8.5M14 12L17.5 15.5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M2 12H10M10 12L6.5 8.5M10 12L6.5 15.5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 21L10 3" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M14 21L14 3" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
-            onClick: () => ddui.Toaster("Hi there!"),
+            label: "Styles",
+            image: { type: "html", data: `<svg width="32px" height="32px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M20 14C20 9.58172 12 2 12 2C12 2 4 9.58172 4 14C4 18.4183 7.58172 22 12 22C16.4183 22 20 18.4183 20 14Z" stroke="var(--ddui_page_text)" stroke-width="1.5"></path></svg>` },
+            onClick: () => ddui.MessageBox(
+                "Here you see the three possible styles for buttons:",
+                null,
+                [
+                    {
+                        label: "Default",
+                    },
+                    {
+                        label: "Inferior style",
+                        style: "inferior"
+                    },
+                    {
+                        label: "Red style",
+                        style: "red"
+                    }
+                ]
+            ),
             corner_button: {
                 image: { type: "html", data: code_icon },
                 onClick: () => ddui.Dialogue(null, null, code_snippet(
-                    `${code("ddui")}.Toaster(` +
-                    `${code("string", `"Hi there!"`)}` +
-                    `);`)),
+                    `${code("ddui")}.MessageBox(<br>` +
+                    `${code("string", `    "Here you see the three possible styles for buttons:"`)},<br>` +
+                    `${code("var",    `    null`)},<br>` +
+                    `${code("object", `    [<br>` +
+                                      `        {<br>` +
+                                      `            label: ${code("string", `"Default"`)},<br>` +
+                                      `        },<br>` +
+                                      `        {<br>` +
+                                      `            label: ${code("string", `"Inferior style"`)},<br>` +
+                                      `            style: ${code("string", `"inferior"`)}<br>` +
+                                      `        },<br>` +
+                                      `        {<br>` +
+                                      `            label: ${code("string", `"Red style"`)},<br>` +
+                                      `            style: ${code("string", `"red"`)}<br>` +
+                                      `        }<br>` +
+                                      `    ]`)}<br>` +
+                                      `);`)),
                 tooltip: "Show code"
             }
         },
         {
-            label: "Long",
-            image: { type: "html", data: `<svg width="32px" height="32px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M10 12H2M2 12L5.5 8.5M2 12L5.5 15.5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M14 12H22M22 12L18.5 8.5M22 12L18.5 15.5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 21L10 3" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M14 21L14 3" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
-            onClick: () => ddui.Toaster("The very complex action has been fulfilled successfully. Thanks for your incredible patience!"),
+            label: "Actions",
+            image: { type: "material_icon", data: "bolt", size: "32px" },
+            onClick: () => ddui.MessageBox(
+                "Both buttons do something.<br>" +
+                "One also closes the dialogue (default behaviour)",
+                null,
+                [
+                    {
+                        label: "Action and close",
+                        onClick: async () => {
+                            await new Promise(res => setTimeout(res, 2000));
+                            ddui.Toaster(
+                                "Action was taken! ... and the dialogue got closed."
+                            );
+                        }
+                    },
+                    {
+                        label: "Action and stay",
+                        onClick: async () => {
+                            await new Promise(res => setTimeout(res, 2000));
+                            ddui.Toaster(
+                                "Action was taken! ... and the dialogue is still there."
+                            );
+                        },
+                        closeOnClick: false
+                    }
+                ]
+            ),
             corner_button: {
                 image: { type: "html", data: code_icon },
                 onClick: () => ddui.Dialogue(null, null, code_snippet(
-                    `${code("ddui")}.Toaster(` +
-                    `${code("string", `"The very complex action has been fulfilled successfully. Thanks for your incredible patience!"`)}` +
-                    `);`)),
+                    `${code("ddui")}.MessageBox(<br>` +
+                    `${code("string", `    "Both buttons do something.<br>"`, true)} +<br>` +
+                    `${code("string", `    "One also closes the dialogue (default behaviour)"`)},<br>` +
+                    `${code("var",    `    null`)},<br>` +
+                    `${code("object", `    [<br>` +
+                                      `        {<br>` +
+                                      `            label: ${code("string", `"Action and close"`)},<br>` +
+                                      `            onClick: ${code("func", `async () => {<br>` +
+                                      `                await new Promise(${code("var", "res")} => setTimeout(${code("var", "res")}, ${code("number", "2000")}));<br>` +
+                                      `                ${code("ddui")}.Toaster(<br>` +
+                                      `                    ${code("string", `"Action was taken! ... and the dialogue got closed."`, true)}<br>` +
+                                      `                );<br>` +
+                                      `            }`)}<br>` +
+                                      `        },<br>` +
+                                      `        {<br>` +
+                                      `            label: ${code("string", `"Action and stay"`)},<br>` +
+                                      `            onClick: ${code("func", `async () => {<br>` +
+                                      `                await new Promise(${code("var", "res")} => setTimeout(${code("var", "res")}, ${code("number", "2000")}));<br>` +
+                                      `                ${code("ddui")}.Toaster(<br>` +
+                                      `                    ${code("string", `"Action was taken! ... and the dialogue is still there."`, true)}<br>` +
+                                      `                );<br>` +
+                                      `            }`)},<br>` +                                      
+                                      `            closeOnClick: ${code("bool", `false`)}<br>` +
+                                      `        }<br>` +
+                                      `    ]`)}<br>` +
+                                      `);`)),
                 tooltip: "Show code"
             }
         }
