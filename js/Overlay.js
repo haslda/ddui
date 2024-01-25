@@ -35,6 +35,8 @@ export class Overlay {
 
         // Set background color of overlay, according to the style param
         if ( this.style === "shady" ) { this.node.style.backgroundColor = "var(--ddui_background_shady)" }
+        else if ( this.style === "shady_themed" ) { this.node.style.backgroundColor = "var(--ddui_background_shady_themed)" }
+        else if ( this.style === "shiny_themed" ) { this.node.style.backgroundColor = "var(--ddui_background_shiny_themed)" }
         else if ( this.style === "invisible" ) { this.node.style.backgroundColor = null }
         else { this.node.style.backgroundColor = "var(--ddui_background_shiny)" }
 

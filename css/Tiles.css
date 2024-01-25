@@ -36,6 +36,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-align: center;
+    text-overflow: ellipsis;
 }
 
 .ddui_Tile_corner_button {
@@ -49,5 +50,5 @@
 }
 
 .ddui_Tile_corner_button:hover {
-    background-color: var(--ddui_shady);
+    background-color: var(--ddui_shady_themed);
 }

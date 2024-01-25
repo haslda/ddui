@@ -148,6 +148,8 @@ export class Tile {
 
         this.node.innerHTML = tile_content;
 
+        ddui.Tooltip(this.node, label);
+
         if ( onClick ) {
             this.node.addEventListener("click", onClick);
         }

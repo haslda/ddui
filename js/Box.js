@@ -260,7 +260,7 @@ export class Box {
         // assemble header, content and buttonbar together
         const box_content = `<div id="${this.id + "_inner"}" class="ddui_Box_inner">` +
                                 `${header}` +
-                                `<div class="ddui_Box_container"${ (container_style) ? `style="${container_style}"` : "" }}>` +
+                                `<div class="ddui_Box_container"${ (container_style) ? `style="${container_style}"` : "" }>` +
                                     content +
                                     buttonbar +
                                 `</div>` +
@@ -373,16 +373,9 @@ export class Box {
                 // if the button shall have a click action ...
                 if ( button.onClick || button.closeOnClick ) {
 
-                    console.log(button.id);
-                    console.log((button.onClick));
-                    console.log((button.closeOnClick));
-
                     // ... add the desired event listener to it
                     button.node = document.getElementById(button.id);
                     button.node.addEventListener("click", async () => {
-                        
-                        console.log("Close on click?");
-                        console.log(button.closeOnClick);
                         
                         if ( button.onClick ) {
 
@@ -421,7 +414,7 @@ export class Box {
 
     Lock() {
         // Locking is done by putting an overlay over the inner of the box
-        this.lock_overlay = new ddui.Overlay(null, this.id + "_inner");
+        this.lock_overlay = new ddui.Overlay("shiny_themed", this.id + "_inner");
     }
 
     Unlock() {

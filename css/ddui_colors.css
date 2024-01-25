@@ -72,8 +72,12 @@
 
     --ddui_L_shady: rgba(0,0,0,0.06);
     --ddui_L_shiny: rgba(255,255,255,0.15);
-    --ddui_L_background_shady: rgba(0,0,0,0.5);
-    --ddui_L_background_shiny: rgba(255,255,255,0.5);
+    --ddui_L_shady_themed: rgba(0,0,0,0.06);
+    --ddui_L_shiny_themed: rgba(255,255,255,0.15);
+    --ddui_L_background_shady: rgba(0,0,0,0.5);              /* ================== */
+    --ddui_L_background_shiny: rgba(255,255,255,0.5);        /*   for making the   */
+    --ddui_L_background_shady_themed: rgba(0,0,0,0.5);       /*   background idle  */
+    --ddui_L_background_shiny_themed: rgba(255,255,255,0.5); /* ================== */
 
     --ddui_L_boxShadow: 0px 0px 8px 4px rgba(0,0,0,0.25); /* typical for dialogues */
     --ddui_L_boxShadow_very_small: 0px 0px 5px 0px rgba(0,0,0,0.25); /* typical for buttons */
@@ -151,10 +155,15 @@
 
     /* shadows */
 
-    --ddui_D_shady: rgba(255,255,255,0.1);
-    --ddui_D_shiny: rgba(0,0,0,0.1);
-    --ddui_D_background_shady: rgba(0,0,0,0.5);
-    --ddui_D_background_shiny: rgba(255,255,255,0.15);
+    --ddui_D_shady: rgba(0,0,0,0.1);
+    --ddui_D_shiny: rgba(255,255,255,0.1);
+    --ddui_D_shady_themed: rgba(255,255,255,0.1);
+    --ddui_D_shiny_themed: rgba(0,0,0,0.1); 
+    --ddui_D_background_shady: rgba(0,0,0,0.5);               /* ================== */
+    --ddui_D_background_shiny: rgba(255,255,255,0.15);        /*   for making the   */
+    --ddui_D_background_shady_themed: rgba(255,255,255,0.15); /*   background idle  */
+    --ddui_D_background_shiny_themed: rgba(0,0,0,0.5);        /* ================== */
+
     --ddui_D_boxShadow: 0 0 8px 4px rgba(150,150,150,0.3); /* typical for dialogues */
     --ddui_D_boxShadow_very_small: 0 0 5px 0 rgba(255,255,255,0.2); /* typical for buttons */
 

@@ -30,8 +30,12 @@
 
     --ddui_shady: var(--ddui_L_shady);
     --ddui_shiny: var(--ddui_L_shiny);
+    --ddui_shady_themed: var(--ddui_L_shady_themed);
+    --ddui_shiny_themed: var(--ddui_L_shiny_themed);
     --ddui_background_shady: var(--ddui_L_background_shady);
     --ddui_background_shiny: var(--ddui_L_background_shiny);
+    --ddui_background_shady_themed: var(--ddui_L_background_shady_themed);
+    --ddui_background_shiny_themed: var(--ddui_L_background_shiny_themed);
 
     --ddui_boxShadow: var(--ddui_L_boxShadow); /* typical for dialogues */
     --ddui_boxShadow_very_small: var(--ddui_L_boxShadow_very_small); /* typical for buttons */
