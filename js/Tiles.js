@@ -144,11 +144,11 @@ export class Tile {
             }
         }
         image_html += `</div>`;
-        const tile_content = image_html + `<div class="ddui_Tile_label">${label}</div>`;
+        const tile_content = image_html + `<div id="${this.id + "_label"}" class="ddui_Tile_label">${label}</div>`;
 
         this.node.innerHTML = tile_content;
 
-        ddui.Tooltip(this.node, label);
+        this.AddTooltip(label);
 
         if ( onClick ) {
             this.node.addEventListener("click", onClick);
@@ -173,10 +173,24 @@ export class Tile {
             this.node.addEventListener("mouseenter", this.HoverOff.bind(this));
             this.node.addEventListener("mouseleave", this.HoverOn.bind(this));
 
-            if ( corner_button.tooltip ) { ddui.Tooltip(this.corner_button_node, corner_button.tooltip); }
+            if ( corner_button.tooltip ) {
+                // ddui.Tooltip(this.corner_button_node, corner_button.tooltip);
+                this.corner_button_node.setAttribute("ddui_tooltip", corner_button.tooltip);
+            }
 
         }
 
+    }
+
+    async AddTooltip(label) {
+        await ddui.WaitForDom(this.id + "_label");
+        const label_container = document.getElementById(this.id + "_label");
+        const text_width = await ddui.MeasureTextWidth(label, label_container);
+        const label_container_width = label_container.getBoundingClientRect().width; 
+        if ( text_width > label_container_width ) {
+            // ddui.Tooltip(this.node, label);
+            this.node.setAttribute("ddui_tooltip", label);
+        }
     }
 
     HoverOn() {

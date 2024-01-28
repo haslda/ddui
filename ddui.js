@@ -264,6 +264,65 @@ export function GetHighestZIndex() {
 
 
 
+export async function GetAllElememtsFromPoint(x, y) {
+
+    let elements = [];
+    let element;
+
+    // dig down throug all layers of the dom at the position "x, y" ...
+    do {
+
+        // ... fetch every element there ...
+        element = document.elementFromPoint(x, y);
+        // ... ignore the element on the next elementFromPoint check ...
+        element.classList.add('ddui_pointer_events_none');
+        // ... and remember it to clean up afterwards
+        elements.push(element);
+
+    } while ( element.tagName !== 'HTML' );
+
+    // clean up all the elements that are ignored by the elementFromPoint check
+    for ( let i  = 0; i < elements.length; i += 1 ) {
+        elements[i].classList.remove('ddui_pointer_events_none');
+    }
+
+    // return the elements
+    return elements;
+
+}
+
+
+
+
+
+
+export async function MeasureTextWidth(text, container) {
+
+    // Create a phantom box (in the background), filled with the text
+    // const phantom_box = document.createElement("div");
+    // phantom_box.innerHTML = box_content;
+    // phantom_box.style.position = "absolute";
+    // phantom_box.style.zIndex = -1;
+    // document.body.append(phantom_box);
+
+    const inner = document.createElement("div");
+    inner.style.position = "absolute";
+    inner.style.zIndex = -1;
+    inner.style.overflowX = "hidden";
+    inner.style.whiteSpace = "nowrap";
+    inner.innerText = text;    
+    container.prepend(inner);
+    const text_width = inner.getBoundingClientRect().width;
+    inner.remove();
+    return text_width;
+
+}
+
+
+
+
+
+
 export function RegisterToScrollBlocker() {
 
     // if it's the first and only subscriber ...
