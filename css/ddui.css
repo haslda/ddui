@@ -210,9 +210,6 @@ textarea:disabled {
 	color: var(--ddui_input_forecolor_idle);
 }
 
-input::selection,
-select::selection,
-textarea::selection {
-    color: var(--ddui_input_selection_forecolor);
+*::selection {
     background-color: var(--ddui_input_selection_background_color);
 }

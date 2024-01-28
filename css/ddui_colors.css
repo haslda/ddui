@@ -66,7 +66,7 @@
     --ddui_L_input_forecolor: var(--ddui_cs_p);
     --ddui_L_input_forecolor_idle: var(--ddui_cs_g40);
     --ddui_L_input_selection_forecolor: var(--ddui_cs_p_DDDDD);
-    --ddui_L_input_selection_background_color: var(--ddui_cs_p_LLLL);
+    --ddui_L_input_selection_background_color: var(--ddui_cs_p_LLL);
 
     /* shadows */
 
@@ -151,7 +151,7 @@
     --ddui_D_input_forecolor: var(--ddui_cs_p_LL);
     --ddui_D_input_forecolor_idle: var(--ddui_cs_g60);
     --ddui_D_input_selection_forecolor: var(--ddui_cs_g100);
-    --ddui_D_input_selection_background_color: var(--ddui_cs_p_D);
+    --ddui_D_input_selection_background_color: var(--ddui_cs_p_DD);
 
     /* shadows */
 
