@@ -70,6 +70,8 @@ export async function SetThemeIcon(node_id_of_theme_icon = "ddui_theme_icon") {
 
 export async function ToggleTheme(theme, node_id_of_theme_icon) {
 
+    document.getElementsByTagName("html")[0].style.overflowX = "hidden";
+
     // define color for blend effect (depending on demanded theme)
     let blend_color;
     if ( theme === 'light' ) { blend_color = "#EEEEEE" }
@@ -87,7 +89,9 @@ export async function ToggleTheme(theme, node_id_of_theme_icon) {
     await SetThemeIcon(node_id_of_theme_icon);
 
     // close blend effect (fade out)
-    HideBlendOverlay(blend_overlay, scroll_blocker_id);
+    await HideBlendOverlay(blend_overlay, scroll_blocker_id);
+
+    document.getElementsByTagName("html")[0].style.overflowX = "auto";
 
 }
 
@@ -157,7 +161,7 @@ async function ShowBlendOverlay(color, show_loading_box) {
     if ( ! show_loading_box ) { show_loading_box = false };
 
     // Defining body as parent node for the overlay div
-    const parentNode = document.getElementsByTagName("body")[0];
+    const parentNode = document.body;
 
     // fetch scroll position (for freezing it)
     const scrollX = window.scrollX;
@@ -214,7 +218,7 @@ async function ShowBlendOverlay(color, show_loading_box) {
 async function HideBlendOverlay(overlay, scroll_blocker_id) {
 
     overlay.style.transition = "left 1s";
-    overlay.style.left = document.documentElement.clientWidth + "px";
+    overlay.style.left = String(document.documentElement.clientWidth) + "px";
 
     await new Promise(r => setTimeout(r, 800));
 

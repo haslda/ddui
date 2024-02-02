@@ -15,7 +15,9 @@
     flex-direction: column;
 }
 
-.ddui_Tile:hover {
+.ddui_Tile:hover,
+.ddui_Tile:focus {
+    outline: none;
     background-color: var(--ddui_page_background_hover);
     box-shadow: var(--ddui_boxShadow_very_small);
     border: solid 1px var(--ddui_line);

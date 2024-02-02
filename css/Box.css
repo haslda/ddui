@@ -1,5 +1,27 @@
-.ddui_Box {
+.ddui_Overlay_global {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.ddui_Overlay_local {
     position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.ddui_centered {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.ddui_Box {
+    position: fixed;
     background-color: var(--ddui_page_background);
     box-shadow: var(--ddui_boxShadow);  
     border-radius: 5px;
@@ -35,4 +57,14 @@
     padding: 12px;
     max-height: 90vh;
     overflow-y: auto;
+}
+
+.ddui_LoadingBox_content {
+    display: flex;
+    flex-direction: column
+}
+
+.ddui_LoadingBox_info_text {
+    padding: 5px 20px 20px 20px;
+    text-align: center;
 }

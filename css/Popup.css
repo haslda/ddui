@@ -12,7 +12,7 @@
 }
 
 .ddui_Popup_button:hover {
-    background-color: var(--ddui_shady);
+    background-color: var(--ddui_shady_themed);
     cursor: pointer;
 }
 

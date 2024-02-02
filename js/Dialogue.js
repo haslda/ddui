@@ -50,7 +50,7 @@ export class Dialogue{
 
         // ====================
         // Create a modal box
-        this.Box = new ddui.Box({ allow_exit: allow_exit, CallbackOnDiscard: this.Discard.bind(this) });
+        this.Box = new ddui.Box({ allow_exit: allow_exit });
         this.Fill( title_text, title_icon, html, html_ref, css, css_ref, values, buttons, put_focus_on_element_with_id );
 
     }
@@ -132,6 +132,7 @@ export class Dialogue{
 
 
     Discard() {
+        this.Box.Discard();
         try {
             // discard custom dialogue css
             document.getElementById(this.id + "_style").remove();

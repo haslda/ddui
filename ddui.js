@@ -73,6 +73,8 @@ async function InitDdui() {
     // If there is a node with the id "ddui_theme_icon", it's innerText will be set to the icon depending on the active theme
     SetThemeIcon();
 
+    // window.addEventListener("keydown", HandleKeyDownForTabControl);
+
     // Wait for 1s (to let the page load) and then show the ddui welcome message (if not yet deactivated)
     await new Promise(res => setTimeout(res, 1000));
     if ( !document.querySelector("meta[name='ddui']") ) {
@@ -121,6 +123,27 @@ export function ShowWelcomeDialogue() {
         }
     ]);
 
+}
+
+
+
+
+
+
+// Event handler for discarding boxes with the escape key
+function HandleKeyDownForTabControl(event) {
+
+    // if Escape is pressed ...
+    if (event.key === 'Tab') {
+
+
+        console.log(document.activeElement);
+        // // ... fetch the top most box (the box on top of all the others) ...
+        // const top_most_box = window.EscapeHandlerBoxes[window.EscapeHandlerBoxes.length - 1];
+        // // ... and discard it, if exiting is allowed.
+        // if ( top_most_box.allow_exit ) { top_most_box.Discard(); }
+
+    }
 }
 
 
@@ -335,9 +358,6 @@ export function RegisterToScrollBlocker() {
         window.ScrollBlocker = BlockScrolling.bind(null, window.scrollX, window.scrollY);
         window.addEventListener("scroll", window.ScrollBlocker);
 
-        // ... and the scrolling for the body gets disabled.
-        document.body.style.overflow = "hidden";
-
     }
 
     const client_number = GenerateUuid();
@@ -369,10 +389,6 @@ export function DeregisterFromScrollBlocker(client_number) {
 
             // ... and if there is no other client left, then ...
             if ( window.ScrollBlockerClients.length <= 0 ) {
-
-                // ... make the body scrollable again ...
-                document.body.style.overflow = null;
-                window.dispatchEvent(new Event('scroll'));
 
                 //  ... and kill the Handler ...
                 window.removeEventListener("scroll", window.ScrollBlocker);

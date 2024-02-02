@@ -124,6 +124,7 @@ export class Tile {
         }
         
         this.node.classList.add("ddui_Tile");
+        this.node.setAttribute("tabindex", "0");
         this.node.style.width = width;
         this.node.style.height = height;
         this.node.style.padding = padding;
@@ -152,6 +153,12 @@ export class Tile {
 
         if ( onClick ) {
             this.node.addEventListener("click", onClick);
+            this.node.addEventListener("keydown", e => {
+                if ( event.key === "Enter" ) {
+                    onClick(event);
+                }
+            });
+
         }
 
         if ( corner_button ) {

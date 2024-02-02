@@ -144,6 +144,14 @@ async function Main() {
             onClick: () => ShowDialogue("Tooltip")
         },
         {
+            label: "More useful features",
+            image: {
+                type: "html",
+                data: `<svg width="32px" height="32px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><g clip-path="url(#clip0_3057_14628)"><path d="M9.95242 9.62272L11.5109 6.31816C11.711 5.89395 12.289 5.89395 12.4891 6.31816L14.0476 9.62272L17.5329 10.1559C17.9801 10.2243 18.1583 10.7996 17.8346 11.1296L15.313 13.7001L15.9081 17.3314C15.9845 17.7978 15.5168 18.1534 15.1167 17.9331L12 16.2177L8.88328 17.9331C8.48316 18.1534 8.01545 17.7978 8.09187 17.3314L8.68695 13.7001L6.16545 11.1296C5.8417 10.7996 6.01993 10.2243 6.46711 10.1559L9.95242 9.62272Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M22 12L23 12" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 2V1" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 23V22" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20 20L19 19" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20 4L19 5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M4 20L5 19" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M4 4L5 5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M1 12L2 12" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></g><defs><clipPath id="clip0_3057_14628"><rect width="24" height="24" fill="white"></rect></clipPath></defs></svg>`
+            },
+            onClick: () => ShowDialogue("more_useful_features")
+        },
+        {
             label: "Welcome!",
             image: {
                 type: "html",
@@ -151,7 +159,7 @@ async function Main() {
             },
             onClick: () => ddui.ShowWelcomeDialogue()
         }
-    ]);    
+    ]);
 
 }
 
@@ -196,81 +204,8 @@ async function OpenHeaderMenuTheme(event) {
 
 async function OpenHeaderMenuMore(event) {
 
-    function TestMessageBoxesClick() {
-        ddui.MessageBox(
-            "Warning! This is serious! You are about to choose between two possible actions. Each will have no real effect but at least it will do something. Give it a shot! You can do it!",
-            "bare",
-            [
-                {
-                    label: "Close",
-                    style: "inferior"
-                },
-                {
-                    label: "Text only",
-                    onClick: () => { ddui.MessageBox("This is a message box with just some text. Have fun reading it!") },
-                    closeOnClick: false
-                },
-                {
-                    label: "Info",
-                    onClick: () => { ddui.MessageBox("This is a message box with info design.", "info") },
-                    closeOnClick: false
-                },
-                {
-                    label: "Warning",
-                    onClick: () => { ddui.MessageBox("This is a message box with warning design.", "warning") },
-                    closeOnClick: false
-                },
-                {
-                    label: "Error",
-                    onClick: () => { ddui.MessageBox("This is a message box with error design.", "error") },
-                    closeOnClick: false,
-                    style: "red"
-                },
-                {
-                    label: "Success",
-                    onClick: () => { ddui.MessageBox("This is a message box with success design.", "success") },
-                    closeOnClick: false
-                },
-                {
-                    label: "No Exit",
-                    onClick: () => { ddui.MessageBox("This is a message box that doesn't allow an exit.", null, null, false) },
-                    closeOnClick: false
-                }
-            ]
-        );
-    }
-
-
-
-
-
-
-    function TestToasterClick() {
-        ddui.Toaster("Hey there!");
-    }
-
-
-
-
-
-
     ddui.Popup(
         [
-            {
-                type: "button",
-                label: "Test message boxes",
-                icon: "sports_score",
-                onClick: () => { TestMessageBoxesClick() }
-            },
-            {
-                type: "button",
-                label: "Test toaster",
-                icon: "thumb_up",
-                onClick: () => { TestToasterClick() }
-            },  
-            {
-                type: "line"
-            },
             {
                 type: "button",
                 label: "About",
@@ -316,22 +251,21 @@ function code(style, text, parse = false) {
 
 }
 
-// function arg(arg_name = "unkknow arg name", is_required = false, arg_datatype = "var", description = "(no description)", indent_level = 0, add_paragraph = false) {
-    
-//     let indent = "";
-//     if ( indent_level > 0 ) {
-//         indent =  ` style="padding-left: ${String(Math.floor(indent_level * 20))}px;"`;
-//     }
-    
-//     return `<div${indent}><span class="code arg_name">${arg_name}</span>${ (is_required) ? `<span class="arg_required">*</span>` : "" }</div>
-//         <div class="arg_description"><span class="arg_datatype">[${arg_datatype}]</span>${description}</div>
-//         ${ (add_paragraph) ? `<div style="height: 10px;"></div><div></div>` : "" }`
 
-// }
 
-function arg(is_required = false, add_paragraph = false, arg_name = "unkknow arg name", arg_datatype = "var", description = "(no description)") {
-    
-    return `<div style="white-space: pre;"><span class="code arg_name">${arg_name}</span>${ (is_required) ? `<span class="arg_required">*</span>` : "" }</div>` +
+
+
+
+// is_required    can be "Y" (yes), "N" (no) or "A" (alternatively required)
+function arg(is_required = "N", add_paragraph = false, arg_name = "unkknow arg name", arg_datatype = "var", description = "(no description)") {
+
+    let required_tag = "";
+    if ( is_required ) {
+        if ( is_required === "Y" ) { required_tag = `<span class="arg_required" ddui_tooltip="required">*</span>` }
+        else if ( is_required === "A" ) { required_tag = `<span class="arg_required_alternatively" ddui_tooltip="alternatively required">**</span>` }
+    }
+
+    return `<div style="white-space: pre;"><span class="code arg_name">${arg_name}</span>${required_tag}</div>` +
         `<div class="arg_description"><span class="arg_datatype">[${arg_datatype}]</span>${description}</div>` +
         `${ (add_paragraph) ? `<div style="height: 10px;"></div><div></div>` : "" }`
 
@@ -345,8 +279,7 @@ function arg(is_required = false, add_paragraph = false, arg_name = "unkknow arg
 function GetDialogueCss_Default() {
     return `
     .specs_dialogue {
-        width: 1000px;
-        max-width: 100%;
+        max-width: 1000px;
     }
     .codebox {
         border: 1px solid var(--ddui_line_soft);
@@ -398,6 +331,10 @@ function GetDialogueCss_Default() {
         color: var(--ddui_red_text);
         font-weight: 700;
     }
+    .arg_required_alternatively {
+        color: var(--ddui_green_text);
+        font-weight: 700;
+    }
     .arg_datatype {
         color: var(--ddui_pink_text);
         font-weight: 500;
@@ -422,20 +359,20 @@ function GetDialogueHtml_MessageBox() {
             `<div class="codebox code">` +
             `${code("ddui")}.MessageBox(${code("var", `content`)}, ${code("var", `type`)}, ${code("var", `buttons`)}, ${code("var", `allow_exit`)});` +
             `</div>` +
-        `<div class="args_grid">
-            ${arg(true,  true,  "content",    "String",  `message box content as text or html string`)}
-            ${arg(false, true,  "type",       "String",  `can be "" or null (default; simple message box)<br>The values "error", "warning", "info" and "success" show a special designed message box.`)}
-            ${arg(false, true,  "buttons",    "List",    `see the <a onclick="ShowDialogue('Buttons')">buttons specs</a> for details`)}
-            ${arg(false, false, "allow_exit", "Boolean", `Default ist true, which means, the message box can be discarded (e.g. via pressing escape).`)}
-        </div>
-        <h1>Demo</h1>
-        <p>By default, message boxes can be discarded by clicking outside the message box or by pressing escape. But if "allow_exit" is set to "false", no exit is allowed.</p>
-        <br><div id="Dialogue_MessageBox_Demo_Tiles_1" style="min-height: 90px;"></div><br>
-        <p>Message boxes can be of a specific type with a dedecated look.</p>
-        <br><div id="Dialogue_MessageBox_Demo_Tiles_2" style="min-height: 90px;"></div><br>
-            <p>Per default there is just an "OK" button for closing the message box, but you can define buttons as you wish and let them do what you want. You can also define, if a button shall (additional to calling your function) close the message box as well (default) or not. Finally the buttons can be of the default style, or the style "inferio" or "red".</p>
-        <br><div id="Dialogue_MessageBox_Demo_Tiles_3" style="min-height: 90px;"></div><br>
-    </div>`
+        `<div class="args_grid">` +
+            `${arg("Y", true,  "content",    "String",  `Message box content as text or html string`)}` +
+            `${arg("N", true,  "type",       "String",  `Can be "" or null (default; simple message box)<br>The values "error", "warning", "info" and "success" show a special designed message box.`)}` +
+            `${arg("N", true,  "buttons",    "List",    `See the <a onclick="ShowDialogue('Buttons')" ddui_tooltip="open button specs">buttons specs</a> for details`)}` +
+            `${arg("N", false, "allow_exit", "Boolean", `Default ist true, which means, the message box can be discarded (e.g. via pressing escape).`)}` +
+        `</div>` +
+        `<h1>Demo</h1>` +
+        `<p>By default, message boxes can be discarded by clicking outside the message box or by pressing escape. But if "allow_exit" is set to "false", no exit is allowed.</p>` +
+        `<br><div id="Dialogue_MessageBox_Demo_Tiles_1" style="min-height: 90px;"></div><br>` +
+        `<p>Message boxes can be of a specific type with a dedecated look.</p>` +
+        `<br><div id="Dialogue_MessageBox_Demo_Tiles_2" style="min-height: 90px;"></div><br>` +
+            `<p>Per default there is just an "OK" button for closing the message box, but you can define buttons as you wish and let them do what you want. You can also define, if a button shall (additional to calling your function) close the message box as well (default) or not. Finally the buttons can be of the default style, or the style "inferio" or "red".</p>` +
+        `<br><div id="Dialogue_MessageBox_Demo_Tiles_3" style="min-height: 90px;"></div><br>` +
+    `</div>`
 
 }
 
@@ -651,7 +588,7 @@ async function LoadDialogueControls_MessageBox(code_icon) {
             }
         },
         {
-            label: "No button",
+            label: "No button xxxxxxxxxx",
             image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M7 4H4V7" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M4 11V13" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M11 4H13" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M11 20H13" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20 11V13" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M17 4H20V7" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7 20H4V17" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M17 20H20V17" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
             onClick: () => ddui.MessageBox(
                 'Where are all my buttons?<br>And how can you exit now?<br><span>Little hint: <span style="font-weight: bold;">ESCAPE!!!</span></span>',
@@ -690,7 +627,7 @@ function GetDialogueHtml_Toaster() {
                 `${code("ddui")}.Toaster(${code("var", `text`)});` +
             `</div>` +
     `<div class="args_grid">` +
-        `${arg(true, false, "text", "String", "message text")}` +
+        `${arg("Y",false, "text", "String", "Message text")}` +
     `</div>` +
         `<h1>Demo</h1>` +
         `<p>A toaster is just a short information on the fly. The longer the text, the longer it stays.<br>If you wish, you can also discard it before end of countdown.</p>` +
@@ -781,15 +718,15 @@ function GetDialogueHtml_Popup() {
                 `${code("ddui")}.Popup(${code("var", `items`)}, ${code("var", `align_mode`)}, ${code("var", `anchord_node`)}, ${code("var", `type`)});` +
             `</div>` +
     `<div class="args_grid">
-        ${arg( true,  true,  "items",       "List",     "popup menu items with the following properties per icon:")}
-        ${arg( true,  false, "  type",      "String",   `can be "Button" (default) or "Line" (horizontal line)`)}
-        ${arg( true,  false, "  label",     "String",   `text of menu item`)}
-        ${arg( false, false, "  icon",      "String",   `name of material icon`)}
-        ${arg( false, false, "  onClick",   "Function", `function to be called on click`)}
-        ${arg( false, true,  "  style",     "String",   `can be null (default) or "red" (e.g. for a deleting action)`)}
-        ${arg( false, true,  "align_mode",  "String",   `can be "centered" (default), "positioned" (recommended), "centered_top" or "centered_bottom"`)}
-        ${arg( false, true,  "anchor_node", "String",   `for the align_mode "positioned" an anchor_node, from which the popup menu shall raise, is required`)}
-        ${arg( false, true,  "type",        "String",   `can only be "list_with_icons" (default)`)}
+        ${arg( "Y", true,  "items",       "List",     "Popup menu items with the following properties per icon:")}
+        ${arg( "Y", false, "  type",      "String",   `Can be "Button" (default) or "Line" (horizontal line)`)}
+        ${arg( "Y", false, "  label",     "String",   `Text of menu item`)}
+        ${arg( "N", false, "  icon",      "String",   `Name of material icon`)}
+        ${arg( "N", false, "  onClick",   "Function", `Function to be called on click`)}
+        ${arg( "N", true,  "  style",     "String",   `Can be null (default) or "red" (e.g. for a deleting action)`)}
+        ${arg( "N", true,  "align_mode",  "String",   `Can be "centered" (default), "positioned" (recommended), "centered_top" or "centered_bottom"`)}
+        ${arg( "N", true,  "anchor_node", "String",   `For the align_mode "positioned" an anchor_node, from which the popup menu shall raise, is required`)}
+        ${arg( "N", true,  "type",        "String",   `Can only be "list_with_icons" (default)`)}
     </div>                
         <h1>Demo</h1>
         <p>A popup menu can be called, when a user shall be able to execute actions, without the need to place action buttons on your page.</p>
@@ -979,7 +916,6 @@ async function LoadDialogueControls_Popup(code_icon) {
 
 
 
-
 function GetDialogueHtml_Dialogue() {
 
     return `<div class="specs_dialogue">` +
@@ -991,20 +927,28 @@ function GetDialogueHtml_Dialogue() {
             `<div class="codebox code">` +
             `${code("ddui")}.Dialogue(${code("var", `content`)}, ${code("var", `type`)}, ${code("var", `buttons`)}, ${code("var", `allow_exit`)});` +
             `</div>` +
-        `<div class="args_grid">
-            ${arg(true,  true,  "content",    "String",  `message box content as text or html string`)}
-            ${arg(false, true,  "type",       "String",  `can be "" or null (default; simple message box)<br>The values "error", "warning", "info" and "success" show a special designed message box.`)}
-            ${arg(false, true,  "buttons",    "List",    `see the <a onclick="ShowDialogue('Buttons')">buttons specs</a> for details`)}
-            ${arg(false, false, "allow_exit", "Boolean", `Default ist true, which means, the message box can be discarded (e.g. via pressing escape).`)}
-        </div>
-        <h1>Demo</h1>
-        <p>x</p>
-        <br><div id="Dialogue_Dialogue_Demo_Tiles_1" style="min-height: 90px;"></div><br>
-        <p>x</p>
-        <br><div id="Dialogue_Dialogue_Demo_Tiles_2" style="min-height: 90px;"></div><br>
-        <p>x</p>
-        <br><div id="Dialogue_Dialogue_Demo_Tiles_3" style="min-height: 90px;"></div><br>
-    </div>`
+        `<div class="args_grid">` +
+            `${arg("N", true,  "title_text",   "String",  `Text in header (dialogue title)`)}` +
+            `${arg("N", true,  "title_icon",   "String",  `Name of material icon in header (dialogue title)`)}` +
+            `${arg("A", true,  "html",         "String",  `Dialogue content html (alternative to html_ref)`)}` +
+            `${arg("A", true,  "html_ref",     "String",  `Relative url to dialogue content html (alternative to html)`)}` +
+            `${arg("N", true,  "css",          "String",  `Dialogue custom css (alternative to css_ref)`)}` +
+            `${arg("N", true,  "css_ref",      "String",  `Relative url to dialogue custom css (alternative to css)`)}` +
+            `${arg("N", true,  "values",       "List",    `Each list item contains the following elements:`)}` +
+            `${arg("N", false, "  node_id",    "String",  `Id of the dom element that shall be initialized with a value`)}` +
+            `${arg("N", true,  "  value",      "String",  `The value, that shall be filled in the element`)}` +
+            `${arg("N", true,  "put_focus_on_element_with_id",      "String",   `Id of dom element that shall be focused`)}` +
+            `${arg("N", true,  "buttons",      "List",    `See the <a onclick="ShowDialogue('Buttons')" ddui_tooltip="open button specs">buttons specs</a> for details`)}` +
+            `${arg("N", false, "allow_exit",   "Boolean", `Default is true, which means, the message box can be discarded (e.g. via pressing escape).`)}` +
+        `</div>` +
+        `<h1>Demo</h1>` +
+        `<p>x</p>` +
+        `<br><div id="Dialogue_Dialogue_Demo_Tiles_1" style="min-height: 90px;"></div><br>` +
+        `<p>x</p>` +
+        `<br><div id="Dialogue_Dialogue_Demo_Tiles_2" style="min-height: 90px;"></div><br>` +
+        `<p>x</p>` +
+        `<br><div id="Dialogue_Dialogue_Demo_Tiles_3" style="min-height: 90px;"></div><br>` +
+    `</div>`
 
 }
 
@@ -1021,13 +965,79 @@ async function LoadDialogueControls_Dialogue(code_icon) {
     // "Simple" and "No exit"
 
     // Wait for the container for the 1st tiles element ...
-    await ddui.WaitForDom("Dialogue_MessageBox_Demo_Tiles_1", "does_exist");
+    await ddui.WaitForDom("Dialogue_Dialogue_Demo_Tiles_1", "does_exist");
     // ... and then create the tiles element
-    new ddui.Tiles("Dialogue_MessageBox_Demo_Tiles_1", [
+    new ddui.Tiles("Dialogue_Dialogue_Demo_Tiles_1", [
         {
-            label: "Simple",
-            image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 13.8214 2.48697 15.5291 3.33782 17L2.5 21.5L7 20.6622C8.47087 21.513 10.1786 22 12 22Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
-            onClick: () => ddui.MessageBox("You can leave me easily, by clicking outside or by pressing escape."),
+            label: "Basic",
+            image: { type: "html", data: `<svg width="32px" height="32px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M2 19V5C2 3.89543 2.89543 3 4 3H20C21.1046 3 22 3.89543 22 5V19C22 20.1046 21.1046 21 20 21H4C2.89543 21 2 20.1046 2 19Z" stroke="var(--ddui_page_text)" stroke-width="1.5"></path><path d="M2 7L22 7" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M5 5.01L5.01 4.99889" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8 5.01L8.01 4.99889" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M11 5.01L11.01 4.99889" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
+            onClick: () => {
+                const login_dialogue = ddui.Dialogue(
+                    "Login",
+                    "key",
+                    `<div class="login_dialogue_container">` +
+                        `<div class="login_dialogue_label">Username</div>` +
+                        `<div class="login_dialogue_input_container">` +
+                            `<input class="login_dialogue_input" id="login_dialogue_input_username" type="text" placeholder="username">` +
+                        `</div>` +
+                        `<div class="login_dialogue_space"></div>` +
+                        `<div class="login_dialogue_label">Password</div>` +
+                        `<div class="login_dialogue_input_container">` +
+                            `<input id="login_dialogue_password" class="login_dialogue_input" type="password">` +
+                        `</div>` +
+                        `<div id="login_dialogue_password_error"></div>` +
+                    `</div>`,
+                    null,
+                    `.login_dialogue_container {` +
+                        `display: flex;` +
+                        `flex-direction: column;` +
+                        `width: 350px;` +
+                        `max-width: 100%;` +
+                    `}` +
+                    `.login_dialogue_space {` +
+                        `height: 15px;` +
+                    `}` +
+                    `.login_dialogue_input_container {` +
+                        `margin-top: 3px;` +
+                        `width: 100%;` +
+                    `}` +
+                    `.login_dialogue_input {` +
+                        `width: 100%;` +
+                    `}` +
+                    `#login_dialogue_password_error {` +
+                        `color: var(--ddui_red_text);` +
+                    `}` +                
+                    ``,
+                    null,
+                    [
+                        {
+                            node_id: "login_dialogue_input_username",
+                            value: "my.mail@example.com"
+                        }
+                    ],
+                    "login_dialogue_input_username",
+                    [
+                        {
+                            label: "Cancel",
+                            style: "inferior"
+                        },
+                        {
+                            label: "Login",
+                            onClick: async () => {
+                                await new Promise(res => setTimeout(res, 1000)); // simulates login attempt (little delay)
+                                const password = document.getElementById("login_dialogue_password").value;
+                                if ( password != "top-secret") {
+                                    const password_error_node = document.getElementById("login_dialogue_password_error");
+                                    password_error_node.innerText = `The password must be "top-secret"`;
+                                } else {
+                                    ddui.Toaster("Successfully logged you in.");
+                                    (await login_dialogue).Discard();
+                                }
+                            },
+                            closeOnClick: false
+                        }
+                    ]
+                )},
             corner_button: {
                 image: { type: "html", data: code_icon },
                 onClick: () => ddui.Dialogue(null, null, code_snippet(
@@ -1035,22 +1045,6 @@ async function LoadDialogueControls_Dialogue(code_icon) {
                     `${code("string", `"You can leave me easily, by clicking outside or by pressing escape."`)}` +
                     `);`)),
                     tooltip: "Show code"
-            }
-        },
-        {
-            label: "No exit",
-            image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M13 2.04938C12.6711 2.01672 12.3375 2 12 2C6.47715 2 2 6.47715 2 12C2 13.8214 2.48697 15.5291 3.33782 17L2.5 21.5L7 20.6622C8.47087 21.513 10.1786 22 12 22C17.5228 22 22 17.5228 22 12C22 11.6625 21.9833 11.3289 21.9506 11" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M17.1211 7.36398L19.2424 5.24266M19.2424 5.24266L21.3637 3.12134M19.2424 5.24266L17.1211 3.12134M19.2424 5.24266L21.3637 7.36398" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
-            onClick: () => ddui.MessageBox("If I had no closing button, you wouldn't be able to leave me. Try clicking outside or hitting escape.", null, [{ label: "Close", closeOnClick: true }], false),
-            corner_button: {
-                image: { type: "html", data: code_icon },
-                onClick: () => ddui.Dialogue(null, null, code_snippet(
-                    `${code("ddui")}.MessageBox(<br>` +
-                        `${code("string",  `    "If I had no closing button, you wouldn't be able to leave me. Try clicking outside or hitting escape."`)},<br>` +
-                        `${code("var",     `    null`)},<br>` +
-                        `${code("object",  `    [ { label: ${code("string", `"Close"`)}, closeOnClick: ${code("bool", `true`)} } ]`)},<br>` +
-                        `${code("bool", `    false`)}<br>` +
-                        `);`)),
-                tooltip: "Show code"
             }
         }
     ], "100px", "90px");
@@ -1250,7 +1244,7 @@ async function LoadDialogueControls_Dialogue(code_icon) {
 function GetDialogueHtml_Buttons() {
 
     return `<div class="specs_dialogue">` +
-        `<p>The "buttons" object is used for <a onclick="ShowDialogue('MessageBox')">message boxes</a> and <a onclick="ShowDialogue('Dialogue')">dialogues</a>.</p>` +
+        `<p>The "buttons" object is used for <a onclick="ShowDialogue('MessageBox')" ddui_tooltip="open specs">message boxes</a> and <a onclick="ShowDialogue('Dialogue')" ddui_tooltip="open specs">dialogues</a>.</p>` +
         `<h1>Code example</h1>` +
         `<div class="codebox code">` +
             `${code("object",   `[<br>` +
@@ -1277,10 +1271,10 @@ function GetDialogueHtml_Buttons() {
                                 `]`)}` +
         `</div>` +
         `<div class="args_grid">` + 
-            `${arg(true,  true,  "label", "String", "button text")}` +
-            `${arg(false, true,  "style", "String", `empty or null for default (primary); alternatives: "inferior" and "red"`)}` +
-            `${arg(false, true,  "onClick", "Function", "function to be executed on button click")}` +
-            `${arg(false, false, "closeOnClick", "Boolean", "shall the dialogue close after button click?")}` +
+            `${arg("Y", true,  "label",        "String",   "Button text")}` +
+            `${arg("N", true,  "style",        "String",   `Empty or null for default (primary); alternatives: "inferior" and "red"`)}` +
+            `${arg("N", true,  "onClick",      "Function", "Function to be executed on button click")}` +
+            `${arg("N", false, "closeOnClick", "Boolean",  "Shall the dialogue close after button click?")}` +
         `</div>` +
             `<h1>Demo</h1>` +
             `<br><div id="Dialogue_Buttons_Demo_Tiles" style="min-height: 90px;"></div><br>` +

@@ -77,7 +77,7 @@ export class Box {
         // ====================
         // set (and maintain) the box position
         // (for modal AND centered, instead of "via code" a simpler way via css is applied)
-        if ( align_mode == "centered" && this.modal ) { this.overlay.node.classList.add("ddui_overlay_centered_box") }
+        if ( align_mode == "centered" && this.modal ) { this.overlay.node.classList.add("ddui_centered") }
         else { SetBoxPosition({ box_id: this.id, align_mode: align_mode, anchor_node: anchor_node }) }
 
         // ====================
@@ -129,11 +129,24 @@ export class Box {
 
 
 
+    Focus() {
+        // these lines care for starting the tab flow inside the box
+        this.node.setAttribute("tabindex", "0");
+        this.node.focus();
+        this.node.removeAttribute("tabindex");
+    }
+
+
+
+
+
+
     Discard() {
 
         // stop maintaining box position
         try {
             window.removeEventListener("resize", window.BoxPositionKeepers[this.id], false);
+            window.removeEventListener("scroll", window.BoxPositionKeepers[this.id], false);
             delete window.BoxPositionKeepers[this.id];
         } catch {}
 
@@ -250,7 +263,7 @@ export class Box {
                 }
                 if ( build_buttonbar ) {
                     button_class = `ddui_button${ ( button["style"] ) ? " ddui_button_" + button["style"] : "" }`;
-                    buttonbar += `<div id="${button_id}" class="${button_class}" name="ddui_button"><div class="ddui_button_label">${button["label"]}</div></div>`;
+                    buttonbar += `<div id="${button_id}" class="${button_class}" name="ddui_button" tabindex="0"><div class="ddui_button_label">${button["label"]}</div></div>`;
                 }
             }
             buttonbar += `</div>`;
@@ -300,7 +313,7 @@ export class Box {
             const phantom_box = document.createElement("div");
             phantom_box.classList.add("ddui_box");
             phantom_box.innerHTML = box_content;
-            phantom_box.style.position = "absolute";
+            phantom_box.style.position = "fixed";
             phantom_box.style.zIndex = -1;
             document.body.append(phantom_box);
 
@@ -356,7 +369,9 @@ export class Box {
             const focused_element = document.getElementById(put_focus_on_element_with_id);
             focused_element.focus();
             focused_element.select();
-        }        
+        } else {
+            this.Focus();
+        }
 
         // Trigger the window resize event, as this calls the handler for maintaining the box position
         window.dispatchEvent(new Event('resize'));
@@ -373,9 +388,7 @@ export class Box {
                 // if the button shall have a click action ...
                 if ( button.onClick || button.closeOnClick ) {
 
-                    // ... add the desired event listener to it
-                    button.node = document.getElementById(button.id);
-                    button.node.addEventListener("click", async () => {
+                    const button_click_handler = async () => {
                         
                         if ( button.onClick ) {
 
@@ -404,7 +417,18 @@ export class Box {
 
                         if ( button.closeOnClick ) { this.Discard(); }
 
-                    });
+                    }
+                    
+                    // ... add the desired event listener to it
+                    button.node = document.getElementById(button.id);
+                    button.node.addEventListener("click", button_click_handler);
+                    // also on Enter when focused
+                    button.node.addEventListener("keydown", event => {
+                        if ( event.key === "Enter" ) {
+                            button_click_handler();
+                            this.Focus();
+                        }
+                    })
                 }
             }
 
@@ -468,6 +492,7 @@ function SetBoxPosition({ box_id, align_mode, anchor_node }) {
 
     // bind the position keeper to the window resize event
     window.addEventListener('resize', window.BoxPositionKeepers[box_id], false);
+    window.addEventListener('scroll', window.BoxPositionKeepers[box_id], false);
 
 }
 
@@ -519,10 +544,15 @@ function MaintainBoxPosition({ box_id, align_mode, anchor_node }) {
         // setting vertical align if the box fits over or under the anchor node
         let box_fits_over_or_under_the_anchor_node = false;
         if ( box_height <= ( client_height - anchor_node_rect.bottom ) ) {
+
+            // box fits under the anchor node
             box.style.top = String(anchor_node_rect.bottom) + "px";
             box.style.bottom = null;
             box_fits_over_or_under_the_anchor_node = true;
+
         } else if ( box_height <= anchor_node_rect.top ) {
+
+            // box fits over the anchor node
             box.style.top = String(anchor_node_rect.top - box_height) + "px";
             box.style.bottom = null;
             box_fits_over_or_under_the_anchor_node = true;
@@ -582,7 +612,7 @@ function MaintainBoxPosition({ box_id, align_mode, anchor_node }) {
     } else if ( align_mode == "centered_top" ) {
 
         box.style.left = String(Math.floor( ( client_width - box_width ) / 2 )) + "px";
-        box.style.top = "15px";
+        box.style.top = String(15) + "px";
 
     } else if ( align_mode == "centered_bottom" ) {
 
@@ -598,16 +628,60 @@ function MaintainBoxPosition({ box_id, align_mode, anchor_node }) {
 
 
 
-    // Event handler for discarding boxes with the escape key
-    function HandleKeyDownForEscaping(event) {
+// Event handler for discarding boxes with the escape key
+// Actually this handler does also care for keeping ther focus change with the Tab key inside the box
+// (so a renaming would actually be necessary)
+function HandleKeyDownForEscaping(event) {
 
-        // if Escape is pressed ...
-        if (event.key === 'Escape') {
+    // if Escape is pressed ...
+    if (event.key === 'Escape') {
 
-            // ... fetch the top most box (the box on top of all the others) ...
-            const top_most_box = window.EscapeHandlerBoxes[window.EscapeHandlerBoxes.length - 1];
-            // ... and discard it, if exiting is allowed.
-            if ( top_most_box.allow_exit ) { top_most_box.Discard(); }
+        // ... fetch the top most box (the box on top of all the others) ...
+        const top_most_box = window.EscapeHandlerBoxes[window.EscapeHandlerBoxes.length - 1];
+        // ... and discard it, if exiting is allowed.
+        if ( top_most_box.allow_exit ) { top_most_box.Discard(); }
 
+    // This block takes care, that by pressing "Tab" the focus doesn't get outside of the box (behind the box)
+    // if Tab is pressed ...
+    } else if (event.key === 'Tab') {
+
+        console.log("Tabbed");
+
+        // ... and if the focused element is not the body ...
+        if ( document.activeElement.tagName != "BODY" ) {
+            // ... the focused element shall - as it is now beeing left - keep the focus inside the box (handler will kill itsself after first run)
+            document.activeElement.addEventListener("focusout", event => KeepFocusInsideBox(event), {once: true});
         }
+
     }
+
+    async function KeepFocusInsideBox(event) {
+
+        // the element that is about to be left
+        const left_element = event.currentTarget;
+
+        // we here have a promise, that says that the focused element will be different from the left element
+        const move_focus = new Promise(async resolve => {
+            do { await new Promise(r => setTimeout(r, 1)); }
+            while ( (( document.activeElement === left_element ) || ( document.activeElement.tagName === "BODY" )) )
+            resolve(true);
+        });
+
+        // when the promise is settled, we know, if the focus really has changed
+        const has_focus_shifted = await move_focus;
+
+        // if so, ...
+        if ( has_focus_shifted === true ) {
+
+            // we check, if the newly focused element is inside the box
+            const top_most_box = window.EscapeHandlerBoxes[window.EscapeHandlerBoxes.length - 1];
+            if ( !top_most_box.node.contains(document.activeElement) ) {
+
+                // if not, the tabbing starts again as if the box was newly opened
+                top_most_box.Focus();
+
+            }
+        }  
+    }
+
+}

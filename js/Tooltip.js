@@ -79,7 +79,7 @@ function InitTooltipManager(){
     window.addEventListener("mouseover", async event => {
 
         function KillTooltip() {
-
+            
             // kill the active tooltip (if one exists) ...
             if ( window.active_tooltip ) {
                 if ( window.active_tooltip.Tooltip ) { window.active_tooltip.Tooltip.Discard(); }
@@ -91,7 +91,7 @@ function InitTooltipManager(){
         }
 
         // 1) check if there is an element with tooltip at the mouse position and fetch the tooltip
-        const tooltip = await FindTooltipElement(event.clientX, event.clientY)
+        const tooltip = await FindTooltipElement(event.clientX, event.clientY);
 
         // 2a) if an element with tooltip was found ...
         if ( tooltip ) {

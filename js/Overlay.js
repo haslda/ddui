@@ -31,7 +31,6 @@ export class Overlay {
         this.node = document.createElement("div");
         this.node.id = this.id;
         this.node.setAttribute("name", "ddui_Overlay");
-        this.node.classList.add("ddui_Overlay");
 
         // Set background color of overlay, according to the style param
         if ( this.style === "shady" ) { this.node.style.backgroundColor = "var(--ddui_background_shady)" }
@@ -42,17 +41,17 @@ export class Overlay {
 
         if ( parent_node_id ) {
 
+            this.node.classList.add("ddui_Overlay_local");
+
             // Insert overlay
-            // this.node.style.position = "absolute";
             document.getElementById(parent_node_id).prepend(this.node);
 
         } else {
 
+            this.node.classList.add("ddui_Overlay_global");
+
             // put overlay on top of everything else
             this.node.style.zIndex = ddui.GetHighestZIndex();
-
-            // place the overlay at the current scrollY position
-            this.node.style.top = window.scrollY + "px";
 
             // block page scrolling
             this.scroll_blocker_id = ddui.RegisterToScrollBlocker();

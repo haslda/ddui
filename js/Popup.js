@@ -76,7 +76,7 @@ export class Popup{
                         item["id"] = button_id;
     
                         // button (icon + label)
-                        html += `<div id="${button_id}" class="ddui_Popup_button${ ( item["style"] ) ? " ddui_Popup_button_" + item["style"] : "" }">
+                        html += `<div id="${button_id}" class="ddui_Popup_button${ ( item["style"] ) ? " ddui_Popup_button_" + item["style"] : "" }" tabindex="0">
                             <div>
                                 <span class="material-icons">${item["icon"]}</span>
                             </div>
