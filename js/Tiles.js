@@ -152,9 +152,13 @@ export class Tile {
         this.AddTooltip(label);
 
         if ( onClick ) {
-            this.node.addEventListener("click", onClick);
-            this.node.addEventListener("keydown", e => {
+            this.node.addEventListener("click", event => {
+                event.stopPropagation();
+                onClick(event);
+            });
+            this.node.addEventListener("keydown", event => {
                 if ( event.key === "Enter" ) {
+                    event.stopPropagation();
                     onClick(event);
                 }
             });

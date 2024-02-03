@@ -138,6 +138,11 @@ a:hover {
     cursor: pointer;
 }
 
+.ddui_button_default {
+    border-bottom: 1px solid var(--ddui_button_text);
+    box-shadow: var(--ddui_boxShadow_very_small_emphasized);
+}
+
 .ddui_button_red {
     background-color: var(--ddui_red_surface);
 }

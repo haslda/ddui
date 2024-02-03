@@ -588,7 +588,7 @@ async function LoadDialogueControls_MessageBox(code_icon) {
             }
         },
         {
-            label: "No button xxxxxxxxxx",
+            label: "No button",
             image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M7 4H4V7" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M4 11V13" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M11 4H13" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M11 20H13" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M20 11V13" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M17 4H20V7" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7 20H4V17" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M17 20H20V17" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
             onClick: () => ddui.MessageBox(
                 'Where are all my buttons?<br>And how can you exit now?<br><span>Little hint: <span style="font-weight: bold;">ESCAPE!!!</span></span>',
@@ -1023,12 +1023,13 @@ async function LoadDialogueControls_Dialogue(code_icon) {
                         },
                         {
                             label: "Login",
+                            default: true,
                             onClick: async () => {
                                 await new Promise(res => setTimeout(res, 1000)); // simulates login attempt (little delay)
                                 const password = document.getElementById("login_dialogue_password").value;
-                                if ( password != "top-secret") {
+                                if ( password != "ddui") {
                                     const password_error_node = document.getElementById("login_dialogue_password_error");
-                                    password_error_node.innerText = `The password must be "top-secret"`;
+                                    password_error_node.innerText = `The password must be "ddui"`;
                                 } else {
                                     ddui.Toaster("Successfully logged you in.");
                                     (await login_dialogue).Discard();
@@ -1263,6 +1264,7 @@ function GetDialogueHtml_Buttons() {
             `${code("object",   `[<br>` +
                                 `    {<br>` +
                                 `        label: ${code("var", `label`)},<br>` +
+                                `        default: ${code("var", `default`)},<br>` +
                                 `        style: ${code("var", `style`)},<br>` +
                                 `        onClick: ${code("var", `onClick`)},<br>` +
                                 `        closeOnClick: ${code("var", `closeOnClick`)}<br>` +                                
@@ -1272,6 +1274,7 @@ function GetDialogueHtml_Buttons() {
         `</div>` +
         `<div class="args_grid">` + 
             `${arg("Y", true,  "label",        "String",   "Button text")}` +
+            `${arg("N", true,  "default",      "Boolean",  "Default button (gets executed on Enter)")}` +
             `${arg("N", true,  "style",        "String",   `Empty or null for default (primary); alternatives: "inferior" and "red"`)}` +
             `${arg("N", true,  "onClick",      "Function", "Function to be executed on button click")}` +
             `${arg("N", false, "closeOnClick", "Boolean",  "Shall the dialogue close after button click?")}` +
@@ -1390,6 +1393,57 @@ async function LoadDialogueControls_Buttons(code_icon) {
                                       `                    ${code("string", `"Action was taken! ... and the dialogue is still there."`, true)}<br>` +
                                       `                );<br>` +
                                       `            }`)},<br>` +                                      
+                                      `            closeOnClick: ${code("bool", `false`)}<br>` +
+                                      `        }<br>` +
+                                      `    ]`)}<br>` +
+                                      `);`)),
+                tooltip: "Show code"
+            }
+        },
+        {
+            label: "Default button",
+            image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M10.25 19.25L6.75 15.75L10.25 12.25" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M6.75 15.75H12.75C14.9591 15.75 16.75 13.9591 16.75 11.75V4.75" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
+            onClick: () => ddui.MessageBox(
+                "The button 'Say Hi' is the default button. Hit Enter to execute it.",
+                null,
+                [
+                    {
+                        label: "Cancel",
+                        style: "inferior"
+                    },
+                    {
+                        label: "Say Bye",
+                        onClick: () => ddui.Toaster("Bye!"),
+                        closeOnClick: false
+                    },
+                    {
+                        label: "Say Hi",
+                        default: true,
+                        onClick: () => ddui.Toaster("Hi!"),
+                        closeOnClick: false
+                    }
+                ]
+            ),
+            corner_button: {
+                image: { type: "html", data: code_icon },
+                onClick: () => ddui.Dialogue(null, null, code_snippet(
+                    `${code("ddui")}.MessageBox(<br>` +
+                    `${code("string", `    "The button 'Say Hi' is the default button. Hit Enter to execute it."`)},<br>` +
+                    `${code("var",    `    null`)},<br>` +
+                    `${code("object", `    [<br>` +
+                                      `        {<br>` +
+                                      `            label: ${code("string", `"Cancel"`)},<br>` +
+                                      `            style: ${code("string", `"inferior"`)}<br>` +
+                                      `        },<br>` +
+                                      `        {<br>` +
+                                      `            label: ${code("string", `"Say Bye"`)},<br>` +
+                                      `            onClick: ${code("func", `() => ${code("ddui")}.Toaster(${code("string", `"Bye!"`)})`)},<br>` +
+                                      `            closeOnClick: ${code("bool", `false`)}<br>` +
+                                      `        },<br>` +
+                                      `        {<br>` +
+                                      `            label: ${code("string", `"Say Hi"`)},<br>` +
+                                      `            default: ${code("bool", `true`)},<br>` +
+                                      `            onClick: ${code("func", `() => ${code("ddui")}.Toaster(${code("string", `"Hi!"`)})`)},<br>` +
                                       `            closeOnClick: ${code("bool", `false`)}<br>` +
                                       `        }<br>` +
                                       `    ]`)}<br>` +

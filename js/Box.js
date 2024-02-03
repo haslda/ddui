@@ -103,22 +103,22 @@ export class Box {
         }
 
         // ====================
-        // Register modal box to the escape handler
+        // Register modal box to the modal box manager
         if ( this.modal ) {
 
             // if it's the first and only modal box ...
-            if ( window.EscapeHandlerBoxes == null || window.EscapeHandlerBoxes.length <= 0 ) {
+            if ( window.ModalBoxes == null || window.ModalBoxes.length <= 0 ) {
 
-                // ... the subscribers list for all present modal boxes (EscapeHandlerBoxes) get initiated, ...
-                window.EscapeHandlerBoxes = [];
+                // ... the subscribers list for all present modal boxes gets initiated, ...
+                window.ModalBoxes = [];
 
-                // ... the escape handling for all present modal boxes is brougth to life ...
-                window.addEventListener("keydown", HandleKeyDownForEscaping);
+                // ... the keydown handling for all present modal boxes is brougth to life ...
+                window.addEventListener("keydown", HandleKeyDownForModalBoxes);
 
             }
             
-            // add the box to the subscribers list for all present modal boxes (EscapeHandlerBoxes)
-            window.EscapeHandlerBoxes.push(this);
+            // add the box to the subscribers list for all present modal boxes
+            window.ModalBoxes.push(this);
 
         }
 
@@ -150,25 +150,25 @@ export class Box {
             delete window.BoxPositionKeepers[this.id];
         } catch {}
 
-        // Deregister box from EscapeHandler
+        // Deregister box from the modal box manager
         if ( this.modal ) {
 
             // iterate throu all living modal boxes (from the youngest backwards) ...
-            let index = window.EscapeHandlerBoxes.length;
-            for ( let box of window.EscapeHandlerBoxes.slice().reverse() ) {
+            let index = window.ModalBoxes.length;
+            for ( let box of window.ModalBoxes.slice().reverse() ) {
 
                 index -= 1;
                 // ... and if the chosen you is found ...
                 if ( this == box ) {
 
-                    // ... remove it from the EscapeHandlerBoxes ...
-                    window.EscapeHandlerBoxes.splice( index, 1 );
+                    // ... remove it from the modal boxes list ...
+                    window.ModalBoxes.splice( index, 1 );
 
                     // ... and if there is no other living modal box left, then ...
-                    if ( window.EscapeHandlerBoxes.length <= 0 ) {
+                    if ( window.ModalBoxes.length <= 0 ) {
 
                         //  ... kill the Handler ...
-                        window.removeEventListener("keydown", HandleKeyDownForEscaping);
+                        window.removeEventListener("keydown", HandleKeyDownForModalBoxes);
 
                     }
                     break;
@@ -195,36 +195,14 @@ export class Box {
 
 
 
-    // All args are optional but at least a content is warmly recommended
-    //
-    // The scheme for the arg "buttons" is:
-    //
-    // [
-    //     {
-    //         label: "Cancel",           optional (but warmly recommended)
-    //         style: "inferior",         optional, possible values: null (default), "inferior", "red"
-    //         onClick: () => MyFunc(),   optional, event handler for button click (default is just closing the popup menu)
-    //         closeOnClick: true,        optional (default = true)
-    //     },
-    //     ...
-    // ]
-    //
-    // The scheme for the arg "values" is:
-    // [
-    //     {
-    //         "node_id": "==id_of_dom_element==",
-    //         "value": "==value_to_be_set=="
-    //     },
-    //     ...
-    // ]
     async Fill({
         title_text,        // String; text in header (dialogue title)
         title_icon,        // String; name of material icon in header (dialogue title)
         title_text_color,        // custom text color for header
         title_background_color,  // custom background color for header
         content,           // html of the box content (excl. header and button bar)
-        values,            // see above
-        buttons,           // see above
+        values,
+        buttons,
         put_focus_on_element_with_id,   // String; id of element that shall be focused
         build_buttonbar = true,   // add buttons as a button bar on the bottom of the box
         container_style,          // custom style for container (wrapping content and buttonbar)
@@ -263,6 +241,7 @@ export class Box {
                 }
                 if ( build_buttonbar ) {
                     button_class = `ddui_button${ ( button["style"] ) ? " ddui_button_" + button["style"] : "" }`;
+                    if ( button.default === true ) { button_class += " ddui_button_default"; }
                     buttonbar += `<div id="${button_id}" class="${button_class}" name="ddui_button" tabindex="0"><div class="ddui_button_label">${button["label"]}</div></div>`;
                 }
             }
@@ -382,13 +361,20 @@ export class Box {
 
             for ( let button of buttons ) {
 
+                // the default button gets saved as a box property (so that it can be executed with the enter key)
+                if ( button.default === true ) {
+                    this.default_button = document.getElementById(button.id);
+                }
+
                 // set default value for closeOnClick => true
                 if ( button.closeOnClick != false ) { button.closeOnClick = true }
 
                 // if the button shall have a click action ...
                 if ( button.onClick || button.closeOnClick ) {
 
-                    const button_click_handler = async () => {
+                    const button_click_handler = async event => {
+
+                        event.stopPropagation();
                         
                         if ( button.onClick ) {
 
@@ -421,11 +407,11 @@ export class Box {
                     
                     // ... add the desired event listener to it
                     button.node = document.getElementById(button.id);
-                    button.node.addEventListener("click", button_click_handler);
+                    button.node.addEventListener("click", event => { button_click_handler(event); });
                     // also on Enter when focused
                     button.node.addEventListener("keydown", event => {
                         if ( event.key === "Enter" ) {
-                            button_click_handler();
+                            button_click_handler(event);
                             this.Focus();
                         }
                     })
@@ -628,32 +614,8 @@ function MaintainBoxPosition({ box_id, align_mode, anchor_node }) {
 
 
 
-// Event handler for discarding boxes with the escape key
-// Actually this handler does also care for keeping ther focus change with the Tab key inside the box
-// (so a renaming would actually be necessary)
-function HandleKeyDownForEscaping(event) {
-
-    // if Escape is pressed ...
-    if (event.key === 'Escape') {
-
-        // ... fetch the top most box (the box on top of all the others) ...
-        const top_most_box = window.EscapeHandlerBoxes[window.EscapeHandlerBoxes.length - 1];
-        // ... and discard it, if exiting is allowed.
-        if ( top_most_box.allow_exit ) { top_most_box.Discard(); }
-
-    // This block takes care, that by pressing "Tab" the focus doesn't get outside of the box (behind the box)
-    // if Tab is pressed ...
-    } else if (event.key === 'Tab') {
-
-        console.log("Tabbed");
-
-        // ... and if the focused element is not the body ...
-        if ( document.activeElement.tagName != "BODY" ) {
-            // ... the focused element shall - as it is now beeing left - keep the focus inside the box (handler will kill itsself after first run)
-            document.activeElement.addEventListener("focusout", event => KeepFocusInsideBox(event), {once: true});
-        }
-
-    }
+// Event handler for key down events in modal boxes (escape, tab, enter)
+function HandleKeyDownForModalBoxes(event) {
 
     async function KeepFocusInsideBox(event) {
 
@@ -674,7 +636,7 @@ function HandleKeyDownForEscaping(event) {
         if ( has_focus_shifted === true ) {
 
             // we check, if the newly focused element is inside the box
-            const top_most_box = window.EscapeHandlerBoxes[window.EscapeHandlerBoxes.length - 1];
+            const top_most_box = window.ModalBoxes[window.ModalBoxes.length - 1];
             if ( !top_most_box.node.contains(document.activeElement) ) {
 
                 // if not, the tabbing starts again as if the box was newly opened
@@ -682,6 +644,41 @@ function HandleKeyDownForEscaping(event) {
 
             }
         }  
+    }
+
+
+
+    // if Escape is pressed ...
+    if (event.key === 'Escape') {
+
+        // ... fetch the top most box (the box on top of all the others) ...
+        const top_most_box = window.ModalBoxes[window.ModalBoxes.length - 1];
+        // ... and discard it, if exiting is allowed.
+        if ( top_most_box.allow_exit ) { top_most_box.Discard(); }
+
+
+
+    // This block takes care, that by pressing "Tab" the focus doesn't get outside of the box (behind the box)
+    // if Tab is pressed ...
+    } else if (event.key === 'Tab') {
+
+        // ... and if the focused element is not the body ...
+        if ( document.activeElement.tagName != "BODY" ) {
+            // ... the focused element shall - as it is now beeing left - keep the focus inside the box (handler will kill itsself after first run)
+            document.activeElement.addEventListener("focusout", event => KeepFocusInsideBox(event), {once: true});
+        }
+
+
+
+    } else if (event.key === 'Enter') {
+
+        event.stopPropagation();
+
+        // ... fetch the top most box (the box on top of all the others) ...
+        const top_most_box = window.ModalBoxes[window.ModalBoxes.length - 1];
+        // ... and dispatch the click event of the default button, if there is one
+        if ( top_most_box.default_button ) { top_most_box.default_button.dispatchEvent(new Event("click")); }
+
     }
 
 }

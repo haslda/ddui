@@ -81,6 +81,7 @@
 
     --ddui_L_boxShadow: 0px 0px 8px 4px rgba(0,0,0,0.25); /* typical for dialogues */
     --ddui_L_boxShadow_very_small: 0px 0px 5px 0px rgba(0,0,0,0.25); /* typical for buttons */
+    --ddui_L_boxShadow_very_small_emphasized: 0px 3px 5px 0px rgba(0,0,0,0.5); /* typical for default buttons */
 
     /* accent colors */
 
@@ -166,6 +167,7 @@
 
     --ddui_D_boxShadow: 0 0 8px 4px rgba(150,150,150,0.3); /* typical for dialogues */
     --ddui_D_boxShadow_very_small: 0 0 5px 0 rgba(255,255,255,0.2); /* typical for buttons */
+    --ddui_D_boxShadow_very_small_emphasized: 0px 3px 5px 0px rgba(255,255,255,0.4); /* typical for default buttons */
 
     /* accent colors */
 

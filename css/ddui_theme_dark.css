@@ -39,6 +39,7 @@
 
     --ddui_boxShadow: var(--ddui_D_boxShadow); /* typical for dialogues */
     --ddui_boxShadow_very_small: var(--ddui_D_boxShadow_very_small); /* typical for buttons */
+    --ddui_boxShadow_very_small_emphasized: var(--ddui_D_boxShadow_very_small_emphasized); /* typical for default buttons */
 
     /* accent colors */
 
