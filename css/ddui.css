@@ -72,7 +72,7 @@ h1 {
     color: var(--ddui_page_text);
     font-size: 24px;
     font-weight: 700;
-    margin: 25px 0 15px 0;
+    margin: 50px 0 15px 0;
 }
 
 h2 {
@@ -175,13 +175,15 @@ a:hover {
 input,
 select,
 textarea {
+    height: 30px;
+
     font-size: 16px;
     border: 1px solid var(--ddui_line);
     border-radius: 4px;
     padding: 5px 6px 4px 6px;
 	color: var(--ddui_input_forecolor);
     background-color: var(--ddui_page_background);
-	font-weight: 400;
+	font-weight: 600;
 }
 
 input:focus,

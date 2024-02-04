@@ -942,7 +942,7 @@ function GetDialogueHtml_Dialogue() {
             `${arg("N", false, "allow_exit",   "Boolean", `Default is true, which means, the message box can be discarded (e.g. via pressing escape).`)}` +
         `</div>` +
         `<h1>Demo</h1>` +
-        `<p>x</p>` +
+        `<p>The basic dialogue is demonstrated in form of a login screen.</p>` +
         `<br><div id="Dialogue_Dialogue_Demo_Tiles_1" style="min-height: 90px;"></div><br>` +
         `<p>x</p>` +
         `<br><div id="Dialogue_Dialogue_Demo_Tiles_2" style="min-height: 90px;"></div><br>` +
