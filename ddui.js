@@ -20,7 +20,7 @@ export async function Popup(items, align_mode, anchor_node, type) { return new P
 import { Dialogue as DialogueClass } from "./js/Dialogue.js";
 export async function Dialogue(title_text, title_icon, html, html_ref, css, css_ref, values, put_focus_on_element_with_id, buttons, allow_exit) { return new DialogueClass(title_text, title_icon, html, html_ref, css, css_ref, values, put_focus_on_element_with_id, buttons, allow_exit) };
 import { LoadingBox as LoadingBoxClass } from "./js/LoadingBox.js";
-export async function LoadingBox(info_text) { return new LoadingBoxClass(info_text) };
+export function LoadingBox(info_text) { return new LoadingBoxClass(info_text) };
 import { Toaster as ToasterClass } from "./js/Toaster.js";
 export async function Toaster(text) { return new ToasterClass(text) };
 import { Tooltip as TooltipClass } from "./js/Tooltip.js";

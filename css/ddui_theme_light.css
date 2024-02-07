@@ -69,11 +69,23 @@
     --ddui_green_surface_shiny: var(--ddui_L_green_surface_shiny);
     --ddui_green_surface_shady: var(--ddui_L_green_surface_shady);
 
+    /* turquoise */
+    --ddui_turquoise_text: var(--ddui_L_turquoise_text);
+    --ddui_turquoise_surface: var(--ddui_L_turquoise_surface);
+    --ddui_turquoise_surface_shiny: var(--ddui_L_turquoise_surface_shiny);
+    --ddui_turquoise_surface_shady: var(--ddui_L_turquoise_surface_shady);
+
     /* blue */
     --ddui_blue_text: var(--ddui_L_blue_text);
     --ddui_blue_surface: var(--ddui_L_blue_surface);
     --ddui_blue_surface_shiny: var(--ddui_L_blue_surface_shiny);
     --ddui_blue_surface_shady: var(--ddui_L_blue_surface_shady);
+
+    /* purple */
+    --ddui_purple_text: var(--ddui_L_purple_text);
+    --ddui_purple_surface: var(--ddui_L_purple_surface);
+    --ddui_purple_surface_shiny: var(--ddui_L_purple_surface_shiny);
+    --ddui_purple_surface_shady: var(--ddui_L_purple_surface_shady);
 
     /* pink */
     --ddui_pink_text: var(--ddui_L_pink_text);

@@ -234,7 +234,7 @@ async function OpenHeaderMenuMore(event) {
 
 function code_snippet(code) {
     return `<h1 style="margin-top: 0;">Code snippet</h1>` +
-        `<div class="codebox code">${code}</div>`
+        `<div class="codebox codebox_high code">${code}</div>`
 }
 
 function code(style, text, parse = false) {
@@ -248,6 +248,86 @@ function code(style, text, parse = false) {
         }
         return `<span class="code_${style}">${text}</span>`
     }
+
+}
+
+function codeX(text) {
+
+    // Das Steuerzeichen lautet: °X_
+    // Statt "X" wird der jeweilige Buchstabe verwendet.
+    // Beispiel: `codeX(°Fawait new Promise(°Vres°F => setTimeout(°Vres°F, °N1000°F)); °I// delay)`
+
+    // D ddui (green)
+    // F function (white)
+    // P programming reserved word (turquoise)
+    // V variable (blue)
+    // S string (pink)
+    // N number (red)
+    // B boolean (red)
+    // O object (yellow)
+    // I inferior (gray)
+
+    // declaring variables for the while loop
+    let start_index;
+    let end_index;
+    let html_snippet;
+
+    // urlencode the characters "<" and ">"
+    while ( text.search("°>") != -1 ) {
+
+        // find the start and end position of the fist html snippet in the text
+        start_index = text.search("°>");
+        end_index = text.search("°<");
+
+        // fetch the html_snippet
+        html_snippet = text.slice(start_index + 2, end_index);
+
+        // encode the html_snippet
+        html_snippet = html_snippet.replace(/</g, "&lt");
+        html_snippet = html_snippet.replace(/>/g, "&gt");
+
+        // assemble the "text before", the encoded "html snippet" and the "text after" together
+        text = text.slice(0, start_index) +
+            html_snippet +
+            text.slice(end_index + 2);
+
+    }
+
+    let text_part;
+    let resume_index;
+
+    while ( text.search("°L") != -1 ) {
+        start_index = text.search("°L");
+        text_part = text.slice(start_index + 2);
+        
+        resume_index = -1;
+        for ( let char of text_part ) {
+            resume_index += 1;
+            if ( encodeURI(char) != "%20" && encodeURI(char) != "%0A" ) {
+                break;
+            }
+        }
+
+        text = text.slice(0, start_index) + decodeURI("%0A") +
+            text_part.slice(resume_index);
+
+    }
+
+    // replacing all formatting literals with the formatting html
+    text = text.replace(/°D/g, `</span><span class="code_ddui">`);
+    text = text.replace(/°F/g, `</span><span class="code_func">`);
+    text = text.replace(/°P/g, `</span><span class="code_prog">`);
+    text = text.replace(/°V/g, `</span><span class="code_var">`);
+    text = text.replace(/°S/g, `</span><span class="code_string">`);
+    text = text.replace(/°N/g, `</span><span class="code_number">`);
+    text = text.replace(/°B/g, `</span><span class="code_bool">`);
+    text = text.replace(/°O/g, `</span><span class="code_object">`);
+    text = text.replace(/°I/g, `</span><span class="code_inferior">`);
+
+    // remove the </span> at the beginning and add it at the end
+    text = text.slice(7) + `</span>`;
+
+    return text;
 
 }
 
@@ -287,8 +367,13 @@ function GetDialogueCss_Default() {
         background-color: var(--ddui_shady_themed);
         padding: 10px;
         margin-bottom: 15px;
-        white-space: pre-wrap;
+        white-space: pre;
+        max-height: 30vh;
+        overflow-y: auto;
     }
+    .codebox_high {
+        max-height: 60vh;
+    }    
     .code {
         font-family: Courier New;
         font-weight: 700;
@@ -299,6 +384,9 @@ function GetDialogueCss_Default() {
     .code_func {
         color: var(--ddui_page_text);
     }
+    .code_prog {
+        color: var(--ddui_turquoise_text);
+    }    
     .code_var {
         color: var(--ddui_blue_text);
     }
@@ -306,7 +394,7 @@ function GetDialogueCss_Default() {
         color: var(--ddui_pink_text);
     }
     .code_number {
-        color: var(--ddui_red_text);
+        color: var(--ddui_purple_text);
     }
     .code_bool {
         color: var(--ddui_red_text);
@@ -320,7 +408,6 @@ function GetDialogueCss_Default() {
     .args_grid {
         display: grid;
         grid-template-columns: min-content auto;
-        grid-template_rows: auto auto;
         row-gap: 5px;
         column-gap: 20px;
     }
@@ -351,18 +438,20 @@ function GetDialogueCss_Default() {
 function GetDialogueHtml_MessageBox() {
 
     return `<div class="specs_dialogue">` +
-        `<h1 style="margin-top: 10px;">Code example</h1>` +
+        `<h1 style="margin-top: 25px;">About</h1>` +
+        `<p>The message box is self explaining.</p>` +
+        `<h1>Code example</h1>` +
             `<div class="codebox code">` +
-            `${code("ddui")}.MessageBox(${code("string", `"Hello World!"`)}</span>);` +
+            `${codeX(`°Dddui°F.MessageBox(°S"Hello World!"°F);`)}` +
             `</div>` +
         `<h1>Specification</h1>` +
             `<div class="codebox code">` +
-            `${code("ddui")}.MessageBox(${code("var", `content`)}, ${code("var", `type`)}, ${code("var", `buttons`)}, ${code("var", `allow_exit`)});` +
+            `${codeX(`°Dddui°F.MessageBox(°Vcontent°F, °Vtype°F, °Vbuttons°F, °Vallow_exit°F);`)}` +
             `</div>` +
         `<div class="args_grid">` +
             `${arg("Y", true,  "content",    "String",  `Message box content as text or html string`)}` +
             `${arg("N", true,  "type",       "String",  `Can be "" or null (default; simple message box)<br>The values "error", "warning", "info" and "success" show a special designed message box.`)}` +
-            `${arg("N", true,  "buttons",    "List",    `See the <a onclick="ShowDialogue('Buttons')" ddui_tooltip="open button specs">buttons specs</a> for details`)}` +
+            `${arg("N", true,  "buttons",    "List",    `See the <a onclick="ShowDialogue('Buttons')" ddui_tooltip="open specs">buttons specs</a> for details`)}` +
             `${arg("N", false, "allow_exit", "Boolean", `Default ist true, which means, the message box can be discarded (e.g. via pressing escape).`)}` +
         `</div>` +
         `<h1>Demo</h1>` +
@@ -399,10 +488,9 @@ async function LoadDialogueControls_MessageBox(code_icon) {
             corner_button: {
                 image: { type: "html", data: code_icon },
                 onClick: () => ddui.Dialogue(null, null, code_snippet(
-                    `${code("ddui")}.MessageBox(` +
-                    `${code("string", `"You can leave me easily, by clicking outside or by pressing escape."`)}` +
-                    `);`)),
-                    tooltip: "Show code"
+                    `${codeX(`°Dddui°F.MessageBox(°S"You can leave me easily, by clicking outside or by pressing escape."°F);`)}`
+                )),
+                tooltip: "Show code"
             }
         },
         {
@@ -618,7 +706,9 @@ async function LoadDialogueControls_MessageBox(code_icon) {
 function GetDialogueHtml_Toaster() {
 
     return `<div class="specs_dialogue">` +
-        `<h1 style="margin-top: 10px;">Code example</h1>` +
+        `<h1 style="margin-top: 25px;">About</h1>` +
+        `<p>With the toaster an information (e.g. a success feedback) can be shown.</p>` +
+        `<h1>Code example</h1>` +
             `<div class="codebox code">` +
                 `${code("ddui")}.Toaster(<span class="code code_arg">${code("string", `"Hello World!"`)}</span>);` +
             `</div>` +
@@ -630,8 +720,7 @@ function GetDialogueHtml_Toaster() {
         `${arg("Y",false, "text", "String", "Message text")}` +
     `</div>` +
         `<h1>Demo</h1>` +
-        `<p>A toaster is just a short information on the fly. The longer the text, the longer it stays.<br>If you wish, you can also discard it before end of countdown.</p>` +
-        `<br><div id="Dialogue_Toaster_Demo_Tiles" style="min-height: 90px;"></div><br>` +
+        `<div id="Dialogue_Toaster_Demo_Tiles" style="min-height: 90px;"></div><br>` +
     `</div>`
 
 }
@@ -654,9 +743,8 @@ async function LoadDialogueControls_Toaster(code_icon) {
             corner_button: {
                 image: { type: "html", data: code_icon },
                 onClick: () => ddui.Dialogue(null, null, code_snippet(
-                    `${code("ddui")}.Toaster(` +
-                    `${code("string", `"Hi there!"`)}` +
-                    `);`)),
+                    codeX(`°Dddui°F.Toaster(°S"Hi there!"°F);`)
+                    )),
                 tooltip: "Show code"
             }
         },
@@ -666,10 +754,13 @@ async function LoadDialogueControls_Toaster(code_icon) {
             onClick: () => ddui.Toaster("The very complex action has been fulfilled successfully. Thanks for your incredible patience!"),
             corner_button: {
                 image: { type: "html", data: code_icon },
+                // onClick: () => ddui.Dialogue(null, null, code_snippet(
+                //     `${code("ddui")}.Toaster(` +
+                //     `${code("string", `"The very complex action has been fulfilled successfully. Thanks for your incredible patience!"`)}` +
+                //     `);`)),
                 onClick: () => ddui.Dialogue(null, null, code_snippet(
-                    `${code("ddui")}.Toaster(` +
-                    `${code("string", `"The very complex action has been fulfilled successfully. Thanks for your incredible patience!"`)}` +
-                    `);`)),
+                    codeX(`°Dddui°F.Toaster(°S"The very complex action has been fulfilled successfully. Thanks for your incredible patience!"°F);`)
+                    )),                    
                 tooltip: "Show code"
             }
         }
@@ -685,7 +776,9 @@ async function LoadDialogueControls_Toaster(code_icon) {
 function GetDialogueHtml_Popup() {
 
     return `<div class="specs_dialogue">` +
-        `<h1 style="margin-top: 10px;">Code example</h1>` +
+        `<h1 style="margin-top: 25px;">About</h1>` +
+        `<p>A popup menu can be called, when a user shall be able to execute actions, without the need to place action buttons on your page.</p>` +
+        `<h1>Code example</h1>` +
             `<div class="codebox code">` +
 
                 `${code("inferior", `const my_button = document.getElementById("my_button");`)}<br>` +
@@ -729,8 +822,7 @@ function GetDialogueHtml_Popup() {
         ${arg( "N", true,  "type",        "String",   `Can only be "list_with_icons" (default)`)}
     </div>                
         <h1>Demo</h1>
-        <p>A popup menu can be called, when a user shall be able to execute actions, without the need to place action buttons on your page.</p>
-        <br><div id="Dialogue_Popup_Demo_Tiles_1" style="min-height: 90px;"></div><br>
+        <div id="Dialogue_Popup_Demo_Tiles_1" style="min-height: 90px;"></div><br>
     </div>`
 
 }
@@ -919,13 +1011,95 @@ async function LoadDialogueControls_Popup(code_icon) {
 function GetDialogueHtml_Dialogue() {
 
     return `<div class="specs_dialogue">` +
-        `<h1 style="margin-top: 10px;">Code example</h1>` +
-            `<div class="codebox code">` +
-            `${code("ddui")}.Dialogue(${code("string", `"Hello World!"`)}</span>);` +
-            `</div>` +
+        `<h1 style="margin-top: 25px;">About</h1>` +
+        `<p>A dialogue is a modal box that can contain anything.</p>` +
+        `<p>It can be given a html (or url to an html) and also a css (or url to it). The html can be filled with initial values.</p>`+
+        `<p>Like message boxes it can have buttons.</p>` +
+        `<h1>Code example</h1>` +
+        `<div class="codebox code">` +
+        `${codeX(`°Fconst °Vlogin_dialogue°F = °Dddui°F.Dialogue(°L
+            °S    "Login"°F,°L
+            °S    "key"°F,°L
+            °S    °>\`<div class="login_dialogue_container">\`°<°F +°L
+            °S        °>\`<div class="login_dialogue_label">Username</div>\`°<°F +°L
+            °S            °>\`<div class="login_dialogue_input_container">\`°<°F +°L
+            °S                °>\`<input class="login_dialogue_input" id="login_dialogue_input_username" type="text" placeholder="username">\`°<°F +°L
+            °S            °>\`</div>\`°<°F +°L
+            °S            °>\`<div class="login_dialogue_space"></div>\`°<°F +°L
+            °S            °>\`<div class="login_dialogue_label">Password</div>\`°<°F +°L
+            °S            °>\`<div class="login_dialogue_input_container">\`°<°F +°L
+            °S            °>\`<input id="login_dialogue_password" class="login_dialogue_input" type="password">\`°<°F +°L
+            °S        °>\`</div>\`°<°F +°L
+            °S        °>\`<div id="login_dialogue_password_error"></div>\`°<°F +°L
+            °S    °>\`</div>\`°<°F,°L
+            °V    null°F,°L
+            °S    \`.login_dialogue_container {\`°F +°L
+            °S        \`display: flex;\`°F +°L
+            °S        \`flex-direction: column;\`°F +°L
+            °S        \`width: 350px;\`°F +°L
+            °S        \`max-width: 100%;\`°F +°L
+            °S    \`}\`°F +°L
+            °S    \`.login_dialogue_space {\`°F +°L
+            °S        \`height: 15px;\`°F +°L
+            °S    \`}\`°F +°L
+            °S    \`.login_dialogue_input_container {\`°F +°L
+            °S        \`margin-top: 3px;\`°F +°L
+            °S        \`width: 100%;\`°F +°L
+            °S    \`}\`°F +°L
+            °S    \`.login_dialogue_input {\`°F +°L
+            °S        \`width: 100%;\`°F +°L
+            °S    \`}\`°F +°L
+            °S    \`#login_dialogue_password_error {\`°F +°L
+            °S        \`color: var(--ddui_red_text);\`°F +°L
+            °S    \`}\`°F,°L
+            °V    null°F,°L
+            °O    [°L
+            °O        {°L
+            °O            node_id: °S"login_dialogue_input_username"°O,°L
+            °O            value: °S"my.mail@example.com"°L
+            °O        }°L
+            °O    ]°F,°L
+            °S    "login_dialogue_input_username"°F,°L
+            °O    [°L
+            °O        {°L
+            °O            label: °S"Cancel"°O,°L
+            °O            style: °S"inferior"°L
+            °O        },°L
+            °O        {°L
+            °O            label: °S"Login"°O,°L
+            °O            default: °Btrue°O,°L
+            °O            onClick: °Pasync°F () => {°L
+            °F                °Pawait°F new Promise(°Vres°F => setTimeout(°Vres°F, °N1000°F)); °I// simulates login attempt (little delay)°L
+            °F                °Pconst °Vpassword°F = document.getElementById(°S"login_dialogue_password"°F).value;°L
+            °F                °Pif °F( °Vpassword°F != °S"ddui"°F) {°L
+            °F                    const °Vpassword_error_node°F = document.getElementById(°S"login_dialogue_password_error"°F);°L
+            °F                    °Vpassword_error_node°F.innerText = °S\`The password must be "ddui"\`°F;°L
+            °F                } °Pelse°F {°L
+            °F                    °Dddui°F.Toaster(°S"Successfully logged you in."°F);°L
+            °F                    (°Pawait °Vlogin_dialogue°F).Discard();°L
+            °F                }°L
+            °F            },°L
+            °O            closeOnClick: °Bfalse°L
+            °O        }°L
+            °O    ]°L
+            °F);`
+        )}` +
+    `</div>` +
         `<h1>Specification</h1>` +
             `<div class="codebox code">` +
-            `${code("ddui")}.Dialogue(${code("var", `content`)}, ${code("var", `type`)}, ${code("var", `buttons`)}, ${code("var", `allow_exit`)});` +
+                `${codeX(`°Dddui°F.Dialogue(°L
+                    °V    title_text°F,°L
+                    °V    title_icon°F,°L
+                    °V    html°F,°L
+                    °V    html_ref°F,°L
+                    °V    css°F,°L
+                    °V    css_ref°F,°L
+                    °V    values°F,°L
+                    °V    put_focus_on_element_with_id°F,°L
+                    °V    buttons°F,°L
+                    °V    allow_exit°L
+                    °F);`
+                )}` +
             `</div>` +
         `<div class="args_grid">` +
             `${arg("N", true,  "title_text",   "String",  `Text in header (dialogue title)`)}` +
@@ -938,16 +1112,12 @@ function GetDialogueHtml_Dialogue() {
             `${arg("N", false, "  node_id",    "String",  `Id of the dom element that shall be initialized with a value`)}` +
             `${arg("N", true,  "  value",      "String",  `The value, that shall be filled in the element`)}` +
             `${arg("N", true,  "put_focus_on_element_with_id",      "String",   `Id of dom element that shall be focused`)}` +
-            `${arg("N", true,  "buttons",      "List",    `See the <a onclick="ShowDialogue('Buttons')" ddui_tooltip="open button specs">buttons specs</a> for details`)}` +
+            `${arg("N", true,  "buttons",      "List",    `See the <a onclick="ShowDialogue('Buttons')" ddui_tooltip="open specs">buttons specs</a> for details`)}` +
             `${arg("N", false, "allow_exit",   "Boolean", `Default is true, which means, the message box can be discarded (e.g. via pressing escape).`)}` +
         `</div>` +
         `<h1>Demo</h1>` +
         `<p>The basic dialogue is demonstrated in form of a login screen.</p>` +
         `<br><div id="Dialogue_Dialogue_Demo_Tiles_1" style="min-height: 90px;"></div><br>` +
-        `<p>x</p>` +
-        `<br><div id="Dialogue_Dialogue_Demo_Tiles_2" style="min-height: 90px;"></div><br>` +
-        `<p>x</p>` +
-        `<br><div id="Dialogue_Dialogue_Demo_Tiles_3" style="min-height: 90px;"></div><br>` +
     `</div>`
 
 }
@@ -969,7 +1139,7 @@ async function LoadDialogueControls_Dialogue(code_icon) {
     // ... and then create the tiles element
     new ddui.Tiles("Dialogue_Dialogue_Demo_Tiles_1", [
         {
-            label: "Basic",
+            label: "Static",
             image: { type: "html", data: `<svg width="32px" height="32px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M2 19V5C2 3.89543 2.89543 3 4 3H20C21.1046 3 22 3.89543 22 5V19C22 20.1046 21.1046 21 20 21H4C2.89543 21 2 20.1046 2 19Z" stroke="var(--ddui_page_text)" stroke-width="1.5"></path><path d="M2 7L22 7" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M5 5.01L5.01 4.99889" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8 5.01L8.01 4.99889" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M11 5.01L11.01 4.99889" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
             onClick: () => {
                 const login_dialogue = ddui.Dialogue(
@@ -977,12 +1147,12 @@ async function LoadDialogueControls_Dialogue(code_icon) {
                     "key",
                     `<div class="login_dialogue_container">` +
                         `<div class="login_dialogue_label">Username</div>` +
-                        `<div class="login_dialogue_input_container">` +
-                            `<input class="login_dialogue_input" id="login_dialogue_input_username" type="text" placeholder="username">` +
-                        `</div>` +
-                        `<div class="login_dialogue_space"></div>` +
-                        `<div class="login_dialogue_label">Password</div>` +
-                        `<div class="login_dialogue_input_container">` +
+                            `<div class="login_dialogue_input_container">` +
+                                `<input class="login_dialogue_input" id="login_dialogue_input_username" type="text" placeholder="username">` +
+                            `</div>` +
+                            `<div class="login_dialogue_space"></div>` +
+                            `<div class="login_dialogue_label">Password</div>` +
+                            `<div class="login_dialogue_input_container">` +
                             `<input id="login_dialogue_password" class="login_dialogue_input" type="password">` +
                         `</div>` +
                         `<div id="login_dialogue_password_error"></div>` +
@@ -1006,8 +1176,7 @@ async function LoadDialogueControls_Dialogue(code_icon) {
                     `}` +
                     `#login_dialogue_password_error {` +
                         `color: var(--ddui_red_text);` +
-                    `}` +                
-                    ``,
+                    `}`,
                     null,
                     [
                         {
@@ -1042,9 +1211,220 @@ async function LoadDialogueControls_Dialogue(code_icon) {
             corner_button: {
                 image: { type: "html", data: code_icon },
                 onClick: () => ddui.Dialogue(null, null, code_snippet(
-                    `${code("ddui")}.MessageBox(` +
-                    `${code("string", `"You can leave me easily, by clicking outside or by pressing escape."`)}` +
-                    `);`)),
+
+                    codeX(`°Fconst °Vlogin_dialogue°F = °Dddui°F.Dialogue(°L
+                        °S    "Login"°F,°L
+                        °S    "key"°F,°L
+                        °S    °>\`<div class="login_dialogue_container">\`°<°F +°L
+                        °S        °>\`<div class="login_dialogue_label">Username</div>\`°<°F +°L
+                        °S            °>\`<div class="login_dialogue_input_container">\`°<°F +°L
+                        °S                °>\`<input class="login_dialogue_input" id="login_dialogue_input_username" type="text" placeholder="username">\`°<°F +°L
+                        °S            °>\`</div>\`°<°F +°L
+                        °S            °>\`<div class="login_dialogue_space"></div>\`°<°F +°L
+                        °S            °>\`<div class="login_dialogue_label">Password</div>\`°<°F +°L
+                        °S            °>\`<div class="login_dialogue_input_container">\`°<°F +°L
+                        °S            °>\`<input id="login_dialogue_password" class="login_dialogue_input" type="password">\`°<°F +°L
+                        °S        °>\`</div>\`°<°F +°L
+                        °S        °>\`<div id="login_dialogue_password_error"></div>\`°<°F +°L
+                        °S    °>\`</div>\`°<°F,°L
+                        °V    null°F,°L
+                        °S    \`.login_dialogue_container {\`°F +°L
+                        °S        \`display: flex;\`°F +°L
+                        °S        \`flex-direction: column;\`°F +°L
+                        °S        \`width: 350px;\`°F +°L
+                        °S        \`max-width: 100%;\`°F +°L
+                        °S    \`}\`°F +°L
+                        °S    \`.login_dialogue_space {\`°F +°L
+                        °S        \`height: 15px;\`°F +°L
+                        °S    \`}\`°F +°L
+                        °S    \`.login_dialogue_input_container {\`°F +°L
+                        °S        \`margin-top: 3px;\`°F +°L
+                        °S        \`width: 100%;\`°F +°L
+                        °S    \`}\`°F +°L
+                        °S    \`.login_dialogue_input {\`°F +°L
+                        °S        \`width: 100%;\`°F +°L
+                        °S    \`}\`°F +°L
+                        °S    \`#login_dialogue_password_error {\`°F +°L
+                        °S        \`color: var(--ddui_red_text);\`°F +°L
+                        °S    \`}\`°F,°L
+                        °V    null°F,°L
+                        °O    [°L
+                        °O        {°L
+                        °O            node_id: °S"login_dialogue_input_username"°O,°L
+                        °O            value: °S"my.mail@example.com"°L
+                        °O        }°L
+                        °O    ]°F,°L
+                        °S    "login_dialogue_input_username"°F,°L
+                        °O    [°L
+                        °O        {°L
+                        °O            label: °S"Cancel"°O,°L
+                        °O            style: °S"inferior"°L
+                        °O        },°L
+                        °O        {°L
+                        °O            label: °S"Login"°O,°L
+                        °O            default: °Btrue°O,°L
+                        °O            onClick: °Pasync°F () => {°L
+                        °F                °Pawait°F new Promise(°Vres°F => setTimeout(°Vres°F, °N1000°F)); °I// simulates login attempt (little delay)°L
+                        °F                °Pconst °Vpassword°F = document.getElementById(°S"login_dialogue_password"°F).value;°L
+                        °F                °Pif °F( °Vpassword°F != °S"ddui"°F) {°L
+                        °F                    const °Vpassword_error_node°F = document.getElementById(°S"login_dialogue_password_error"°F);°L
+                        °F                    °Vpassword_error_node°F.innerText = °S\`The password must be "ddui"\`°F;°L
+                        °F                } °Pelse°F {°L
+                        °F                    °Dddui°F.Toaster(°S"Successfully logged you in."°F);°L
+                        °F                    (°Pawait °Vlogin_dialogue°F).Discard();°L
+                        °F                }°L
+                        °F            },°L
+                        °O            closeOnClick: °Bfalse°L
+                        °O        }°L
+                        °O    ]°L
+                        °F);`
+                    )
+                )),
+                    tooltip: "Show code"
+            }
+        },
+        {
+            label: "Dynamic",
+            image: { type: "html", data: `<svg width="32px" height="32px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M2 19V5C2 3.89543 2.89543 3 4 3H20C21.1046 3 22 3.89543 22 5V19C22 20.1046 21.1046 21 20 21H4C2.89543 21 2 20.1046 2 19Z" stroke="var(--ddui_page_text)" stroke-width="1.5"></path><path d="M2 7L22 7" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M5 5.01L5.01 4.99889" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8 5.01L8.01 4.99889" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M11 5.01L11.01 4.99889" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M11.6667 11L10 14H14L12.3333 17" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
+            onClick: () => {
+                const login_dialogue = ddui.Dialogue(
+                    "Login",
+                    "key",
+                    `<div class="login_dialogue_container">` +
+                        `<div class="login_dialogue_label">Username</div>` +
+                            `<div class="login_dialogue_input_container">` +
+                                `<input class="login_dialogue_input" id="login_dialogue_input_username" type="text" placeholder="username">` +
+                            `</div>` +
+                            `<div class="login_dialogue_space"></div>` +
+                            `<div class="login_dialogue_label">Password</div>` +
+                            `<div class="login_dialogue_input_container">` +
+                            `<input id="login_dialogue_password" class="login_dialogue_input" type="password">` +
+                        `</div>` +
+                        `<div id="login_dialogue_password_error"></div>` +
+                    `</div>`,
+                    null,
+                    `.login_dialogue_container {` +
+                        `display: flex;` +
+                        `flex-direction: column;` +
+                        `width: 350px;` +
+                        `max-width: 100%;` +
+                    `}` +
+                    `.login_dialogue_space {` +
+                        `height: 15px;` +
+                    `}` +
+                    `.login_dialogue_input_container {` +
+                        `margin-top: 3px;` +
+                        `width: 100%;` +
+                    `}` +
+                    `.login_dialogue_input {` +
+                        `width: 100%;` +
+                    `}` +
+                    `#login_dialogue_password_error {` +
+                        `color: var(--ddui_red_text);` +
+                    `}`,
+                    null,
+                    [
+                        {
+                            node_id: "login_dialogue_input_username",
+                            value: "my.mail@example.com"
+                        }
+                    ],
+                    "login_dialogue_input_username",
+                    [
+                        {
+                            label: "Cancel",
+                            style: "inferior"
+                        },
+                        {
+                            label: "Login",
+                            default: true,
+                            onClick: async () => {
+                                await new Promise(res => setTimeout(res, 1000)); // simulates login attempt (little delay)
+                                const password = document.getElementById("login_dialogue_password").value;
+                                if ( password != "ddui") {
+                                    const password_error_node = document.getElementById("login_dialogue_password_error");
+                                    password_error_node.innerText = `The password must be "ddui"`;
+                                } else {
+                                    ddui.Toaster("Successfully logged you in.");
+                                    (await login_dialogue).Discard();
+                                }
+                            },
+                            closeOnClick: false
+                        }
+                    ]
+                )},
+            corner_button: {
+                image: { type: "html", data: code_icon },
+                onClick: () => ddui.Dialogue(null, null, code_snippet(
+
+                    codeX(`°Fconst °Vlogin_dialogue°F = °Dddui°F.Dialogue(°L
+                        °S    "Login"°F,°L
+                        °S    "key"°F,°L
+                        °S    °>\`<div class="login_dialogue_container">\`°<°F +°L
+                        °S        °>\`<div class="login_dialogue_label">Username</div>\`°<°F +°L
+                        °S            °>\`<div class="login_dialogue_input_container">\`°<°F +°L
+                        °S                °>\`<input class="login_dialogue_input" id="login_dialogue_input_username" type="text" placeholder="username">\`°<°F +°L
+                        °S            °>\`</div>\`°<°F +°L
+                        °S            °>\`<div class="login_dialogue_space"></div>\`°<°F +°L
+                        °S            °>\`<div class="login_dialogue_label">Password</div>\`°<°F +°L
+                        °S            °>\`<div class="login_dialogue_input_container">\`°<°F +°L
+                        °S            °>\`<input id="login_dialogue_password" class="login_dialogue_input" type="password">\`°<°F +°L
+                        °S        °>\`</div>\`°<°F +°L
+                        °S        °>\`<div id="login_dialogue_password_error"></div>\`°<°F +°L
+                        °S    °>\`</div>\`°<°F,°L
+                        °V    null°F,°L
+                        °S    \`.login_dialogue_container {\`°F +°L
+                        °S        \`display: flex;\`°F +°L
+                        °S        \`flex-direction: column;\`°F +°L
+                        °S        \`width: 350px;\`°F +°L
+                        °S        \`max-width: 100%;\`°F +°L
+                        °S    \`}\`°F +°L
+                        °S    \`.login_dialogue_space {\`°F +°L
+                        °S        \`height: 15px;\`°F +°L
+                        °S    \`}\`°F +°L
+                        °S    \`.login_dialogue_input_container {\`°F +°L
+                        °S        \`margin-top: 3px;\`°F +°L
+                        °S        \`width: 100%;\`°F +°L
+                        °S    \`}\`°F +°L
+                        °S    \`.login_dialogue_input {\`°F +°L
+                        °S        \`width: 100%;\`°F +°L
+                        °S    \`}\`°F +°L
+                        °S    \`#login_dialogue_password_error {\`°F +°L
+                        °S        \`color: var(--ddui_red_text);\`°F +°L
+                        °S    \`}\`°F,°L
+                        °V    null°F,°L
+                        °O    [°L
+                        °O        {°L
+                        °O            node_id: °S"login_dialogue_input_username"°O,°L
+                        °O            value: °S"my.mail@example.com"°L
+                        °O        }°L
+                        °O    ]°F,°L
+                        °S    "login_dialogue_input_username"°F,°L
+                        °O    [°L
+                        °O        {°L
+                        °O            label: °S"Cancel"°O,°L
+                        °O            style: °S"inferior"°L
+                        °O        },°L
+                        °O        {°L
+                        °O            label: °S"Login"°O,°L
+                        °O            default: °Btrue°O,°L
+                        °O            onClick: °Pasync°F () => {°L
+                        °F                °Pawait°F new Promise(°Vres°F => setTimeout(°Vres°F, °N1000°F)); °I// simulates login attempt (little delay)°L
+                        °F                °Pconst °Vpassword°F = document.getElementById(°S"login_dialogue_password"°F).value;°L
+                        °F                °Pif °F( °Vpassword°F != °S"ddui"°F) {°L
+                        °F                    const °Vpassword_error_node°F = document.getElementById(°S"login_dialogue_password_error"°F);°L
+                        °F                    °Vpassword_error_node°F.innerText = °S\`The password must be "ddui"\`°F;°L
+                        °F                } °Pelse°F {°L
+                        °F                    °Dddui°F.Toaster(°S"Successfully logged you in."°F);°L
+                        °F                    (°Pawait °Vlogin_dialogue°F).Discard();°L
+                        °F                }°L
+                        °F            },°L
+                        °O            closeOnClick: °Bfalse°L
+                        °O        }°L
+                        °O    ]°L
+                        °F);`
+                    )
+                )),
                     tooltip: "Show code"
             }
         }
@@ -1242,9 +1622,129 @@ async function LoadDialogueControls_Dialogue(code_icon) {
 
 
 
+function GetDialogueHtml_LoadingBox() {
+
+    return `<div class="specs_dialogue">` +
+        `<h1 style="margin-top: 25px;">About</h1>` +
+        `<p>The loading box locks the ui and shows a spinner to indicate that something is going on.</p>` +
+        `<h1>Code example</h1>` +
+            `<div class="codebox code">` +
+                `${codeX(
+                    `°Pconst °Vloading_box°F = °Dddui°F.LoadingBox();           °I// show loading box°L
+                     °Iawait new Promise(res => setTimeout(res, 2000)); // some action°L
+                     °Vloading_box°F.Discard();                           °I// discard loading box`
+                 )}</span>);` +
+            `</div>` +
+        `<h1>Specification</h1>` +
+            `<div class="codebox code">` +
+                `${codeX(
+                    `°Dddui°F.LoadingBox(°Vinfo_text°F);°L
+                    °ILoadingBox°F.UpdateInfoText(°Vinfo_text°F);°L
+                    °ILoadingBox°F.Discard();`
+                )}` +
+            `</div>` +
+    `<div class="args_grid">` +
+        `${arg("N", false, "info_text", "String", "Optional info text beneath the spinner")}` +
+    `</div>` +
+        `<h1>Demo</h1>` +
+        `<p></p>` +
+        `<br><div id="Dialogue_LoadingBox_Demo_Tiles" style="min-height: 90px;"></div><br>` +
+    `</div>`
+
+}
+
+
+
+
+
+
+async function LoadDialogueControls_LoadingBox(code_icon) {
+
+    // Wait for the container for the tiles element ...
+    await ddui.WaitForDom("Dialogue_LoadingBox_Demo_Tiles", "does_exist");
+    // ... and then create the tiles element
+    new ddui.Tiles("Dialogue_LoadingBox_Demo_Tiles", [
+        {
+            label: "Simple",
+            image: { type: "html    ", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M21.8883 13.5C21.1645 18.3113 17.013 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C16.1006 2 19.6248 4.46819 21.1679 8" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M17 8H21.4C21.7314 8 22 7.73137 22 7.4V3" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
+            onClick: async () => {
+                const loading_box = ddui.LoadingBox();           // show loading box
+                await new Promise(res => setTimeout(res, 2000)); // some action
+                loading_box.Discard();                           // discard loading box
+            },
+            corner_button: {
+                image: { type: "html", data: code_icon },
+                onClick: () => ddui.Dialogue(null, null, code_snippet(
+                    codeX(
+                       `°Pconst °Vloading_box°F = °Dddui°F.LoadingBox();           °I// show loading box°L
+                        °Iawait new Promise(res => setTimeout(res, 2000)); // some action°L
+                        °Vloading_box°F.Discard();                           °I// discard loading box`
+                    )
+                    )),
+                tooltip: "Show code"
+            }
+        },
+        {
+            label: "Label",
+            image: { type: "html    ", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M19 7V5L5 5V7" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 5L12 19M12 19H10M12 19H14" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
+            onClick: async () => {
+                const loading_box = ddui.LoadingBox("working really hard ..."); // show loading box
+                await new Promise(res => setTimeout(res, 2000));                // some action
+                loading_box.Discard();                                          // discard loading box
+            },
+            corner_button: {
+                image: { type: "html", data: code_icon },
+                onClick: () => ddui.Dialogue(null, null, code_snippet(
+                    codeX(
+                       `°Pconst °Vloading_box°F = °Dddui°F.LoadingBox(°S"working really hard ..."°F); °I// show loading box°L
+                        °Iawait new Promise(res => setTimeout(res, 2000));                // some action°L
+                        °Vloading_box°F.Discard();                                          °I// discard loading box`
+                    )
+                    )),
+                tooltip: "Show code"
+            }
+        },
+        {
+            label: "Changing label",
+            image: { type: "html    ", data: `<svg width="32px" height="32px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M3 7L3 5L17 5V7" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 5L10 19M10 19H12M10 19H8" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M13 14L13 12H21V14" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M17 12V19M17 19H15.5M17 19H18.5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
+            onClick: async () => {
+                const loading_box = ddui.LoadingBox("working really hard ..."); // show loading box
+                await new Promise(res => setTimeout(res, 1000));                // first action
+                loading_box.UpdateInfoText("almost done ...");                  // discard loading box
+                await new Promise(res => setTimeout(res, 1000));                // first action
+                loading_box.UpdateInfoText("final steps ...");                  // discard loading box
+                await new Promise(res => setTimeout(res, 1000));                // first action
+                loading_box.Discard();                                          // discard loading box
+            },
+            corner_button: {
+                image: { type: "html", data: code_icon },
+                onClick: () => ddui.Dialogue(null, null, code_snippet(
+                    codeX(
+                       `°Pconst °Vloading_box°F = °Dddui°F.LoadingBox(°S"working really hard ..."°F); °I// show loading box°L
+                        °Iawait new Promise(res => setTimeout(res, 1000));                // first action°L
+                        °Vloading_box°F.UpdateInfoText(°S"almost done ..."°F);                  °I// discard loading box°L
+                        °Iawait new Promise(res => setTimeout(res, 1000));                // first action°L
+                        °Vloading_box°F.UpdateInfoText(°S"final steps ..."°F);                  °I// discard loading box°L
+                        °Iawait new Promise(res => setTimeout(res, 1000));                // first action°L
+                        °Vloading_box°F.Discard();                                          °I// discard loading box`
+                    )
+                    )),
+                tooltip: "Show code"
+            }
+        }
+    ], "100px", "90px");
+
+}
+
+
+
+
+
+
 function GetDialogueHtml_Buttons() {
 
     return `<div class="specs_dialogue">` +
+        `<h1 style="margin-top: 25px;">About</h1>` +
         `<p>The "buttons" object is used for <a onclick="ShowDialogue('MessageBox')" ddui_tooltip="open specs">message boxes</a> and <a onclick="ShowDialogue('Dialogue')" ddui_tooltip="open specs">dialogues</a>.</p>` +
         `<h1>Code example</h1>` +
         `<div class="codebox code">` +
@@ -1493,7 +1993,14 @@ function ShowDialogue(which) {
                 GetDialogueHtml_Dialogue(), null,
                 GetDialogueCss_Default());
             LoadDialogueControls_Dialogue(code_icon);
-            break;            
+            break;
+
+        case "LoadingBox":
+            ddui.Dialogue("Loading box", null,
+                GetDialogueHtml_LoadingBox(), null,
+                GetDialogueCss_Default());
+            LoadDialogueControls_LoadingBox(code_icon);
+            break;
 
         case "Buttons":
             ddui.Dialogue("Buttons", null,

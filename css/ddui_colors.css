@@ -100,22 +100,34 @@
     --ddui_L_red_surface_shady: #A00000;
 
     /* yellow */
-    --ddui_L_yellow_text: #999900;
+    --ddui_L_yellow_text: #808000;
     --ddui_L_yellow_surface: #c2c200;
     --ddui_L_yellow_surface_shiny: #e0e000;
     --ddui_L_yellow_surface_shady: #9e9e00;
 
     /* green */
-    --ddui_L_green_text: #00c241;
-    --ddui_L_green_surface: #00c241;
-    --ddui_L_green_surface_shiny: #00e04b;
-    --ddui_L_green_surface_shady: #009e35;
+    --ddui_L_green_text: #009933;
+    --ddui_L_green_surface: #009933;
+    --ddui_L_green_surface_shiny: #00cc44;
+    --ddui_L_green_surface_shady: #006622;
+
+    /* turquoise */
+    --ddui_L_turquoise_text: #009999;
+    --ddui_L_turquoise_surface: #009999;
+    --ddui_L_turquoise_surface_shiny: #00cccc;
+    --ddui_L_turquoise_surface_shady: #006666;
 
     /* blue */
     --ddui_L_blue_text: #0000c2;
     --ddui_L_blue_surface: #0000c2;
     --ddui_L_blue_surface_shiny: #0000e0;
     --ddui_L_blue_surface_shady: #00009e;
+
+    /* pruple */
+    --ddui_D_purple_text: #40008f;
+    --ddui_D_purple_surface: #40008f;
+    --ddui_D_purple_surface_shiny: #5700c2;
+    --ddui_D_purple_surface_shady: #29005c;
 
     /* pink */
     --ddui_L_pink_text: #e60073;
@@ -181,13 +193,13 @@
     --ddui_D_primary_background_emphasized_hover: var(--ddui_cs_p_DD);
 
     /* red */
-    --ddui_D_red_text: #ff4d4d;
+    --ddui_D_red_text: #ff6666;
     --ddui_D_red_surface: #900000;
     --ddui_D_red_surface_shiny: #700000;
     --ddui_D_red_surface_shady: #B00000;
 
     /* yellow */
-    --ddui_D_yellow_text: #dbdb00;
+    --ddui_D_yellow_text: #dfdf0c;
     --ddui_D_yellow_surface: #8f8f00;
     --ddui_D_yellow_surface_shiny: #707000;
     --ddui_D_yellow_surface_shady: #b3b300;
@@ -198,14 +210,26 @@
     --ddui_D_green_surface_shiny: #007025;
     --ddui_D_green_surface_shady: #00b33c;
 
+    /* turquoise */
+    --ddui_D_turquoise_text: #1affff;
+    --ddui_D_turquoise_surface: #009999;
+    --ddui_D_turquoise_surface_shiny: #006666;
+    --ddui_D_turquoise_surface_shady: #00cccc;    
+
     /* blue */
-    --ddui_D_blue_text: #8080ff;
+    --ddui_D_blue_text: #80c3ff;
     --ddui_D_blue_surface: #00008f;
     --ddui_D_blue_surface_shiny: #000070;
     --ddui_D_blue_surface_shady: #0000b3;
 
+    /* pruple */
+    --ddui_D_purple_text: #b999ff;
+    --ddui_D_purple_surface: #40008f;
+    --ddui_D_purple_surface_shiny: #29005c;
+    --ddui_D_purple_surface_shady: #5700c2;
+
     /* pink */
-    --ddui_D_pink_text: #ff69b4;
+    --ddui_D_pink_text: #ff80bf;
     --ddui_D_pink_surface: #cc0066;
     --ddui_D_pink_surface_shiny: #99004d;
     --ddui_D_pink_surface_shady: #ff0080;

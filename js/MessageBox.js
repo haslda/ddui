@@ -49,13 +49,13 @@ export class MessageBox{
                     title_icon = "info";
                     title_text = "Information";
                     title_text_color = "var(--ddui_button_text)";
-                    title_background_color = "#0000cc";
+                    title_background_color = "var(--ddui_blue_surface)";
                     break;
                 case "warning":
                     title_icon = "warning";
                     title_text = "Warning";
                     title_text_color = "var(--ddui_button_text)";
-                    title_background_color = "#cc7a00";
+                    title_background_color = "var(--ddui_yellow_surface)";
                     break;
                 case "error":
                     title_icon = "error";
@@ -66,7 +66,7 @@ export class MessageBox{
                 case "success":
                     title_icon = "done";        
                     title_text_color = "var(--ddui_button_text)";
-                    title_background_color = "#00802b";
+                    title_background_color = "var(--ddui_green_surface)";
                     break;
             }
         }
