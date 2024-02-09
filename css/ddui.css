@@ -85,9 +85,10 @@ h1 {
 }
 
 h2 {
-    color: var(--ddui_page_text);
+    color: var(--ddui_primary_text);
     font-size: 20px;
     font-weight: 700;
+    margin: 30px 0 10px;
 }
 
 h3 {

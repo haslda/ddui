@@ -50,6 +50,8 @@
 
     --ddui_L_page_text: var(--ddui_cs_g13);
     --ddui_L_page_text_emphasized: var(--ddui_cs_g0);
+    --ddui_L_page_text_inferior: var(--ddui_cs_g30);
+    --ddui_L_page_text_idle: var(--ddui_cs_g50);
     --ddui_L_page_background: var(--ddui_cs_g100);
     --ddui_L_page_background_idle: var(--ddui_cs_g93);
     --ddui_L_page_background_hover: var(--ddui_cs_g93);
@@ -100,10 +102,10 @@
     --ddui_L_red_surface_shady: #A00000;
 
     /* yellow */
-    --ddui_L_yellow_text: #808000;
-    --ddui_L_yellow_surface: #c2c200;
-    --ddui_L_yellow_surface_shiny: #e0e000;
-    --ddui_L_yellow_surface_shady: #9e9e00;
+    --ddui_L_yellow_text: #a28400;
+    --ddui_L_yellow_surface: #a28400;
+    --ddui_L_yellow_surface_shiny: #d6af00;
+    --ddui_L_yellow_surface_shady: #705c00;
 
     /* green */
     --ddui_L_green_text: #009933;
@@ -148,6 +150,8 @@
 
     --ddui_D_page_text: var(--ddui_cs_g87);
     --ddui_D_page_text_emphasized: var(--ddui_cs_g100);
+    --ddui_D_page_text_inferior: var(--ddui_cs_g73);
+    --ddui_D_page_text_idle: var(--ddui_cs_g50);
     --ddui_D_page_background: var(--ddui_cs_g10);
     --ddui_D_page_background_hover: var(--ddui_cs_g13);
     --ddui_D_page_background_idle: var(--ddui_cs_g13);
@@ -200,9 +204,9 @@
 
     /* yellow */
     --ddui_D_yellow_text: #dfdf0c;
-    --ddui_D_yellow_surface: #8f8f00;
-    --ddui_D_yellow_surface_shiny: #707000;
-    --ddui_D_yellow_surface_shady: #b3b300;
+    --ddui_D_yellow_surface: #a28400;
+    --ddui_D_yellow_surface_shiny: #705c00;
+    --ddui_D_yellow_surface_shady: #d6af00;
 
     /* green */
     --ddui_D_green_text: #1aff66;

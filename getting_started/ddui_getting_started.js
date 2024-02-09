@@ -405,6 +405,9 @@ function GetDialogueCss_Default() {
     .code_inferior {
         color: var(--ddui_gray_text);
     }
+    .args_subheader {
+        font-family: Courier New;
+    }
     .args_grid {
         display: grid;
         grid-template-columns: min-content auto;
@@ -1633,14 +1636,14 @@ function GetDialogueHtml_LoadingBox() {
                     `°Pconst °Vloading_box°F = °Dddui°F.LoadingBox();           °I// show loading box°L
                      °Iawait new Promise(res => setTimeout(res, 2000)); // some action°L
                      °Vloading_box°F.Discard();                           °I// discard loading box`
-                 )}</span>);` +
+                 )}</span>` +
             `</div>` +
         `<h1>Specification</h1>` +
             `<div class="codebox code">` +
                 `${codeX(
-                    `°Dddui°F.LoadingBox(°Vinfo_text°F);°L
-                    °ILoadingBox°F.UpdateInfoText(°Vinfo_text°F);°L
-                    °ILoadingBox°F.Discard();`
+                    `°Vloading_box°F = °Dddui°F.LoadingBox(°Vinfo_text°F); °I// create and show loading box°L
+                    °Vloading_box°F.UpdateInfoText(°Vinfo_text°F);    °I// update info text°L
+                    °Vloading_box°F.Discard();                    °I// discard (close) loading box`
                 )}` +
             `</div>` +
     `<div class="args_grid">` +
@@ -1708,28 +1711,162 @@ async function LoadDialogueControls_LoadingBox(code_icon) {
             label: "Changing label",
             image: { type: "html    ", data: `<svg width="32px" height="32px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M3 7L3 5L17 5V7" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M10 5L10 19M10 19H12M10 19H8" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M13 14L13 12H21V14" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M17 12V19M17 19H15.5M17 19H18.5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
             onClick: async () => {
-                const loading_box = ddui.LoadingBox("working really hard ..."); // show loading box
-                await new Promise(res => setTimeout(res, 1000));                // first action
-                loading_box.UpdateInfoText("almost done ...");                  // discard loading box
-                await new Promise(res => setTimeout(res, 1000));                // first action
-                loading_box.UpdateInfoText("final steps ...");                  // discard loading box
-                await new Promise(res => setTimeout(res, 1000));                // first action
+                const loading_box = ddui.LoadingBox("working really hard ..."); // show loading box with info text
+                await new Promise(res => setTimeout(res, 1000));                // 1st action
+                loading_box.UpdateInfoText("almost done ...");                  // update info text
+                await new Promise(res => setTimeout(res, 1000));                // 2nd action
+                loading_box.UpdateInfoText("final steps ...");                  // update info text
+                await new Promise(res => setTimeout(res, 1000));                // 3rd action
                 loading_box.Discard();                                          // discard loading box
             },
             corner_button: {
                 image: { type: "html", data: code_icon },
                 onClick: () => ddui.Dialogue(null, null, code_snippet(
                     codeX(
-                       `°Pconst °Vloading_box°F = °Dddui°F.LoadingBox(°S"working really hard ..."°F); °I// show loading box°L
-                        °Iawait new Promise(res => setTimeout(res, 1000));                // first action°L
-                        °Vloading_box°F.UpdateInfoText(°S"almost done ..."°F);                  °I// discard loading box°L
-                        °Iawait new Promise(res => setTimeout(res, 1000));                // first action°L
-                        °Vloading_box°F.UpdateInfoText(°S"final steps ..."°F);                  °I// discard loading box°L
-                        °Iawait new Promise(res => setTimeout(res, 1000));                // first action°L
+                       `°Pconst °Vloading_box°F = °Dddui°F.LoadingBox(°S"working really hard ..."°F); °I// show loading box with info text°L
+                        °Iawait new Promise(res => setTimeout(res, 1000));                // 1st action°L
+                        °Vloading_box°F.UpdateInfoText(°S"almost done ..."°F);                  °I// update info text°L
+                        °Iawait new Promise(res => setTimeout(res, 1000));                // 2nd action°L
+                        °Vloading_box°F.UpdateInfoText(°S"final steps ..."°F);                  °I// update info text°L
+                        °Iawait new Promise(res => setTimeout(res, 1000));                // 3rd action°L
                         °Vloading_box°F.Discard();                                          °I// discard loading box`
                     )
                     )),
                 tooltip: "Show code"
+            }
+        }
+    ], "100px", "90px");
+
+}
+
+
+
+
+
+
+function GetDialogueHtml_List() {    
+
+    return `<div class="specs_dialogue">` +
+        `<h1 style="margin-top: 25px;">About</h1>` +
+        `<p>The list is a very basic control. It does not define any size or layout for the items, so the items need to be defined by yourself.</p>` +
+        `<h1>Code example</h1>` +
+            `<div class="codebox code">` +
+                `${codeX(
+                   `°Pconst °Vlist°F = °Pnew °Dddui°F.List(°S"list_container"°F); °I// create list°L
+                    °L
+                    °Pconst °Vitem_1 °F= °Vdocument°F.createElement(°S"div"°F); °I// create 1st list item°L
+                    °Vitem_1°F.innerText = °S"buy bread and milk"°F;°L
+                    °L
+                    °Pconst °Vitem_2 °F= °Vdocument°F.createElement(°S"div"°F); °I// create 2nd list item°L
+                    °Vitem_2°F.innerText = °S"bring car to car shop"°F;°L
+                    °L
+                    °Vlist°F.AppendItem(°Vitem_1°F);                      °I// append item 1 to list°L
+                    °Vlist°F.AppendItem(°Vitem_2°F);                      °I// append item 2 to list`
+                )}` +
+            `</div>` +
+        `<h1>Specification</h1>` +
+            `<div class="codebox code">` +
+            `${codeX(
+                `°Pconst °Vlist°F = °Pnew °Dddui°F.List(°Vcontainer_id°F);   °I// create list°L
+                 °Vlist°F.ShowLoadingSpinner();                  °I// show loading indicator (spinner)°L
+                 °Vlist°F.DiscardLoadingSpinner();               °I// hide loading indicator (spinner)°L
+                 °Pconst °Vitem_id°F = °Vlist°F.AppendItem(°Vitem_node°F); °I// append an item to the list°L
+                 °Vlist°F.DeleteItem(°Vitem_id°F);                   °I// delete an item from the list`
+             )}` +
+        `</div>` +
+        `<h2 class="args_subheader">ddui.List(container_id)</h2>` +
+        `<div class="args_grid">` +
+            `${arg("Y",false, "container_id", "String", "Id of the dom element that shall contain the list")}` +
+        `</div>` +
+        `<h2 class="args_subheader">AppendItem(item_node)</h2>` +
+        `<div class="args_grid">` +
+            `${arg("Y",false, "item_node", "dom element", "List item as dom element; returns the item id")}` +
+        `</div>` +
+        `<h2 class="args_subheader">DeleteItem(item_id)</h2>` +
+        `<div class="args_grid">` +
+            `${arg("Y",false, "item_id", "String", "Id of the list item")}` +
+        `</div>` +
+            `<h1>Demo</h1>` +
+            `<div id="Dialogue_List_Demo_Tiles" style="min-height: 90px;"></div><br>` +
+    `</div>`
+
+}
+
+
+
+
+
+
+async function LoadDialogueControls_List(code_icon) {
+
+    // Wait for the container for the tiles element ...
+    await ddui.WaitForDom("Dialogue_List_Demo_Tiles", "does_exist");
+    // ... and then create the tiles element
+    new ddui.Tiles("Dialogue_List_Demo_Tiles", [
+        {
+            label: "Simple",
+            image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M3 12H7.5H12H16.5H21M3 12V16.5M3 12V7.5M21 12V16.5M21 12V7.5M3 16.5V20.4C3 20.7314 3.26863 21 3.6 21H7.5H12H16.5H20.4C20.7314 21 21 20.7314 21 20.4V16.5M3 16.5H7.5H12H16.5H21M21 7.5V3.6C21 3.26863 20.7314 3 20.4 3H16.5H12H7.5H3.6C3.26863 3 3 3.26863 3 3.6V7.5M21 7.5H16.5H12H7.5H3" stroke="var(--ddui_page_text)" stroke-width="1.5"></path></svg>` },
+            onClick: async () => {
+                ddui.Dialogue(
+                    null,
+                    null,
+                    `<div id="list_actions_Tiles_container"></div>` +
+                    `<hr class="list_hr">` +
+                    `<div id="list_container"></div>`,
+                    null,
+                    `.list_hr {
+                        border-color: var(--ddui_line);
+                        margin: 16px 0 16px 0;
+                    }
+                    #list_container {
+                        width: 200px;
+                    }
+                    .list_item {
+                        border: 1px solid var(--ddui_line);
+                        padding: 5px 10px 5px 10px;
+                        margin-top: 5px;
+                    }`
+                );
+                await ddui.WaitForDom("list_actions_Tiles_container", "does_exist");
+                new ddui.Tiles("list_actions_Tiles_container", [
+                    {
+                        image: { type: "html", data: `<svg width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M6 12H12M18 12H12M12 12V6M12 12V18" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
+                        onClick: () => {
+                            const item = document.createElement("div");
+                            item.innerText = "another list item";
+                            item.classList.add("list_item");
+                            window.derweil = list.AppendItem(item);
+                        },
+                        tooltip: "Add new item"
+                    },
+                    {
+                        image: { type: "html", data: `<svg width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M6 12H18" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
+                        onClick: () => {
+                            const index = Math.round(Math.random() * (list.length - 1));
+                            list.DeleteItem(index);
+                        },
+                        tooltip: "Delete random item"
+                    }
+                ], "95px", "45px", "5px", "left", "10px");
+
+                await ddui.WaitForDom("list_container", "does_exist");
+                const list = new ddui.List("list_container");
+
+                const item_1 = document.createElement("div");
+                item_1.innerText = "buy bread and milk";
+                item_1.classList.add("list_item");
+
+                const item_2 = document.createElement("div");
+                item_2.innerText = "bring car to car shop";
+                item_2.classList.add("list_item");
+
+                const item_3 = document.createElement("div");
+                item_3.innerText = "meet John for a coffee";
+                item_3.classList.add("list_item");
+
+                list.AppendItem(item_1);
+                list.AppendItem(item_2);
+                list.AppendItem(item_3);
             }
         }
     ], "100px", "90px");
@@ -2001,6 +2138,13 @@ function ShowDialogue(which) {
                 GetDialogueCss_Default());
             LoadDialogueControls_LoadingBox(code_icon);
             break;
+
+        case "List":
+            ddui.Dialogue("List", null,
+                GetDialogueHtml_List(), null,
+                GetDialogueCss_Default());
+            LoadDialogueControls_List(code_icon);
+            break;            
 
         case "Buttons":
             ddui.Dialogue("Buttons", null,

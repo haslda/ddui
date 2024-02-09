@@ -129,18 +129,6 @@ export class Box {
 
 
 
-    Focus() {
-        // these lines care for starting the tab flow inside the box
-        this.node.setAttribute("tabindex", "0");
-        this.node.focus();
-        this.node.removeAttribute("tabindex");
-    }
-
-
-
-
-
-
     Discard() {
 
         // stop maintaining box position
@@ -349,7 +337,7 @@ export class Box {
             focused_element.focus();
             focused_element.select();
         } else {
-            this.Focus();
+            ddui.ResetFocus();
         }
 
         // Trigger the window resize event, as this calls the handler for maintaining the box position
@@ -412,7 +400,7 @@ export class Box {
                     button.node.addEventListener("keydown", event => {
                         if ( event.key === "Enter" ) {
                             button_click_handler(event);
-                            this.Focus();
+                            ddui.ResetFocus();
                         }
                     })
                 }
@@ -640,7 +628,7 @@ function HandleKeyDownForModalBoxes(event) {
             if ( !top_most_box.node.contains(document.activeElement) ) {
 
                 // if not, the tabbing starts again as if the box was newly opened
-                top_most_box.Focus();
+                ddui.ResetFocus();
 
             }
         }  
@@ -662,7 +650,7 @@ function HandleKeyDownForModalBoxes(event) {
     // if Tab is pressed ...
     } else if (event.key === 'Tab') {
 
-        // ... and if the focused element is not the body ...
+        // ... and if the focused element is not the body (which - not understandably - seems to happen sometimes) ...
         if ( document.activeElement.tagName != "BODY" ) {
             // ... the focused element shall - as it is now beeing left - keep the focus inside the box (handler will kill itsself after first run)
             document.activeElement.addEventListener("focusout", event => KeepFocusInsideBox(event), {once: true});

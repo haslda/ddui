@@ -141,7 +141,7 @@ export class Tooltip{
         this.countdown = new Promise(res => setTimeout(() => {
             if (this.still_there) { res(true) }
             else { res(false) }
-        }, 300));
+        }, 400));
 
         this.Launch();
 

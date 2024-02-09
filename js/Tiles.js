@@ -78,7 +78,8 @@ export class Tiles {
                 tile.corner_button,                
                 tile_width,
                 tile_height,
-                tile_padding);
+                tile_padding,
+                tile.tooltip);
             this.tiles.push(new_tile);
             this.node.append(new_tile.node);
         }
@@ -102,7 +103,8 @@ export class Tile {
         corner_button,
         width = "100px",
         height = "120px",
-        padding = "10px"
+        padding = "10px",
+        tooltip
     ) {
 
         if ( width == null ) { width = "100px" }
@@ -129,8 +131,12 @@ export class Tile {
         this.node.style.height = height;
         this.node.style.padding = padding;
 
-        let image_html = `<div class="ddui_Tile_image">`;
+        let image_html;
+        
         if ( image ) {
+
+            image_html = `<div class="ddui_Tile_image">`;
+
             switch (image.type) {
 
                 // material icon
@@ -143,18 +149,40 @@ export class Tile {
                     image_html += image.data;
 
             }
+
+            image_html += `</div>`;
+
+        } else {
+            image_html = "";
         }
-        image_html += `</div>`;
-        const tile_content = image_html + `<div id="${this.id + "_label"}" class="ddui_Tile_label">${label}</div>`;
+
+        let label_html = "";
+
+        if ( label ) {
+
+            label_html = `<div id="${this.id + "_label"}" class="ddui_Tile_label">${label}</div>`;
+
+            // if there are a label AND an image given, there shall be a little space in between them
+            if ( image ) {
+                image_html += `<div style="height: 10px;"></div>`;
+            }
+        }
+
+        const tile_content = image_html + label_html;
 
         this.node.innerHTML = tile_content;
 
-        this.AddTooltip(label);
+        if ( tooltip ) {
+            this.node.setAttribute("ddui_tooltip", tooltip);
+        } else if ( label ) {
+            this.AddExceedingLabelTooltip(label);
+        }
 
         if ( onClick ) {
             this.node.addEventListener("click", event => {
                 event.stopPropagation();
                 onClick(event);
+                ddui.ResetFocus();
             });
             this.node.addEventListener("keydown", event => {
                 if ( event.key === "Enter" ) {
@@ -193,7 +221,7 @@ export class Tile {
 
     }
 
-    async AddTooltip(label) {
+    async AddExceedingLabelTooltip(label) {
         await ddui.WaitForDom(this.id + "_label");
         const label_container = document.getElementById(this.id + "_label");
         const text_width = await ddui.MeasureTextWidth(label, label_container);

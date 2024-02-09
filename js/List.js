@@ -21,6 +21,7 @@ export class List {
         
         this.id = "ddui_List_" + ddui.GenerateUuid();
         this.container_id = container_id;
+        this.item_ids = [];
         this.length = 0;
 
         // create list in dom
@@ -47,8 +48,9 @@ export class List {
 
         // Add container for item_node (this is the actual item)
         const item = document.createElement("div");
-        item.id = this.id + "_item_" + this.length;
+        item.id = "ddui_listitem_" + ddui.GenerateUuid();
         this.node.appendChild(item);
+        this.item_ids.push(item.id);
 
         // Increase list length by 1
         this.length += 1;
@@ -97,22 +99,58 @@ export class List {
     }
 
     async DeleteItem(item_id) {
-        // fetch the item_node
-        const item_node = document.getElementById(item_id);
 
-        // code block for the visual effect
-        const item_node_height = item_node.getBoundingClientRect().height;
-        item_node.style.minHeight = 0;
-        item_node.style.height = String(item_node_height) + "px";
-        item_node.innerHTML = "";
-        item_node.style.backgroundColor = "var(--ddui_red_surface)";
-        item_node.style.transition = "height 0.5s";
-        await new Promise(resolve => setTimeout(resolve, 10));
-        item_node.style.height = 0;
-        await new Promise(resolve => setTimeout(resolve, 500));
+        try {
 
-        item_node.remove();
-        this.length -= 1;
+            // check if item_id is a number (index of a list item)
+            if ( Number.isInteger(item_id) ) {
+                
+                // check if item_id is out of range
+                if ( ( item_id < 0 ) || ( item_id > (this.length - 1) ) ) {
+                    throw new Error(`The index "${item_id}" is out of range (0 - ${this.length - 1}).`);
+
+                // if not, fetch the item node id
+                } else {
+                    item_id = this.item_ids[item_id];
+                }
+
+            // if the item_id is not an index, check if it is a valid node id of a list item
+            } else if ( ! this.item_ids.includes(item_id) ) {
+                throw new Error(`The item_id "${item_id}" is neither an index nor a valid node id of a list item.`);
+            }
+            
+            // fetch the item node
+            const item_node = document.getElementById(item_id);
+
+            if ( ! (item_node) ) {
+                throw new Error(`A list item with the id "${item_node}" does not exist.\n` +
+                    `Please use the node id or the item index (both are possible identifiers).`);
+            } else {
+
+                // remove the item's id from the list of item ids
+                this.item_ids.splice(this.item_ids.indexOf(item_id), 1);
+                this.length -= 1;
+
+                // code block for the visual effect
+                const item_node_height = item_node.getBoundingClientRect().height;
+                item_node.style.minHeight = 0;
+                item_node.style.height = String(item_node_height) + "px";
+                item_node.innerHTML = "";
+                item_node.style.backgroundColor = "var(--ddui_red_surface)";
+                item_node.style.transition = "height 0.5s";
+                await new Promise(resolve => setTimeout(resolve, 10));
+                item_node.style.height = 0;
+                await new Promise(resolve => setTimeout(resolve, 500));
+    
+                // remove the list item from the dom
+                item_node.remove();
+                
+            }            
+
+        } catch (err) {
+            ddui.DisplayError(`Deletion of list item failed.\n${err.message}`);
+        }
+
     }
 
 }

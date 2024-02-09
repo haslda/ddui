@@ -8,6 +8,8 @@
 
     --ddui_page_text: var(--ddui_L_page_text);
     --ddui_page_text_emphasized: var(--ddui_L_page_text_emphasized);
+    --ddui_page_text_inferior: var(--ddui_L_page_text_inferior);
+    --ddui_page_text_idle: var(--ddui_L_page_text_idle);
     --ddui_page_background: var(--ddui_L_page_background);
     --ddui_page_background_hover: var(--ddui_L_page_background_hover);
     --ddui_page_background_idle: var(--ddui_L_page_background_idle);

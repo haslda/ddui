@@ -91,12 +91,14 @@ async function InitDdui() {
 //
 export function ShowWelcomeDialogue() {
 
+    const target_url = import.meta.url.slice(0,-7) + "getting_started/ddui_getting_started.html";
+
     const html = `
         <div style="max-width: 500px; display: flex; flex-direction: column;">
             <h1 style="margin-top: 10px; white-space: nowrap; width: min-content; align-self: center; rotate: -2deg; margin-bottom: 20px;">
                 Welcome to <span style="color: var(--ddui_green_text); text">d.ui</span><span style="color: var(--ddui_blue_text)"></span> !
             </h1>
-            <p>Check out the d.ui wiki to start using it right away.</p>
+            <p>Check out the <a href="${target_url}" target="_blank">d.ui wiki</a> to start using it right away.</p>
             <p>To stop this message from appearing, insert this meta tag to the head section of your html page:</p>
             <p style="
                 border: 1px solid var(--ddui_line_soft);
@@ -119,9 +121,35 @@ export function ShowWelcomeDialogue() {
         },
         {
             label: "d.ui wiki",
-            onClick: () => { window.open( import.meta.url.slice(0,-7) + "getting_started/ddui_getting_started.html", "_blank" ) }
+            onClick: () => { window.open( target_url, "_blank" ) }
         }
     ]);
+
+}
+
+
+
+
+
+
+// removes the focus from the active dom element
+export async function ResetFocus() {
+
+    let box;
+
+    // if modal boxes are alive, the (quasi) focus shall be given to the box
+    if ( (window.ModalBoxes) && ( window.ModalBoxes.length > 0 ) ) {
+        box = window.ModalBoxes[window.ModalBoxes.length - 1].node;
+
+    // otherwise it shall be given to the body
+    } else {
+        box = document.body;
+    }
+
+    // the actual magic: make focusable, set focus, make un-focusable again
+    box.setAttribute("tabindex", "0");
+    box.focus();
+    box.removeAttribute("tabindex");
 
 }
 

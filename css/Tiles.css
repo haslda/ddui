@@ -13,6 +13,7 @@
 
     display: flex;
     flex-direction: column;
+    justify-content: center;
 }
 
 .ddui_Tile:hover,
@@ -25,8 +26,7 @@
 }
 
 .ddui_Tile_image {
-    flex-grow: 1;
-    padding-bottom: 10px;
+    flex: 1 1 auto;
 
     display: flex;
     flex-direction: row;
