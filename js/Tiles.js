@@ -76,8 +76,8 @@ export class Tiles {
                 tile.image,
                 tile.onClick,
                 tile.corner_button,                
-                tile_width,
-                tile_height,
+                (tile.width) ? tile.width : tile_width,     // special size for a tile ...
+                (tile.height) ? tile.height : tile_height,  // ... overrules the default tile size
                 tile_padding,
                 tile.tooltip);
             this.tiles.push(new_tile);

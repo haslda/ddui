@@ -41,7 +41,8 @@ export class List {
     }
 
     DiscardLoadingSpinner() {
-        document.getElementById(`${this.id}_spinner`).remove();
+        try { document.getElementById(`${this.id}_spinner`).remove(); }
+        catch (err) { console.error(err); }
     }
 
     AppendItem(item_node) {

@@ -366,26 +366,37 @@ export class Box {
                         
                         if ( button.onClick ) {
 
-                            this.Lock();
+                            async function DoClickAction(box) {
 
-                            const button_content_before = button.node.innerHTML;
-                            const button_width_before = button.node.style.width;
-                            const button_height_before = button.node.style.height;
+                                box.Lock();
 
-                            const button_width = button.node.getBoundingClientRect().width;
-                            const button_height = button.node.getBoundingClientRect().height;
-                            button.node.style.width = String(button_width) + "px";
-                            button.node.style.height = String(button_height) + "px";
-                            button.node.innerHTML = ddui.GetSpinner("white", Math.min(button_width, button_height), 5);
+                                const button_content_before = button.node.innerHTML;
+                                const button_width_before = button.node.style.width;
+                                const button_height_before = button.node.style.height;
+    
+                                const button_width = button.node.getBoundingClientRect().width;
+                                const button_height = button.node.getBoundingClientRect().height;
+                                button.node.style.width = String(button_width) + "px";
+                                button.node.style.height = String(button_height) + "px";
+                                button.node.innerHTML = ddui.GetSpinner("white", Math.min(button_width, button_height), 5);
+    
+                                // actual function
+                                await button.onClick();
+    
+                                button.node.style.width = button_width_before;
+                                button.node.style.height = button_height_before;
+                                button.node.innerHTML = button_content_before;
+    
+                                box.Unlock();
 
-                            // actual function
-                            await button.onClick();
+                            }
 
-                            button.node.style.width = button_width_before;
-                            button.node.style.height = button_height_before;
-                            button.node.innerHTML = button_content_before;
-
-                            this.Unlock();
+                            // if "await_action", the box gets discarded AFTER the action has passed, not before
+                            if ( button.await_action ) {
+                                await DoClickAction(this);
+                            } else {
+                                DoClickAction(this);
+                            }
 
                         }
 

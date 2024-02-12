@@ -253,7 +253,7 @@ function code(style, text, parse = false) {
 
 function codeX(text) {
 
-    // Das Steuerzeichen lautet: °X_
+    // Das Steuerzeichen lautet: °X
     // Statt "X" wird der jeweilige Buchstabe verwendet.
     // Beispiel: `codeX(°Fawait new Promise(°Vres°F => setTimeout(°Vres°F, °N1000°F)); °I// delay)`
 
@@ -406,7 +406,7 @@ function GetDialogueCss_Default() {
         color: var(--ddui_gray_text);
     }
     .args_subheader {
-        font-family: Courier New;
+        
     }
     .args_grid {
         display: grid;
@@ -1803,6 +1803,9 @@ async function LoadDialogueControls_List(code_icon) {
     await ddui.WaitForDom("Dialogue_List_Demo_Tiles", "does_exist");
     // ... and then create the tiles element
     new ddui.Tiles("Dialogue_List_Demo_Tiles", [
+
+
+
         {
             label: "Simple",
             image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M3 12H7.5H12H16.5H21M3 12V16.5M3 12V7.5M21 12V16.5M21 12V7.5M3 16.5V20.4C3 20.7314 3.26863 21 3.6 21H7.5H12H16.5H20.4C20.7314 21 21 20.7314 21 20.4V16.5M3 16.5H7.5H12H16.5H21M21 7.5V3.6C21 3.26863 20.7314 3 20.4 3H16.5H12H7.5H3.6C3.26863 3 3 3.26863 3 3.6V7.5M21 7.5H16.5H12H7.5H3" stroke="var(--ddui_page_text)" stroke-width="1.5"></path></svg>` },
@@ -1816,28 +1819,80 @@ async function LoadDialogueControls_List(code_icon) {
                     null,
                     `.list_hr {
                         border-color: var(--ddui_line);
-                        margin: 16px 0 16px 0;
+                        margin: 16px 0 14px 0;
                     }
                     #list_container {
-                        width: 200px;
+                        width: 245px;
                     }
                     .list_item {
                         border: 1px solid var(--ddui_line);
                         padding: 5px 10px 5px 10px;
-                        margin-top: 5px;
+                        margin: 2px 0 2px 0;
                     }`
                 );
                 await ddui.WaitForDom("list_actions_Tiles_container", "does_exist");
                 new ddui.Tiles("list_actions_Tiles_container", [
                     {
+                        image: { type: "html", data: code_icon },
+                        onClick: () => ddui.Dialogue(null, null, code_snippet(
+                            codeX(
+                               `°I// create a list and place it inside the°L
+                                °I// container node with the id "list_container"°L
+                                °Pconst °Vlist °F= °Pnew °Dddui°F.List(°S"list_container"°F);°L
+                                °L
+                                °I// create 1st list item°L
+                                °Pconst °Vitem_1 °F= °Vdocument°F.createElement(°S"div"°F);°L
+                                °Vitem_1°F.innerText °F= °S"buy bread and milk"°F;°L
+                                °Vitem_1°F.classList.add(°S"list_item"°F);°L
+                                °L
+                                °I// create 2nd list item°L
+                                °Pconst °Vitem_2 °F= °Vdocument°F.createElement(°S"div"°F);°L
+                                °Vitem_2°F.innerText = °S"bring car to car shop"°F;°L
+                                °Vitem_2.°FclassList.add(°S"list_item"°F);°L
+                                °L
+                                °I// create 3rd list item°L
+                                °Pconst °Vitem_3 °F= °Vdocument°F.createElement(°S"div"°F);°L
+                                °Vitem_3°F.innerText °F= °S"meet John for a coffee"°F;°L
+                                °Vitem_3°F.classList.add(°S"list_item"°F);°L
+                                °L
+                                °I// append the created list items to the list°L
+                                °Vlist°F.AppendItem(°Vitem_1°F);°L
+                                °Vlist°F.AppendItem(°Vitem_2°F);°L
+                                °Vlist°F.AppendItem(°Vitem_3°F);`
+                            )
+                        )),
+                        tooltip: "Show code (create list)",
+                        width: "45px",
+                    },
+                    {
                         image: { type: "html", data: `<svg width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M6 12H12M18 12H12M12 12V6M12 12V18" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
                         onClick: () => {
+
+                            // create list item
                             const item = document.createElement("div");
                             item.innerText = "another list item";
                             item.classList.add("list_item");
-                            window.derweil = list.AppendItem(item);
+
+                            // append created list item to list
+                            list.AppendItem(item);
+
                         },
-                        tooltip: "Add new item"
+                        tooltip: "Add new item",
+                        corner_button: {
+                            image: { type: "html", data: code_icon },
+                            onClick: () => ddui.Dialogue(null, null, code_snippet(
+                                codeX(
+                                   `°I// create list item°L
+                                    °Pconst °Vitem °F= °Vdocument°F.createElement(°S"div"°F);°L
+                                    °Vitem°F.innerText = °S"another list item"°F;°L
+                                    °Vitem°F.classList.add(°S"list_item"°F);°L
+                                    °L
+                                    °I// append created list item to list°L
+                                    °Vlist°F.AppendItem(°Vitem°F);`
+                                )
+                            )),
+                            tooltip: "Show code"
+                        }
                     },
                     {
                         image: { type: "html", data: `<svg width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M6 12H18" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
@@ -1845,28 +1900,401 @@ async function LoadDialogueControls_List(code_icon) {
                             const index = Math.round(Math.random() * (list.length - 1));
                             list.DeleteItem(index);
                         },
-                        tooltip: "Delete random item"
+                        tooltip: "Delete random item",
+                        corner_button: {
+                            image: { type: "html", data: code_icon },
+                            onClick: () => ddui.Dialogue(null, null, code_snippet(
+                                codeX(
+                                   `°I// calculate a random index ...°L
+                                    °Pconst °Vindex °F= Math.round( Math.random() * ( °Vlist°F.length - °N1°F ) );°L
+                                    °L
+                                    °I// ... and delte the respective list item°L
+                                    °Vlist°F.DeleteItem(°Vindex°F);`
+                                )
+                            )),
+                            tooltip: "Show code"
+                        }
                     }
-                ], "95px", "45px", "5px", "left", "10px");
+                ], "90px", "45px", "5px", "left", "10px");
 
                 await ddui.WaitForDom("list_container", "does_exist");
+
+                // create a list and place it inside the
+                // container node with the id "list_container"
                 const list = new ddui.List("list_container");
 
+                // create 1st list item
                 const item_1 = document.createElement("div");
                 item_1.innerText = "buy bread and milk";
                 item_1.classList.add("list_item");
 
+                // create 2nd list item
                 const item_2 = document.createElement("div");
                 item_2.innerText = "bring car to car shop";
                 item_2.classList.add("list_item");
 
+                // create 3rd list item
                 const item_3 = document.createElement("div");
                 item_3.innerText = "meet John for a coffee";
                 item_3.classList.add("list_item");
 
+                // append the created list items to the list
                 list.AppendItem(item_1);
                 list.AppendItem(item_2);
                 list.AppendItem(item_3);
+            }
+        },
+
+
+
+        {
+            label: "Rich",
+            image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M6 18.01L6.01 17.9989" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M6 6.01L6.01 5.99889" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M2 9.4V2.6C2 2.26863 2.26863 2 2.6 2H21.4C21.7314 2 22 2.26863 22 2.6V9.4C22 9.73137 21.7314 10 21.4 10H2.6C2.26863 10 2 9.73137 2 9.4Z" stroke="var(--ddui_page_text)" stroke-width="1.5"></path><path d="M2 21.4V14.6C2 14.2686 2.26863 14 2.6 14H21.4C21.7314 14 22 14.2686 22 14.6V21.4C22 21.7314 21.7314 22 21.4 22H2.6C2.26863 22 2 21.7314 2 21.4Z" stroke="var(--ddui_page_text)" stroke-width="1.5"></path></svg>` },
+            onClick: async () => {
+                ddui.Dialogue(
+                    null,
+                    null,
+                    `<div id="list_actions_Tiles_container"></div>` +
+                    `<hr class="list_hr">` +
+                    `<div id="list_container"></div>`,
+                    null,
+                    `.list_hr {
+                        border-color: var(--ddui_line);
+                        margin: 16px 0 2px 0;
+                    }
+
+                    #list_container {
+                        width: 501px;
+                        max-width: 100%;
+                    }
+
+                    .list_item {
+                        background-color: var(--ddui_page_background);
+                        width: 100%;
+                        border: solid 1px var(--ddui_line_soft);
+                        margin: 3px 0 3px 0;
+                        cursor: pointer;
+                        min-height: 60px;
+                    
+                        display: flex;
+                        flex-direction: row;
+                        flex-wrap: wrap;
+                        align-content: stretch;
+                    }
+
+                    .list_item:hover {
+                        background-color: var(--ddui_shady_themed);
+                    }
+
+                    .list_item_selected {
+                        background-color: var(--ddui_primary_background_emphasized);
+                        font-weight: 500;
+                    }
+                    
+                    .list_item_selected:hover {
+                        background-color: var(--ddui_primary_background_emphasized_hover);
+                    }
+                    
+                    .list_item_area {
+                        display: flex;
+                        flex-direction: row;
+                        flex-wrap: wrap;
+                        align-content: stretch;
+                    }
+                    
+                    .list_item_area_left {}
+                    
+                    .list_item_area_center {
+                        flex-grow: 1;
+                    }
+                    
+                    .list_item_area_right {}
+                    
+                    .list_item_checkbox {
+                        padding: 0 15px 0 15px;
+                    
+                        display: flex;
+                        flex-direction: row;
+                        flex-wrap: wrap;
+                        align-content: center;
+                    }
+                    
+                    .list_item_text {
+                        padding: 0 15px 0 15px;
+                    
+                        display: flex;
+                        flex-direction: row;
+                        flex-wrap: wrap;
+                        align-content: center;
+                    }
+                    
+                    .list_item_button {
+                        padding: 0 15px 0 15px;
+                    
+                        display: flex;
+                        flex-direction: row;
+                        flex-wrap: wrap;
+                        align-content: center;
+                    }
+                    
+                    .list_item_button:hover {
+                        background-color: var(--ddui_shady_themed);
+                    }
+                    
+                    .checkbox {
+                        cursor: pointer;
+                    }`
+                );
+
+                await ddui.WaitForDom("list_actions_Tiles_container", "does_exist");
+
+                new ddui.Tiles("list_actions_Tiles_container", [
+                    {
+                        image: { type: "html", data: code_icon },
+                        onClick: () => ddui.Dialogue(null, null, code_snippet(
+                            codeX(
+                               `°I// create a list and place it inside the container node with the id "list_container"°L
+                                °Pconst °Vlist °F= new °Dddui°F.List(°S"list_container"°F);°L
+                                °L
+                                °I// create 3 list items with the custom (non ddui) function "CreateRichtItem"°L
+                                °FCreateRichItem(°S"buy bread and milk"°F);°L
+                                °FCreateRichItem(°S"bring car to car shop"°F);°L
+                                °FCreateRichItem(°S"meet John for a coffee"°F);°L
+                                °L
+                                °I// custom (non ddui) function to create rich list items°L
+                                °Pfunction °FCreateRichItem(°Vtitle°F) {°L
+                                °L
+                                °I    // build the list item (actually it's the list item content)°L
+                                °P    const °Vnew_item °F= °Vdocument°F.createElement(°S"div"°F);°L
+                                °V    new_item°F.classList.add(°S"list_item"°F);°L
+                                °V    new_item°F.id = °S"list_item_" °F+ °Dddui°F.GenerateUuid();°L
+                                °V    new_item°F.innerHTML = °L
+                                °S        °>\`<div class="list_item_area list_item_area_left">°<°L
+                                °S            °><div class="list_item_checkbox">°<°L
+                                °S                °><input id="\${new_item.id}_checkbox" class="checkbox" type="checkbox"/>°<°L
+                                °S           °></div>°<°L
+                                °S        °></div>°<°L
+                                °S        °><div class="list_item_area list_item_area_center">°<°L
+                                °S            °><div class="list_item_text">°<°L
+                                °S                °><div id="\${new_item.id}_title">\${title}</div>°<°L
+                                °S            °></div>°<°L
+                                °S        °></div>°<°L
+                                °S        °><div class="list_item_area list_item_area_right">°<°L
+                                °S            °><div class="list_item_button" id="\${new_item.id}_button">°<°L
+                                °S                °><div style="padding-top:2px;"><span class="material-icons">more_horiz</span></div>°<°L
+                                °S            °></div>°<°L
+                                °S        °></div>\`;°<°L
+                                °L
+                                °I    // append the newly created list item (content) to the list°L
+                                °V    list°F.AppendItem(°Vnew_item°F);°L
+                                °L
+                                °I    // add event handler for clicking list items (select / deselct)°L
+                                °V    new_item°F.addEventListener(°S"click"°F, () => {°L
+                                °P        const °Vcheckbox °F= °Vdocument°F.getElementById(°S\`°F\${°Vnew_item°F.id}°S_checkbox\`°F);°L
+                                °P        const °Vbanner °F= °Vdocument°F.getElementById(°Vnew_item°F.id);°L
+                                °P        if °F( °Vcheckbox°F.checked ) {°L
+                                °V            checkbox°F.checked = °Bfalse°F;°L
+                                °V            banner°F.classList.remove(°S"list_item_selected"°F);°L
+                                °F        } °Pelse °F{°L
+                                °V            checkbox°F.checked = °Btrue°F;°L
+                                °V            banner°F.classList.add(°S"list_item_selected"°F);°L
+                                °F        }°L
+                                °F    });°L
+                                °L
+                                °I    // When the checkbox is clicked, it would get changed twice:°L
+                                °I    //   1x due to default checkbox behaviour and 1x due to the actual handler (see above)°L
+                                °I    // For that reason, the checkbox in this case shall be flipped once more.°L
+                                °I    // So it's actually three flips in that case ;-)°L
+                                °P    const °Vcheckbox °F= °Vdocument°F.getElementById(°S\`°F\${°Vnew_item°F.id}°S_checkbox\`°F);°L
+                                °V    checkbox°F.addEventListener(°S"click"°F, () => °Vcheckbox°F.checked = !°Vcheckbox°F.checked);°L
+                                °L
+                                °I    // add event handler for clicking on a list item's menu action button (show popup menu)°L
+                                °P    const °Vbutton_list_item_menu °F= °Vdocument°F.getElementById(°S\`°F\${°Vnew_item°F.id}°S_button\`°F);°L
+                                °V    button_list_item_menu°F.addEventListener(°S"click"°F, °Vevent °F=> {°L
+                                °L
+                                °I        // prevent the (de)selecting of the list item°L
+                                °V        °Vevent°F.stopPropagation();°L
+                                °L
+                                °I        // fetch the id of the current list item°L
+                                °P        const °Vitem_id °F= °Vevent°F.currentTarget.parentElement.parentElement.parentElement.id;°L
+                                °L
+                                °I        // show popup menu for the current list item°L
+                                °D        ddui°F.Popup(°L
+                                °O            [{°L
+                                °O                type: °S"button"°O,°L
+                                °O                style: °S"red"°O,°L
+                                °O                label: °S"Delete item"°O,°L
+                                °O                icon: °S"delete"°O,°L
+                                °O                onClick: °Pasync °F() => °Vlist°F.DeleteItem(°Vitem_id°F)°L
+                                °O            }]°F,°L
+                                °S            "positioned"°F,°L
+                                °V            °Vevent°F.currentTarget°L
+                                °F        );°L
+                                °F    });°L
+                                °L
+                                °F}`
+                            )
+                        )),
+                        tooltip: "Show code (create list)",
+                        width: "45px",
+                    },
+                    {   // Add new item
+                        image: { type: "html", data: `<svg width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M6 12H12M18 12H12M12 12V6M12 12V18" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
+                        onClick: () => CreateRichItem("another list item"),
+                        tooltip: "Add new item",
+                        corner_button: {
+                            image: { type: "html", data: code_icon },
+                            onClick: () => ddui.Dialogue(null, null, code_snippet(
+                                codeX(
+                                   `°I// create a rich list item with the°L
+                                    °I// custom function "CreateRichItem(°><title>°<)"°L
+                                    °FCreateRichItem(°S"another list item"°F);°L
+                                    °L
+                                    °I// see the code for "CreateRichItem() in"°L
+                                    °I// the code snippet for creating the list`
+                                )
+                            )),
+                            tooltip: "Show code"
+                        }
+                    },
+                    {
+                        image: { type: "html", data: `<svg width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M6 12H18" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
+                        onClick: () => {
+                            const index = Math.round(Math.random() * (list.length - 1));
+                            list.DeleteItem(index);
+                        },
+                        tooltip: "Delete random item",
+                        corner_button: {
+                            image: { type: "html", data: code_icon },
+                            onClick: () => ddui.Dialogue(null, null, code_snippet(
+                                codeX(
+                                   `°I// calculate a random index ...°L
+                                    °Pconst °Vindex °F= Math.round( Math.random() * ( °Vlist°F.length - °N1°F ) );°L
+                                    °L
+                                    °I// ... and delte the respective list item°L
+                                    °Vlist°F.DeleteItem(°Vindex°F);`
+                                )
+                            )),
+                            tooltip: "Show code"
+                        }
+                    },
+                    {
+                        image: { type: "html", data: `<svg width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M9 2L15 2" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 10L12 14" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 22C16.4183 22 20 18.4183 20 14C20 9.58172 16.4183 6 12 6C7.58172 6 4 9.58172 4 14C4 18.4183 7.58172 22 12 22Z" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
+                        onClick: () => {
+                            list.ShowLoadingSpinner();
+                        },
+                        tooltip: "Show spinner",
+                        corner_button: {
+                            image: { type: "html", data: code_icon },
+                            onClick: () => ddui.Dialogue(null, null, code_snippet(
+                                codeX(
+                                   `°Vlist°F.ShowLoadingSpinner();`
+                                )
+                            )),
+                            tooltip: "Show code"
+                        }
+                    },
+                    {
+                        image: { type: "html", data: `<svg width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M9 2L15 2" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M5 7L19 21.5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 10L12 14" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M6.1905 8.5C4.83275 9.93366 4 11.8696 4 14C4 18.4183 7.58172 22 12 22C14.0049 22 15.8375 21.2625 17.2413 20.044M19.4185 17C19.7935 16.0736 20 15.0609 20 14C20 9.58172 16.4183 6 12 6C11.0187 6 10.0786 6.17669 9.20988 6.5" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
+                        onClick: () => {
+                            list.DiscardLoadingSpinner();
+                        },
+                        tooltip: "Discard spinner",
+                        corner_button: {
+                            image: { type: "html", data: code_icon },
+                            onClick: () => ddui.Dialogue(null, null, code_snippet(
+                                codeX(
+                                   `°Vlist°F.DiscardLoadingSpinner();`
+                                )
+                            )),
+                            tooltip: "Show code"
+                        }
+                    }
+                ], "104px", "45px", "5px", "left", "10px");
+
+                await ddui.WaitForDom("list_container", "does_exist");
+
+                // create a list and place it inside the container node with the id "list_container"
+                const list = new ddui.List("list_container");
+
+                // create 3 list items with the custom (non ddui) function "CreateRichtItem"
+                CreateRichItem("buy bread and milk");
+                CreateRichItem("bring car to car shop");
+                CreateRichItem("meet John for a coffee");
+
+                // custom (non ddui) function to create rich list items
+                function CreateRichItem(title) {
+
+                    // build the list item (actually it's the list item content)
+                    const new_item = document.createElement("div");
+                    new_item.classList.add("list_item");
+                    new_item.id = "list_item_" + ddui.GenerateUuid();
+                    new_item.innerHTML = 
+                        `<div class="list_item_area list_item_area_left">
+                            <div class="list_item_checkbox">
+                                <input id="${new_item.id}_checkbox" class="checkbox" type="checkbox"/>
+                        </div>
+                        </div>
+                        <div class="list_item_area list_item_area_center">
+                            <div class="list_item_text">
+                                <div id="${new_item.id}_title">${title}</div>
+                            </div>
+                        </div>
+                        <div class="list_item_area list_item_area_right">
+                            <div class="list_item_button" id="${new_item.id}_button">
+                                <div style="padding-top:2px;"><span class="material-icons">more_horiz</span></div>
+                            </div>
+                        </div>`;
+
+                    // append the newly created list item (content) to the list
+                    list.AppendItem(new_item);
+
+                    // add event handler for clicking list items (select / deselct)
+                    new_item.addEventListener("click", () => {
+                        const checkbox = document.getElementById(`${new_item.id}_checkbox`);
+                        const banner = document.getElementById(new_item.id);
+                        if ( checkbox.checked ) {
+                            checkbox.checked = false;
+                            banner.classList.remove("list_item_selected");
+                        } else {
+                            checkbox.checked = true;
+                            banner.classList.add("list_item_selected");
+                        }
+                    });
+
+                    // When the checkbox is clicked, it would get changed twice:
+                    //   1x due to default checkbox behaviour and 1x due to the actual handler (see above)
+                    // For that reason, the checkbox in this case shall be flipped once more.
+                    // So it's actually three flips in that case ;-)
+                    const checkbox = document.getElementById(`${new_item.id}_checkbox`);
+                    checkbox.addEventListener("click", () => checkbox.checked = !checkbox.checked);
+
+                    // add event handler for clicking on a list item's menu action button (show popup menu)
+                    const button_list_item_menu = document.getElementById(`${new_item.id}_button`);
+                    button_list_item_menu.addEventListener("click", event => {
+
+                        // prevent the (de)selecting of the list item
+                        event.stopPropagation();
+
+                        // fetch the id of the current list item
+                        const item_id = event.currentTarget.parentElement.parentElement.parentElement.id;
+
+                        // show popup menu for the current list item
+                        ddui.Popup(
+                            [{
+                                type: "button",
+                                style: "red",
+                                label: "Delete item",
+                                icon: "delete",
+                                onClick: async () => list.DeleteItem(item_id)
+                            }],
+                            "positioned",
+                            event.currentTarget
+                        );
+                    });
+
+                }
+
             }
         }
     ], "100px", "90px");
@@ -1885,36 +2313,42 @@ function GetDialogueHtml_Buttons() {
         `<p>The "buttons" object is used for <a onclick="ShowDialogue('MessageBox')" ddui_tooltip="open specs">message boxes</a> and <a onclick="ShowDialogue('Dialogue')" ddui_tooltip="open specs">dialogues</a>.</p>` +
         `<h1>Code example</h1>` +
         `<div class="codebox code">` +
-            `${code("object",   `[<br>` +
-                                `    {<br>` +
-                                `        label: ${code("string", `"Close"`)},<br>` +
-                                `        style: ${code("string", `"inferior"`)}<br>` +
-                                `    },<br>` +                
-                                `    {<br>` +
-                                `        label: ${code("string", `"Save"`)},<br>` +
-                                `        onClick: ${code("func", `async () => await SaveChanges()`)}<br>` +
-                                `    }<br>` +
-                                `]`)}` +
+            codeX(
+               `°O[°L
+                °O    {°L
+                °O        label: °S"Close"°O,°L
+                °O        style: °S"inferior"°L
+                °O    },°L
+                °O    {°L
+                °O        label: °S"Save"°O,°L
+                °O        onClick: °Pasync °F() => °Pawait °FSaveChanges()°L
+                °O    }°L
+                °O]`
+            ) +
         `</div>` +
         `<h1>Specification</h1>` +
         `<div class="codebox code">` +
-            `${code("object",   `[<br>` +
-                                `    {<br>` +
-                                `        label: ${code("var", `label`)},<br>` +
-                                `        default: ${code("var", `default`)},<br>` +
-                                `        style: ${code("var", `style`)},<br>` +
-                                `        onClick: ${code("var", `onClick`)},<br>` +
-                                `        closeOnClick: ${code("var", `closeOnClick`)}<br>` +                                
-                                `    }<br>` +
-                                `    ${code("inferior", `// ...`)}<br>` +
-                                `]`)}` +
+            codeX(
+               `°O[°L
+                °O    {°L
+                °O        label: °Vlabel°O,°L
+                °O        default: °Vdefault°O,°L
+                °O        style: °Vstyle°O,°L
+                °O        onClick: °VonClick°O,°L
+                °O        closeOnClick: °VcloseOnClick°O,°L
+                °O        await_action: °Vawait_action°L
+                °O    }°L
+                °I    // ...°L
+                °O]`
+            ) +
         `</div>` +
         `<div class="args_grid">` + 
             `${arg("Y", true,  "label",        "String",   "Button text")}` +
             `${arg("N", true,  "default",      "Boolean",  "Default button (gets executed on Enter)")}` +
             `${arg("N", true,  "style",        "String",   `Empty or null for default (primary); alternatives: "inferior" and "red"`)}` +
             `${arg("N", true,  "onClick",      "Function", "Function to be executed on button click")}` +
-            `${arg("N", false, "closeOnClick", "Boolean",  "Shall the dialogue close after button click?")}` +
+            `${arg("N", true,  "closeOnClick", "Boolean",  "Shall the dialogue close after button click?")}` +
+            `${arg("N", false, "await_action", "Boolean",  "Shall the dialogue close before or after the action has passed (default: false)?")}` +
         `</div>` +
             `<h1>Demo</h1>` +
             `<br><div id="Dialogue_Buttons_Demo_Tiles" style="min-height: 90px;"></div><br>` +
@@ -1980,26 +2414,35 @@ async function LoadDialogueControls_Buttons(code_icon) {
             label: "Actions",
             image: { type: "material_icon", data: "bolt", size: "32px" },
             onClick: () => ddui.MessageBox(
-                "Both buttons do something.<br>" +
-                "One also closes the dialogue (default behaviour)",
+                "All buttons do a little action.<br>" +
+                "One closes the dialogue right away.<br>" +
+                "One closes the dialogue after the action has passed.<br>" +
+                "One does not clos the dialogue at all (default behaviour).",
                 null,
                 [
                     {
                         label: "Action and close",
                         onClick: async () => {
-                            await new Promise(res => setTimeout(res, 2000));
-                            ddui.Toaster(
-                                "Action was taken! ... and the dialogue got closed."
-                            );
+                            ddui.Toaster("Dialogue closed and action started.");
+                            await new Promise(res => setTimeout(res, 4000));
+                            ddui.Toaster("Action finished.");
                         }
+                    },
+                    {
+                        label: "Action, wait and close",
+                        onClick: async () => {
+                            ddui.Toaster("Action started.");
+                            await new Promise(res => setTimeout(res, 3000));
+                            ddui.Toaster("Action finished and dialogue closed.");
+                        },
+                        await_action: true
                     },
                     {
                         label: "Action and stay",
                         onClick: async () => {
-                            await new Promise(res => setTimeout(res, 2000));
-                            ddui.Toaster(
-                                "Action was taken! ... and the dialogue is still there."
-                            );
+                            ddui.Toaster("Action started.");
+                            await new Promise(res => setTimeout(res, 3000));
+                            ddui.Toaster("Action finished.");
                         },
                         closeOnClick: false
                     }
@@ -2008,32 +2451,42 @@ async function LoadDialogueControls_Buttons(code_icon) {
             corner_button: {
                 image: { type: "html", data: code_icon },
                 onClick: () => ddui.Dialogue(null, null, code_snippet(
-                    `${code("ddui")}.MessageBox(<br>` +
-                    `${code("string", `    "Both buttons do something.<br>"`, true)} +<br>` +
-                    `${code("string", `    "One also closes the dialogue (default behaviour)"`)},<br>` +
-                    `${code("var",    `    null`)},<br>` +
-                    `${code("object", `    [<br>` +
-                                      `        {<br>` +
-                                      `            label: ${code("string", `"Action and close"`)},<br>` +
-                                      `            onClick: ${code("func", `async () => {<br>` +
-                                      `                await new Promise(${code("var", "res")} => setTimeout(${code("var", "res")}, ${code("number", "2000")}));<br>` +
-                                      `                ${code("ddui")}.Toaster(<br>` +
-                                      `                    ${code("string", `"Action was taken! ... and the dialogue got closed."`, true)}<br>` +
-                                      `                );<br>` +
-                                      `            }`)}<br>` +
-                                      `        },<br>` +
-                                      `        {<br>` +
-                                      `            label: ${code("string", `"Action and stay"`)},<br>` +
-                                      `            onClick: ${code("func", `async () => {<br>` +
-                                      `                await new Promise(${code("var", "res")} => setTimeout(${code("var", "res")}, ${code("number", "2000")}));<br>` +
-                                      `                ${code("ddui")}.Toaster(<br>` +
-                                      `                    ${code("string", `"Action was taken! ... and the dialogue is still there."`, true)}<br>` +
-                                      `                );<br>` +
-                                      `            }`)},<br>` +                                      
-                                      `            closeOnClick: ${code("bool", `false`)}<br>` +
-                                      `        }<br>` +
-                                      `    ]`)}<br>` +
-                                      `);`)),
+                    codeX(
+                       `°Dddui°F.MessageBox(°L
+                        °S    "All buttons do a little action.°><br>°<" °F+°L
+                        °S    "One closes the dialogue right away.°><br>°<" °F+°L
+                        °S    "One closes the dialogue after the action has passed.°><br>°<" °F+°L
+                        °S    "One does not clos the dialogue at all (default behaviour)."°F,°L
+                        °V    null°F,°L
+                        °O    [°L
+                        °O        {°L
+                        °O            label: °S"Action and close"°O,°L
+                        °O            onClick: °Pasync °F() => {°L
+                        °D                ddui°F.Toaster(°S"Dialogue closed and action started."°F);°L
+                        °P                await °Fnew Promise(°Vres °F=> setTimeout(°Vres°F, °N4000°F));°L
+                        °D                ddui°F.Toaster(°S"Action finished."°F);°L
+                        °F            }°L
+                        °O        },°L
+                        °O        {°L
+                        °O            label: °S"Action, wait and close"°O,°L
+                        °O            onClick: °Pasync °F() => {°L
+                        °D                ddui°F.Toaster(°S"Action started."°F);°L
+                        °P                await °Fnew Promise(°Vres °F=> setTimeout(°Vres°F, °N3000°F));°L
+                        °D                ddui°F.Toaster(°S"Action finished and dialogue closed."°F);°L
+                        °F            },°L
+                        °O            await_action: °Btrue°L
+                        °O        },°L
+                        °O        {°L
+                        °O            label: °S"Action and stay"°O,°L
+                        °O            onClick: °Pasync °F() => {°L
+                        °D                ddui°F.Toaster(°S"Action started."°F);°L
+                        °P                await °Fnew Promise(°Vres °F=> setTimeout(°Vres°F, °N3000°F));°L
+                        °D                ddui°F.Toaster(°S"Action finished."°F);°L
+                        °F            },°L
+                        °O            closeOnClick: °Bfalse°L
+                        °O        }°L
+                        °O    ]°L
+                        °F);`))),
                 tooltip: "Show code"
             }
         },

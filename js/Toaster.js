@@ -90,7 +90,7 @@ export class Toaster{
         const bar = document.getElementById(this.bar_id);
         const bar_width = bar.getBoundingClientRect().width;
         bar.style.width = String(bar_width) + "px";
-        const interval = 20 + this.text.length;
+        const interval = 10 + Math.floor(this.text.length / 2);
         while ( counter > 0 ) {
             counter -= 1;
             await new Promise(resolve => setTimeout(resolve, interval));
