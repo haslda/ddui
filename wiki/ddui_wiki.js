@@ -1084,7 +1084,8 @@ function GetDialogueHtml_Dialogue() {
             °F            },°L
             °O            closeOnClick: °Bfalse°L
             °O        }°L
-            °O    ]°L
+            °O    ]°F,°L
+            °B    false°L
             °F);`
         )}` +
     `</div>` +
@@ -1135,14 +1136,14 @@ async function LoadDialogueControls_Dialogue(code_icon) {
 
 
     // ====================
-    // "Simple" and "No exit"
+    // "Simple"
 
     // Wait for the container for the 1st tiles element ...
     await ddui.WaitForDom("Dialogue_Dialogue_Demo_Tiles_1", "does_exist");
     // ... and then create the tiles element
     new ddui.Tiles("Dialogue_Dialogue_Demo_Tiles_1", [
         {
-            label: "Static",
+            label: "Simple",
             image: { type: "html", data: `<svg width="32px" height="32px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M2 19V5C2 3.89543 2.89543 3 4 3H20C21.1046 3 22 3.89543 22 5V19C22 20.1046 21.1046 21 20 21H4C2.89543 21 2 20.1046 2 19Z" stroke="var(--ddui_page_text)" stroke-width="1.5"></path><path d="M2 7L22 7" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M5 5.01L5.01 4.99889" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8 5.01L8.01 4.99889" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M11 5.01L11.01 4.99889" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
             onClick: () => {
                 const login_dialogue = ddui.Dialogue(
@@ -1209,152 +1210,8 @@ async function LoadDialogueControls_Dialogue(code_icon) {
                             },
                             closeOnClick: false
                         }
-                    ]
-                )},
-            corner_button: {
-                image: { type: "html", data: code_icon },
-                onClick: () => ddui.Dialogue(null, null, code_snippet(
-
-                    codeX(`°Fconst °Vlogin_dialogue°F = °Dddui°F.Dialogue(°L
-                        °S    "Login"°F,°L
-                        °S    "key"°F,°L
-                        °S    °>\`<div class="login_dialogue_container">\`°<°F +°L
-                        °S        °>\`<div class="login_dialogue_label">Username</div>\`°<°F +°L
-                        °S            °>\`<div class="login_dialogue_input_container">\`°<°F +°L
-                        °S                °>\`<input class="login_dialogue_input" id="login_dialogue_input_username" type="text" placeholder="username">\`°<°F +°L
-                        °S            °>\`</div>\`°<°F +°L
-                        °S            °>\`<div class="login_dialogue_space"></div>\`°<°F +°L
-                        °S            °>\`<div class="login_dialogue_label">Password</div>\`°<°F +°L
-                        °S            °>\`<div class="login_dialogue_input_container">\`°<°F +°L
-                        °S            °>\`<input id="login_dialogue_password" class="login_dialogue_input" type="password">\`°<°F +°L
-                        °S        °>\`</div>\`°<°F +°L
-                        °S        °>\`<div id="login_dialogue_password_error"></div>\`°<°F +°L
-                        °S    °>\`</div>\`°<°F,°L
-                        °V    null°F,°L
-                        °S    \`.login_dialogue_container {\`°F +°L
-                        °S        \`display: flex;\`°F +°L
-                        °S        \`flex-direction: column;\`°F +°L
-                        °S        \`width: 350px;\`°F +°L
-                        °S        \`max-width: 100%;\`°F +°L
-                        °S    \`}\`°F +°L
-                        °S    \`.login_dialogue_space {\`°F +°L
-                        °S        \`height: 15px;\`°F +°L
-                        °S    \`}\`°F +°L
-                        °S    \`.login_dialogue_input_container {\`°F +°L
-                        °S        \`margin-top: 3px;\`°F +°L
-                        °S        \`width: 100%;\`°F +°L
-                        °S    \`}\`°F +°L
-                        °S    \`.login_dialogue_input {\`°F +°L
-                        °S        \`width: 100%;\`°F +°L
-                        °S    \`}\`°F +°L
-                        °S    \`#login_dialogue_password_error {\`°F +°L
-                        °S        \`color: var(--ddui_red_text);\`°F +°L
-                        °S    \`}\`°F,°L
-                        °V    null°F,°L
-                        °O    [°L
-                        °O        {°L
-                        °O            node_id: °S"login_dialogue_input_username"°O,°L
-                        °O            value: °S"my.mail@example.com"°L
-                        °O        }°L
-                        °O    ]°F,°L
-                        °S    "login_dialogue_input_username"°F,°L
-                        °O    [°L
-                        °O        {°L
-                        °O            label: °S"Cancel"°O,°L
-                        °O            style: °S"inferior"°L
-                        °O        },°L
-                        °O        {°L
-                        °O            label: °S"Login"°O,°L
-                        °O            default: °Btrue°O,°L
-                        °O            onClick: °Pasync°F () => {°L
-                        °F                °Pawait°F new Promise(°Vres°F => setTimeout(°Vres°F, °N1000°F)); °I// simulates login attempt (little delay)°L
-                        °F                °Pconst °Vpassword°F = document.getElementById(°S"login_dialogue_password"°F).value;°L
-                        °F                °Pif °F( °Vpassword°F != °S"ddui"°F) {°L
-                        °F                    const °Vpassword_error_node°F = document.getElementById(°S"login_dialogue_password_error"°F);°L
-                        °F                    °Vpassword_error_node°F.innerText = °S\`The password must be "ddui"\`°F;°L
-                        °F                } °Pelse°F {°L
-                        °F                    °Dddui°F.Toaster(°S"Successfully logged you in."°F);°L
-                        °F                    (°Pawait °Vlogin_dialogue°F).Discard();°L
-                        °F                }°L
-                        °F            },°L
-                        °O            closeOnClick: °Bfalse°L
-                        °O        }°L
-                        °O    ]°L
-                        °F);`
-                    )
-                )),
-                    tooltip: "Show code"
-            }
-        },
-        {
-            label: "Dynamic",
-            image: { type: "html", data: `<svg width="32px" height="32px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M2 19V5C2 3.89543 2.89543 3 4 3H20C21.1046 3 22 3.89543 22 5V19C22 20.1046 21.1046 21 20 21H4C2.89543 21 2 20.1046 2 19Z" stroke="var(--ddui_page_text)" stroke-width="1.5"></path><path d="M2 7L22 7" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M5 5.01L5.01 4.99889" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8 5.01L8.01 4.99889" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M11 5.01L11.01 4.99889" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M11.6667 11L10 14H14L12.3333 17" stroke="var(--ddui_page_text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>` },
-            onClick: () => {
-                const login_dialogue = ddui.Dialogue(
-                    "Login",
-                    "key",
-                    `<div class="login_dialogue_container">` +
-                        `<div class="login_dialogue_label">Username</div>` +
-                            `<div class="login_dialogue_input_container">` +
-                                `<input class="login_dialogue_input" id="login_dialogue_input_username" type="text" placeholder="username">` +
-                            `</div>` +
-                            `<div class="login_dialogue_space"></div>` +
-                            `<div class="login_dialogue_label">Password</div>` +
-                            `<div class="login_dialogue_input_container">` +
-                            `<input id="login_dialogue_password" class="login_dialogue_input" type="password">` +
-                        `</div>` +
-                        `<div id="login_dialogue_password_error"></div>` +
-                    `</div>`,
-                    null,
-                    `.login_dialogue_container {` +
-                        `display: flex;` +
-                        `flex-direction: column;` +
-                        `width: 350px;` +
-                        `max-width: 100%;` +
-                    `}` +
-                    `.login_dialogue_space {` +
-                        `height: 15px;` +
-                    `}` +
-                    `.login_dialogue_input_container {` +
-                        `margin-top: 3px;` +
-                        `width: 100%;` +
-                    `}` +
-                    `.login_dialogue_input {` +
-                        `width: 100%;` +
-                    `}` +
-                    `#login_dialogue_password_error {` +
-                        `color: var(--ddui_red_text);` +
-                    `}`,
-                    null,
-                    [
-                        {
-                            node_id: "login_dialogue_input_username",
-                            value: "my.mail@example.com"
-                        }
                     ],
-                    "login_dialogue_input_username",
-                    [
-                        {
-                            label: "Cancel",
-                            style: "inferior"
-                        },
-                        {
-                            label: "Login",
-                            default: true,
-                            onClick: async () => {
-                                await new Promise(res => setTimeout(res, 1000)); // simulates login attempt (little delay)
-                                const password = document.getElementById("login_dialogue_password").value;
-                                if ( password != "ddui") {
-                                    const password_error_node = document.getElementById("login_dialogue_password_error");
-                                    password_error_node.innerText = `The password must be "ddui"`;
-                                } else {
-                                    ddui.Toaster("Successfully logged you in.");
-                                    (await login_dialogue).Discard();
-                                }
-                            },
-                            closeOnClick: false
-                        }
-                    ]
+                    false
                 )},
             corner_button: {
                 image: { type: "html", data: code_icon },
@@ -1424,7 +1281,8 @@ async function LoadDialogueControls_Dialogue(code_icon) {
                         °F            },°L
                         °O            closeOnClick: °Bfalse°L
                         °O        }°L
-                        °O    ]°L
+                        °O    ]°F,°L
+                        °B    false°L
                         °F);`
                     )
                 )),
@@ -2306,6 +2164,221 @@ async function LoadDialogueControls_List(code_icon) {
 
 
 
+function GetDialogueHtml_Tiles() {    
+
+    return `<div class="specs_dialogue">` +
+        `<h1 style="margin-top: 25px;">About</h1>` +
+        `<p>The tiles control is a nice control for simple but beautiful kind of buttons. Like a button bar but in a modern way.</p>` +
+        `<h1>Code example</h1>` +
+            `<div class="codebox code">` +
+                `${codeX(
+                    `°I// html for the tiles container°L
+                     °F°><°Pdiv °Vid°F=°S"tiles_container"°F>°L
+                     °F</°Pdiv°F>°<°L
+                     °L
+                     °I// css for the tiles container°L
+                     °F#tiles_container {°L
+                     °V    width°F: °S340px°F;°L
+                     °V    max-width°F: °S100%°F;°L
+                     °V    min-height°F: °S260px°F;°L
+                     °F}°L
+                     °L
+                     °I// js for creating the tiles control inside the tiles container°L
+                     °Pnew °Dddui°F.Tiles(°S"tiles_container"°F, [°L
+                     °O    {°L
+                     °O        label: °S"Clothes"°O,°L
+                     °O        image: °S"checkroom"°O,°L
+                     °O        onClick: °F() => { °Dddui°F.LoadingBox(°S"opening clothes section ..."°F, °N1000°F) }°L
+                     °O    },°L
+                     °O    {°L
+                     °O        label: °S"Electrics"°O,°L
+                     °O        image: °S"tungsten"°O,°L
+                     °O        onClick: °F() => { °Dddui°F.LoadingBox(°S"opening electrics section ..."°F, °N1000°F) }°L
+                     °O    },°L
+                     °O    {°L
+                     °O        label: °S"Living"°O,°L
+                     °O        image: °S"chair"°O,°L
+                     °O        onClick: °F() => { °Dddui°F.LoadingBox(°S"opening living section ..."°F, °N1000°F) }°L
+                     °O    },°L
+                     °O    {°L
+                     °O        label: °S"Food"°O,°L
+                     °O        image: °S"lunch_dining"°O,°L
+                     °O        onClick: °F() => { °Dddui°F.LoadingBox(°S"opening food section ..."°F, °N1000°F) }°L
+                     °O    },°L
+                     °O    {°L
+                     °O        label: °S"Drinks"°O,°L
+                     °O        image: °S"liquor"°O,°L
+                     °O        onClick: °F() => { °Dddui°F.LoadingBox(°S"opening drinks section ..."°F, °N1000°F) }°L
+                     °O    }°L
+                     °F]);`
+                 )}` +
+            `</div>` +
+        `<h1>Specification</h1>` +
+            `<div class="codebox code">` +
+            `${codeX(
+                `°I// create tiles control°L
+                 °Pnew °Dddui°F.Tiles(°L
+                 °V    container_id°F,°L
+                 °V    tiles°F,°L
+                 °V    tile_width°F,°L
+                 °V    tile_height°F,°L
+                 °V    tile_padding°F,°L
+                 °V    tiles_align°F,°L
+                 °V    tiles_gap°F,°L
+                 °F);`
+             )}` +
+        `</div>` +
+        `<div class="args_grid">` +
+            `${arg("Y", false, "container_id",    "String",        "Id of the dom element that shall contain the tiles control")}` +
+            `${arg("Y", true,  "tiles",           "List",          "List of tile items")}` +
+            `${arg("N", false, "  label",         "String",        "Text label to display on the tile")}` +
+            `${arg("N", true,  "  image",         "String/Object", "Name of material icon (string) or an object with specific definitions")}` +
+            `${arg("N", false, "    type",        "String",        `"material_icon" or "html" (default)`)}` +
+            `${arg("N", false, "    data",        "String",        `Name of material icon (type "material_icon") or html snippet (type "html")`)}` +
+            `${arg("N", true,  "    size",        "String",        `Size of material icon (type "material_icon"); not relevant for type "html"`)}` +
+            `${arg("N", false, "  onClick",       "Function",      "Function to be called on clicking the tile")}` +
+            `${arg("N", true,  "  corner_button", "Object",        "Optional button at the top right corner for a special action")}` +
+            `${arg("N", false, "    image",       "String",        `Same as for tiles.image`)}` +
+            `${arg("N", false, "    onClick",     "Function",      "Function to be called on clicking the corner button")}` +
+            `${arg("N", false, "    width",       "String",        "Width of the corner button")}` +
+            `${arg("N", false, "    height",      "String",        "Height of the corner button")}` +
+            `${arg("N", false, "    padding",     "String",        "Padding for the corner button")}` +
+            `${arg("N", true,  "    tooltip",     "String",        "Tooltip text for the corner button")}` +
+            `${arg("N", false, "  width",         "String",        "Width of the tile (if it shall defer from the default width)")}` +
+            `${arg("N", false, "  height",        "String",        "Height of the tile (if it shall defer from the default height)")}` +
+            `${arg("N", true,  "  tooltip",       "String",        "Tooltip text for the tile")}` +
+            `${arg("N", false, "tile_width",      "String",        `Width for each tile (default: "100px")`)}` +
+            `${arg("N", false, "tile_height",     "String",        `Height for each tile (default: "120px")`)}` +
+            `${arg("N", false, "tile_padding",    "String",        `Padding for each tile (inside the tile) (default: "10px")`)}` +
+            `${arg("N", false, "tiles_align",     "String",        `Value for the justify-content property for the tiles flexbox (default: "left")`)}` +
+            `${arg("N", false, "tiles_gap",       "String",        `Value for the gap property for the tiles flexbox (default: "20px")`)}` +
+        `</div>` +
+        `<h1>Demo</h1>` +
+        `<div id="Dialogue_Tiles_Demo_Tiles" style="min-height: 90px;"></div><br>` +
+    `</div>`
+
+}
+
+
+
+
+
+
+async function LoadDialogueControls_Tiles(code_icon) {
+
+    // Wait for the container for the tiles element ...
+    await ddui.WaitForDom("Dialogue_Tiles_Demo_Tiles", "does_exist");
+    // ... and then create the tiles element
+    new ddui.Tiles("Dialogue_Tiles_Demo_Tiles", [
+
+
+
+        {
+            label: "Simple",
+            image: { type: "html", data: `<svg width="32px" height="32px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="var(--ddui_page_text)"><path d="M14 20.4V14.6C14 14.2686 14.2686 14 14.6 14H20.4C20.7314 14 21 14.2686 21 14.6V20.4C21 20.7314 20.7314 21 20.4 21H14.6C14.2686 21 14 20.7314 14 20.4Z" stroke="var(--ddui_page_text)" stroke-width="1.5"></path><path d="M3 20.4V14.6C3 14.2686 3.26863 14 3.6 14H9.4C9.73137 14 10 14.2686 10 14.6V20.4C10 20.7314 9.73137 21 9.4 21H3.6C3.26863 21 3 20.7314 3 20.4Z" stroke="var(--ddui_page_text)" stroke-width="1.5"></path><path d="M14 9.4V3.6C14 3.26863 14.2686 3 14.6 3H20.4C20.7314 3 21 3.26863 21 3.6V9.4C21 9.73137 20.7314 10 20.4 10H14.6C14.2686 10 14 9.73137 14 9.4Z" stroke="var(--ddui_page_text)" stroke-width="1.5"></path><path d="M3 9.4V3.6C3 3.26863 3.26863 3 3.6 3H9.4C9.73137 3 10 3.26863 10 3.6V9.4C10 9.73137 9.73137 10 9.4 10H3.6C3.26863 10 3 9.73137 3 9.4Z" stroke="var(--ddui_page_text)" stroke-width="1.5"></path></svg>` },
+            onClick: async () => {
+                ddui.Dialogue(
+                    null,
+                    null,
+                    `<div id="tiles_container"></div>`,
+                    null,
+                    `#tiles_container {
+                        width: 340px;
+                        max-width: 100%;
+                        min-height: 260px;
+                    }`
+                );
+
+                await ddui.WaitForDom("tiles_container", "does_exist");
+
+                // create a tiles control and place it inside the
+                // container node with the id "tiles_container"
+                new ddui.Tiles("tiles_container", [
+                    {
+                        label: "Clothes",
+                        image: "checkroom",
+                        onClick: () => { ddui.LoadingBox("opening clothes section ...", 1000) }
+                    },
+                    {
+                        label: "Electrics",
+                        image: "tungsten",
+                        onClick: () => { ddui.LoadingBox("opening electrics section ...", 1000) }
+                    },
+                    {
+                        label: "Living",
+                        image: "chair",
+                        onClick: () => { ddui.LoadingBox("opening living section ...", 1000) }
+                    },
+                    {
+                        label: "Food",
+                        image: "lunch_dining",
+                        onClick: () => { ddui.LoadingBox("opening food section ...", 1000) }
+                    },
+                    {
+                        label: "Drinks",
+                        image: "liquor",
+                        onClick: () => { ddui.LoadingBox("opening drinks section ...", 1000) }
+                    }
+                ]);
+
+            },
+            corner_button: {
+                image: { type: "html", data: code_icon },
+                onClick: () => ddui.Dialogue(null, null, code_snippet(
+                    codeX(
+                       `°I// html for the tiles container°L
+                        °F°><°Pdiv °Vid°F=°S"tiles_container"°F>°L
+                        °F</°Pdiv°F>°<°L
+                        °L
+                        °I// css for the tiles container°L
+                        °F#tiles_container {°L
+                        °V    width°F: °S340px°F;°L
+                        °V    max-width°F: °S100%°F;°L
+                        °V    min-height°F: °S260px°F;°L
+                        °F}°L
+                        °L
+                        °I// js for creating the tiles control inside the tiles container°L
+                        °Pnew °Dddui°F.Tiles(°S"tiles_container"°F, [°L
+                        °O    {°L
+                        °O        label: °S"Clothes"°O,°L
+                        °O        image: °S"checkroom"°O,°L
+                        °O        onClick: °F() => { °Dddui°F.LoadingBox(°S"opening clothes section ..."°F, °N1000°F) }°L
+                        °O    },°L
+                        °O    {°L
+                        °O        label: °S"Electrics"°O,°L
+                        °O        image: °S"tungsten"°O,°L
+                        °O        onClick: °F() => { °Dddui°F.LoadingBox(°S"opening electrics section ..."°F, °N1000°F) }°L
+                        °O    },°L
+                        °O    {°L
+                        °O        label: °S"Living"°O,°L
+                        °O        image: °S"chair"°O,°L
+                        °O        onClick: °F() => { °Dddui°F.LoadingBox(°S"opening living section ..."°F, °N1000°F) }°L
+                        °O    },°L
+                        °O    {°L
+                        °O        label: °S"Food"°O,°L
+                        °O        image: °S"lunch_dining"°O,°L
+                        °O        onClick: °F() => { °Dddui°F.LoadingBox(°S"opening food section ..."°F, °N1000°F) }°L
+                        °O    },°L
+                        °O    {°L
+                        °O        label: °S"Drinks"°O,°L
+                        °O        image: °S"liquor"°O,°L
+                        °O        onClick: °F() => { °Dddui°F.LoadingBox(°S"opening drinks section ..."°F, °N1000°F) }°L
+                        °O    }°L
+                        °F]);`
+                    )
+                )),
+                tooltip: "Show code"
+            }
+        }
+    ], "100px", "90px");
+
+}
+
+
+
+
+
+
 function GetDialogueHtml_Buttons() {
 
     return `<div class="specs_dialogue">` +
@@ -2597,6 +2670,13 @@ function ShowDialogue(which) {
                 GetDialogueHtml_List(), null,
                 GetDialogueCss_Default());
             LoadDialogueControls_List(code_icon);
+            break;
+
+        case "Tiles":
+            ddui.Dialogue("Tiles", null,
+                GetDialogueHtml_Tiles(), null,
+                GetDialogueCss_Default());
+            LoadDialogueControls_Tiles(code_icon);
             break;            
 
         case "Buttons":

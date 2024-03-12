@@ -131,30 +131,7 @@ export class Tile {
         this.node.style.height = height;
         this.node.style.padding = padding;
 
-        let image_html;
-        
-        if ( image ) {
-
-            image_html = `<div class="ddui_Tile_image">`;
-
-            switch (image.type) {
-
-                // material icon
-                case "material_icon":
-                    image_html += `<span class="material-icons"${ (image.size) ? `style="font-size: ${image.size}"` : "" }>${image.data}</span>`;
-                    break;
-
-                // html (e.g. an img or svg element)
-                default:
-                    image_html += image.data;
-
-            }
-
-            image_html += `</div>`;
-
-        } else {
-            image_html = "";
-        }
+        let image_html = GetImageHtml(image);
 
         let label_html = "";
 
@@ -178,11 +155,11 @@ export class Tile {
             this.AddExceedingLabelTooltip(label);
         }
 
+        // add action to the tile (onClick)
         if ( onClick ) {
             this.node.addEventListener("click", event => {
                 event.stopPropagation();
                 onClick(event);
-                ddui.ResetFocus();
             });
             this.node.addEventListener("keydown", event => {
                 if ( event.key === "Enter" ) {
@@ -193,6 +170,10 @@ export class Tile {
 
         }
 
+        // remove focus from tile after clicking it
+        this.node.addEventListener("click", ddui.ResetFocus);
+
+        // add a corner button if one is specified
         if ( corner_button ) {
 
             this.corner_button_node = document.createElement("div");
@@ -202,13 +183,14 @@ export class Tile {
             this.corner_button_node.style.height = ( corner_button.height ) ? corner_button.height : "32px";
             this.corner_button_node.style.padding = ( corner_button.padding ) ? corner_button.padding : "4px";
             this.corner_button_node.style.display = "none";
-            this.corner_button_node.innerHTML = corner_button.image.data;
+            this.corner_button_node.innerHTML = GetImageHtml(corner_button.image);
             this.corner_button_node.addEventListener("click", event => {
                 corner_button.onClick();
                 event.stopPropagation();
             });
             this.node.append(this.corner_button_node);
 
+            // show the corner button only on hover
             this.node.addEventListener("mouseenter", this.HoverOff.bind(this));
             this.node.addEventListener("mouseleave", this.HoverOn.bind(this));
 
@@ -239,5 +221,52 @@ export class Tile {
     HoverOff() {
         this.corner_button_node.style.display = null;
     }
+
+}
+
+
+
+
+
+
+function GetImageHtml(image) {
+
+    let image_html;
+            
+    if ( image ) {
+
+        image_html = `<div class="ddui_Tile_image">`;
+
+        // if image is just a string, it is assumed that it's the name of a material icon
+        if ( typeof(image) === "string" ) {
+            const image_string = image;
+            image = {
+                type: "material_icon",
+                data: image_string
+            }
+        }
+
+        if ( ! (image.size) ) { image.size = "32px" }
+
+        switch (image.type) {
+
+            // material icon
+            case "material_icon":
+                image_html += `<span class="material-icons"${ (image.size) ? `style="font-size: ${image.size}"` : "" }>${image.data}</span>`;
+                break;
+
+            // html (e.g. an img or svg element)
+            default:
+                image_html += image.data;
+
+        }
+
+        image_html += `</div>`;
+
+    } else {
+        image_html = "";
+    }
+
+    return image_html;
 
 }

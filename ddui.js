@@ -20,7 +20,7 @@ export async function Popup(items, align_mode, anchor_node, type) { return new P
 import { Dialogue as DialogueClass } from "./js/Dialogue.js";
 export async function Dialogue(title_text, title_icon, html, html_ref, css, css_ref, values, put_focus_on_element_with_id, buttons, allow_exit) { return new DialogueClass(title_text, title_icon, html, html_ref, css, css_ref, values, put_focus_on_element_with_id, buttons, allow_exit) };
 import { LoadingBox as LoadingBoxClass } from "./js/LoadingBox.js";
-export function LoadingBox(info_text) { return new LoadingBoxClass(info_text) };
+export function LoadingBox(info_text, duration_in_ms) { return new LoadingBoxClass(info_text, duration_in_ms) };
 import { Toaster as ToasterClass } from "./js/Toaster.js";
 export async function Toaster(text) { return new ToasterClass(text) };
 import { Tooltip as TooltipClass } from "./js/Tooltip.js";
@@ -91,7 +91,7 @@ async function InitDdui() {
 //
 export function ShowWelcomeDialogue() {
 
-    const target_url = import.meta.url.slice(0,-7) + "getting_started/ddui_getting_started.html";
+    const target_url = import.meta.url.slice(0,-7) + "wiki/ddui_wiki.html";
 
     const html = `
         <div style="max-width: 500px; display: flex; flex-direction: column;">
