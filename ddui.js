@@ -32,6 +32,7 @@ import { List as List } from "./js/List.js"; export { List };
 
 // initializing constants
 const __file__ = import.meta.url.slice( import.meta.url.lastIndexOf("/") + 1 );
+const ddui_root = import.meta.url.slice(0, -1 * __file__.length);
 
 
 
@@ -52,7 +53,7 @@ async function InitDdui() {
         style_ref.id = "ddui_css";
         style_ref.title = "ddui_css";
         style_ref.setAttribute("rel", "stylesheet");
-        style_ref.setAttribute("href", "css/ddui.css");
+        style_ref.setAttribute("href", ddui_root + "css/ddui.css");
         document.head.appendChild(style_ref);
 
         // If the ddui styles are already applied by an import rule in the app's css

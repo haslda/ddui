@@ -19,7 +19,7 @@
     font-weight: 400;
     src: local('Material Icons'),
       local('MaterialIcons-Regular'),
-      url('/misc/MaterialIcons-Regular.ttf');
+      url('../misc/MaterialIcons-Regular.ttf');
 }
 
 .material-icons {
