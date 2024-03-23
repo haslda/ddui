@@ -4,11 +4,10 @@
 
 
 
-// local modules
+// ddui
 import * as ddui from "../ddui.js";
-
 // initializing constants
-const __file__ = import.meta.url.slice( import.meta.url.lastIndexOf("/") + 1 );
+export const __file__ = import.meta.url.slice( import.meta.url.lastIndexOf("/") + 1 );
 
 
 

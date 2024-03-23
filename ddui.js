@@ -4,6 +4,15 @@
 
 
 
+// initializing constants
+const __file__ = import.meta.url.slice( import.meta.url.lastIndexOf("/") + 1 );
+export const ddui_root = import.meta.url.slice(0, -1 * __file__.length);
+
+
+
+
+
+
 // importing theme functions
 import { GetActiveTheme, SetThemeIcon, ToggleTheme } from "./js/theme.js"; export { GetActiveTheme, SetThemeIcon, ToggleTheme };
 
@@ -29,10 +38,6 @@ export async function Tooltip(anchor_node, tooltip_text) { return new TooltipCla
 // looping through the typical object-classes
 import { Tile as Tile, Tiles as Tiles } from "./js/Tiles.js"; export { Tile, Tiles };
 import { List as List } from "./js/List.js"; export { List };
-
-// initializing constants
-const __file__ = import.meta.url.slice( import.meta.url.lastIndexOf("/") + 1 );
-const ddui_root = import.meta.url.slice(0, -1 * __file__.length);
 
 
 
@@ -320,6 +325,7 @@ export async function GetAllElememtsFromPoint(x, y) {
 
     let elements = [];
     let element;
+    let limiter = 0;
 
     // dig down throug all layers of the dom at the position "x, y" ...
     do {
@@ -331,7 +337,11 @@ export async function GetAllElememtsFromPoint(x, y) {
         // ... and remember it to clean up afterwards
         elements.push(element);
 
-    } while ( element.tagName !== 'HTML' );
+        // at page load this do loop sometimes runs into an infinite loop without a reason
+        // this limiter cares for this not to happen
+        limiter += 1;
+
+    } while ( element.tagName !== 'HTML' && limiter <= 100 );
 
     // clean up all the elements that are ignored by the elementFromPoint check
     for ( let i  = 0; i < elements.length; i += 1 ) {
