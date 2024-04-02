@@ -208,4 +208,8 @@ export class Tooltip{
 
 
 // start the tooltip manager automatically (to make tooltips appear)
-InitTooltipManager();
+if ( ! ( ('ontouchstart' in window) ||
+         (navigator.maxTouchPoints > 0) ||
+         (navigator.msMaxTouchPoints > 0) ) ) {
+    InitTooltipManager();
+}
