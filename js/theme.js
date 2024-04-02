@@ -21,7 +21,7 @@ export async function GetActiveTheme() {
 
         // wait until ddui theme is set (maybe not set immediatly at page startup)
         while ( active_theme == null ) {
-            await new Promise(res => setTimeout(res, 100));
+            await new Promise(res => setTimeout(res, 10));
             active_theme = getComputedStyle(document.body).getPropertyValue('--ddui_theme');
         }
 
@@ -110,7 +110,7 @@ async function ApplyThemeColors(theme = "") {
     // First, find the rule that applies the theme
     for ( let css_rule of ddui_style_sheet.cssRules ) {
         index += 1;
-        if ( css_rule.cssText.slice(0,24) === `@import url(\"ddui_theme_` ) {
+        if ( ( css_rule.cssText.slice(0,12) === `@import url(`) && ( css_rule.cssText.includes("ddui_theme_") ) ) {
             ddui_theme_index = index;
             break;
         }
@@ -123,15 +123,15 @@ async function ApplyThemeColors(theme = "") {
 
     // light
     if ( theme === 'light') {
-        ddui_style_sheet.insertRule(`@import url(\"ddui_theme_light.css\");`, ddui_theme_index);
+        ddui_style_sheet.insertRule(`@import url(\"${ddui.ddui_root}css/ddui_theme_light.css\");`, ddui_theme_index);
 
     // dark
     } else if ( theme === 'dark') {
-        ddui_style_sheet.insertRule(`@import url(\"ddui_theme_dark.css\");`, ddui_theme_index);
+        ddui_style_sheet.insertRule(`@import url(\"${ddui.ddui_root}css/ddui_theme_dark.css\");`, ddui_theme_index);
 
     // system
     } else if ( theme === 'system') {
-        ddui_style_sheet.insertRule(`@import url(\"ddui_theme_system.css\");`, ddui_theme_index);
+        ddui_style_sheet.insertRule(`@import url(\"${ddui.ddui_root}css/ddui_theme_system.css\");`, ddui_theme_index);
     
     // toggle (change from the current theme to the opposite theme)
     } else {
@@ -139,10 +139,10 @@ async function ApplyThemeColors(theme = "") {
         const active_theme = await GetActiveTheme();
 
         if ( active_theme === "dark" ) {
-            ddui_style_sheet.insertRule(`@import url(\"ddui_theme_light.css\");`, ddui_theme_index);
+            ddui_style_sheet.insertRule(`@import url(\"${ddui.ddui_root}css/ddui_theme_light.css\");`, ddui_theme_index);
 
         } else {
-            ddui_style_sheet.insertRule(`@import url(\"ddui_theme_dark.css\");`, ddui_theme_index);
+            ddui_style_sheet.insertRule(`@import url(\"${ddui.ddui_root}css/ddui_theme_dark.css\");`, ddui_theme_index);
         }
 
     }

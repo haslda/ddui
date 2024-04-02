@@ -6,7 +6,8 @@
 
 // initializing constants
 const __file__ = import.meta.url.slice( import.meta.url.lastIndexOf("/") + 1 );
-export const ddui_root = import.meta.url.slice(0, -1 * __file__.length);
+const ddui_root_absolute = import.meta.url.slice(0, -1 * __file__.length);
+export const ddui_root = ddui_root_absolute.split(window.location.host)[1];
 
 
 
@@ -46,35 +47,43 @@ import { List as List } from "./js/List.js"; export { List };
 
 async function InitDdui() {
 
-    if ( IsDduiCssActive() != true ) {
+    // Check if ddui css is already directly refereced in the dom (via link element with rel="stylesheet") ...
+    let is_ddui_css_referenced_in_dom = false;
+    for ( let link_element of document.head.getElementsByTagName("link") ) {
+        if ( link_element.getAttribute("href").slice(-12) === "css/ddui.css" ) {
+            is_ddui_css_referenced_in_dom = true;
+        }
+    }
 
-        // It can be, that the app already imports the ddui css
-        // (as recommended for a native behaviour like immediate responsive theme appliance).
-        // In that case, fetch the ddui style sheet.
-        const ddui_style_sheet = GetDduiStyleSheet();
-        
+    // ... if not, put it there
+    if ( ! is_ddui_css_referenced_in_dom ) {
+
         // Instance the ddui style sheet (maybe additional if already imported)
         const style_ref = document.createElement("link");
         style_ref.id = "ddui_css";
         style_ref.title = "ddui_css";
         style_ref.setAttribute("rel", "stylesheet");
         style_ref.setAttribute("href", ddui_root + "css/ddui.css");
-        document.head.appendChild(style_ref);
-
-        // If the ddui styles are already applied by an import rule in the app's css
-        // the import rule shall be deleted to not have redundant style rules.
-        if ( ddui_style_sheet ) {
-            DeleteDduiCssImportRule(ddui_style_sheet);
-        }
-
-        // Check the applied ddui theme (light, dark, system) with a delay of 2s
-        // because if the loading of the newly created style link right above takes a little time
-        setTimeout(() => {
-            const theme = getComputedStyle(document.body).getPropertyValue('--ddui_theme');
-            sessionStorage.setItem("ddui_theme", theme);
-        }, 2000);
-
+        document.head.appendChild(style_ref);        
+        
     }
+
+    // If the ddui style sheet is already applied by one or more import rules in the app's css
+    // these import rules shall be deleted to not have redundant style rules.
+    try {
+        DeleteAllDduiCssImportRules();
+    } catch (err) {
+        Log("Deleting ddui css import rules failed.\n" + err.stack, __file__, "ERR")
+    }
+
+    // Check which ddui theme is active (light, dark or system)
+    // (it can take some milliseconds until the css variable "--ddui_theme" is available)
+    let theme = null;
+    do {
+        theme = getComputedStyle(document.body).getPropertyValue('--ddui_theme');
+        await new Promise(res => setTimeout(res, 10));
+    } while ( theme == null )
+    sessionStorage.setItem("ddui_theme", theme);
 
     // If there is a node with the id "ddui_theme_icon", it's innerText will be set to the icon depending on the active theme
     SetThemeIcon();
@@ -171,7 +180,6 @@ function HandleKeyDownForTabControl(event) {
     if (event.key === 'Tab') {
 
 
-        console.log(document.activeElement);
         // // ... fetch the top most box (the box on top of all the others) ...
         // const top_most_box = window.EscapeHandlerBoxes[window.EscapeHandlerBoxes.length - 1];
         // // ... and discard it, if exiting is allowed.
@@ -455,7 +463,7 @@ function BlockScrolling(scrollX, scrollY) {
 // ### ----- STYLING ----- ###
 
 // Check if the ddui css is already active via html reference in the head of the html
-function IsDduiCssActive() {
+async function IsDduiCssActive() {
 
     const style_sheets = document.styleSheets;
 
@@ -464,7 +472,8 @@ function IsDduiCssActive() {
         // for each style sheet: itarate through all the css rules
         for ( let css_rule of style_sheet.cssRules ) {
             // if the selector "#ddui_alive" is found, the ddui css is already active => return true
-            if ( css_rule.selectorText === "#ddui_alive" ) {
+            // console.log(css_rule.cssText);
+            if ( ( css_rule.selectorText === "#ddui_alive" ) || ( css_rule.cssText === `@import url(".${ddui_root}css/ddui.css");` ) ) {
                 return true
             }
         }
@@ -480,56 +489,22 @@ function IsDduiCssActive() {
 
 
 
-// This function digs through all the stylesheets and returns the ddui style sheet, if it is found
+// This function fetches the ddui style sheet and returns it
 export function GetDduiStyleSheet() {
 
-    // This function collects all the style rules within a style sheet and its descendants (recursive).
-    // It returs a list of all the style rules including the corresponding styls sheet. Scheme:
-    // [
-    //     {
-    //         style_sheet: <style_sheet>,
-    //         css_rule: <css_rule>
-    //     },
-    //     ...
-    // ]
-    function GetAllStyleRulesFromStyleSheetRecursive(style_sheet) {
+    for ( let ss of document.styleSheets ) {
 
-        let style_rules = [];
-        let css_rule_type;
+        for ( let rule of ss.cssRules ) {
 
-        for ( let css_rule of style_sheet.cssRules ) {
-
-            css_rule_type = Object.prototype.toString.call(css_rule);
-
-            if ( css_rule_type.includes("CSSImportRule") ) {
-                style_rules = style_rules.concat(GetAllStyleRulesFromStyleSheetRecursive(css_rule.styleSheet));
-            } else if ( css_rule_type.includes("CSSStyleRule") ) {
-                style_rules.push( { style_sheet: style_sheet, css_rule: css_rule } );
+            if ( rule.selectorText === "#ddui_alive" ) {
+                return ss;
             }
 
         }
 
-        return style_rules;
-
-    }
-    
-    const style_sheets = document.styleSheets;
-
-    // Collect the style rules of all the documents style sheets
-    let all_style_rules = [];
-    for ( let style_sheet of style_sheets ) {
-        all_style_rules = all_style_rules.concat(GetAllStyleRulesFromStyleSheetRecursive(style_sheet));    
     }
 
-    // If found, return the ddui style sheet.
-    for ( let style_rule of all_style_rules ) {
-        if ( style_rule.css_rule.selectorText === "#ddui_alive" ) {
-            return style_rule.style_sheet;
-        }
-    }
-
-    // Return false if the ddui style sheet wasn't found.
-    return false
+    return false;
 
 }
 
@@ -538,77 +513,127 @@ export function GetDduiStyleSheet() {
 
 
 
-// This function deletes the (first) ddui css import rule, if one exists
-function DeleteDduiCssImportRule() {
+// This function deletes all ddui css import rules
+function DeleteAllDduiCssImportRules() {
 
-    // This function collects all the import rules within a style sheet and its descendants (recursive).
-    // It returs a list of all the import rules including the corresponding style sheet. Scheme:
-    // [
-    //     {
-    //         style_sheet: <style_sheet>,
-    //         css_rule: <css_rule>
-    //     },
-    //     ...
-    // ]
-    function GetAllImportRulesFromStyleSheetRecursive(style_sheet) {
 
-        let import_rules = [];
-        let css_rule_type;
 
-        for ( let css_rule of style_sheet.cssRules ) {
+    
 
-            css_rule_type = Object.prototype.toString.call(css_rule);
 
-            if ( css_rule_type.includes("CSSImportRule") ) {
-                import_rules.push( { style_sheet: style_sheet, css_rule: css_rule } );
-                import_rules = import_rules.concat(GetAllImportRulesFromStyleSheetRecursive(css_rule.styleSheet));
+    // Delivers a list of all style sheets (incl. imported style sheets; recursive)
+    function GetAllStyleSheetsRecursive() {
+
+        // This list will collect all style sheets recursively
+        let all_style_sheets = [];
+
+
+
+
+
+
+        // Evaluates, if a style sheet is already in the all_style_sheets list (by the href property) and returns true or false
+        function IsStyleSheetAlreadyListed(href) {
+
+            for ( let ss of all_style_sheets ) {
+                if ( ss.href === href ) {
+                    return true;
+                }
+            }
+
+            return false;
+
+        }
+
+
+
+
+
+
+        function GetAllStyleSheetsRecursiveFromStyleSheet(style_sheet) {
+
+            // if ( ! ( all_style_sheets ) ) { all_style_sheets = {} }
+
+            let index = -1;
+    
+            // Iterate through all css rules of the style sheet ...
+            for ( let css_rule of style_sheet.cssRules ) {
+    
+                index += 1;
+    
+                // ... if the css rule is an import rule ...
+                if ( css_rule.cssText.slice(0,12) === `@import url(` ) {
+    
+                    // ... if the imported style sheet ist not yet in the all_style_sheets list ...
+                    if ( ! ( IsStyleSheetAlreadyListed(css_rule.styleSheet.href) ) ) {
+
+                        // ... add the imported style sheet to the all_style_sheets list ...
+                        all_style_sheets.push(css_rule.styleSheet);
+
+                        // ... and also go inside the imported style sheet and check if there are more (sub-imported) style sheets
+                        GetAllStyleSheetsRecursiveFromStyleSheet(css_rule.styleSheet);
+
+                    }
+    
+                }
+    
             }
 
         }
 
-        return import_rules;
 
-    }
 
-    // This function delivers the stylesheet that contains the ddui css import rule
-    function GetStyleSheetWithDduiCssImportRule() {
 
-        const style_sheets = document.styleSheets;
 
-        // Collect the import rules all the document's style sheets
-        let all_import_rules = [];
-        for ( let style_sheet of style_sheets ) {
-            all_import_rules = all_import_rules.concat(GetAllImportRulesFromStyleSheetRecursive(style_sheet));    
+
+        // Collect all style sheets in one super style sheet
+        let super_style_sheet = {
+            cssRules: [],
+            href: "ddui_super_style_sheet"
+        }
+        for ( let style_sheet of document.styleSheets ) {
+            super_style_sheet.cssRules.push({
+                cssText: "@import url(...",
+                href: style_sheet.href,
+                styleSheet: style_sheet
+            });
         }
 
-        // If found, return the ddui style sheet.
-        for ( let import_rule of all_import_rules ) {
-            if ( import_rule.css_rule.cssText === `@import url(\"ddui/ddui.css\");` ) {
-                return import_rule.style_sheet;
+        GetAllStyleSheetsRecursiveFromStyleSheet(super_style_sheet);
+
+        return all_style_sheets;
+
+    }
+
+
+
+
+
+    // Fetch all style sheets (incl. imported style sheets recursively)
+    const all_style_sheets = GetAllStyleSheetsRecursive();
+
+    let rule;
+
+    // Iterate through all style sheets
+    for ( let ss of all_style_sheets ) {
+
+        // For each style sheet: Iterate through all css rules in reverse
+        for ( let i = ss.cssRules.length - 1; i >= 0; i -= 1 ) {
+
+            rule = ss.cssRules[i];
+
+            // If the rule is an import rule for the ddui.css ...
+            if (( rule.cssText.slice(0,12) === `@import url(` ) && ( rule.cssText.slice(-15,) === `css/ddui.css\");` )) {
+
+                // ... delete it
+                ss.deleteRule(i);
+
             }
+
         }
-
-        // Return false if the ddui style sheet wasn't found.
-        return false
-
     }
 
-    // Fetch the style sheet with the ddui css import rule
-    const importing_style_sheet = GetStyleSheetWithDduiCssImportRule();
-
-    if ( importing_style_sheet ) {
-        // Delete the ddui css import rule
-        let index = -1;
-        for ( let css_rule of importing_style_sheet.cssRules ) {
-            index += 1;
-            if ( css_rule.cssText === `@import url(\"ddui/ddui.css\");` ) {
-                importing_style_sheet.deleteRule(index);
-                return true;
-            }
-        }        
-    }
-
-    return false;
+    return true;
 
 }
 
