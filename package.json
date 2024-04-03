@@ -1,6 +1,6 @@
 {
   "name": "@haslda/ddui",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "d.ui - Lightweight but beautiful ui framework in pure javascript",
   "main": "ddui.js",
   "scripts": {
