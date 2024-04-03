@@ -204,23 +204,39 @@ async function OpenHeaderMenuTheme(event) {
 
 async function OpenHeaderMenuMore(event) {
 
-    ddui.Popup(
-        [
-            {
-                type: "button",
-                label: "About",
-                icon: "info",
-                onClick: () => {
-                    ddui.MessageBox(
-                        `<h1>d.ui</h1>` +
-                        `a simple, lightweight and beautiful ui framework<br>` +
-                        `<br>` +
-                        `<span>© <a href="https://david.haslwanter.cc/" target="_blank" rel="noreferrer noopener">David Haslwanter</a>, 2024</span>`,
-                        "info"
-                        )
-                    }
+    const OpenHeaderMenuTheme_bound = OpenHeaderMenuTheme.bind(null, event);
+
+    let menu_more = [];
+
+    if ( document.getElementById("header_button_theme").offsetParent == null ) {
+        menu_more.push({
+            type: "button",
+            label: "Change theme",
+            icon: "dark_mode",
+            onClick: event => { OpenHeaderMenuTheme(event) }
+        });
+        menu_more.push({
+            type: "line"
+        });
+    }
+
+    menu_more.push({
+        type: "button",
+        label: "About",
+        icon: "info",
+        onClick: () => {
+            ddui.MessageBox(
+                `<h1>d.ui</h1>` +
+                `a simple, lightweight and beautiful ui framework<br>` +
+                `<br>` +
+                `<span>© <a href="https://david.haslwanter.cc/" target="_blank" rel="noreferrer noopener">David Haslwanter</a>, 2024</span>`,
+                "info"
+                )
             }
-        ],
+    });
+
+    ddui.Popup(
+        menu_more,
         "positioned",
         event.currentTarget
     );

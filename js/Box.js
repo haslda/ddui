@@ -380,7 +380,7 @@ export class Box {
                                 button.node.innerHTML = ddui.GetSpinner("white", Math.min(button_width, button_height), 5);
     
                                 // actual function
-                                await button.onClick();
+                                await button.onClick(event);
     
                                 button.node.style.width = button_width_before;
                                 button.node.style.height = button_height_before;

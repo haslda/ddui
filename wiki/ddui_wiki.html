@@ -50,10 +50,16 @@
 
         #header_right {
             flex: 1 1 100px;
-
             display: flex;
             flex-direction: row;
             justify-content: right;
+            container-type: inline-size;
+        }
+
+        @container (max-width: 108px) {
+            #header_button_theme {
+                display: none;
+            }
         }
 
         .header_button {
